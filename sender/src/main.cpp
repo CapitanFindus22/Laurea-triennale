@@ -1,5 +1,5 @@
-#include "main.hpp"
-#include "CSVFile.hpp"
+#include <./include/main.hpp>
+#include <./include/CSVFile.hpp>
 
 /*
     This program read data from a csv file, create a stream for each column
@@ -15,7 +15,7 @@ int main()
 
     // Each stream will be called STREAM_number
     // Example: the first column will be attached to STREAM_1
-    std::string baseName = "STREAM_";
+    std::string baseName = "STREAM";
     std::string currentName;
     size_t i = 0;
 
@@ -47,7 +47,7 @@ int main()
         for (float val : values)
         {
             currentName = GenerateStreamName(baseName, i);
-            r = RedisCommand(c, "XADD %s * value mem:%f", currentName.c_str(), val);
+            r = RedisCommand(c, "XADD %s * value %f", currentName.c_str(), val);
             assertReplyType(c, r, REDIS_REPLY_STRING);
             printf("Added value -> mem:%f (id: %s) %s \n", val, r->str, currentName.c_str());
             freeReplyObject(r);

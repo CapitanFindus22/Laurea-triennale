@@ -1,5 +1,5 @@
-#ifndef main_hpp
-#define main_hpp
+#ifndef main2_hpp
+#define main2_hpp
 
 #include <iostream>
 #include <fstream>
@@ -15,6 +15,6 @@
 #define IP "localhost"
 #define PORT 6379
 
-std::string GenerateStreamName(std::string, size_t);
+void log2db(Con2DB,float);
 
 #endif

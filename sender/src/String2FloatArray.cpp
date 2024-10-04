@@ -1,4 +1,4 @@
-#include "main.hpp"
+#include <./include/main.hpp>
 
 // Extract the values from the string and put them in the array
 void String2FloatArray(std::string str, char delimiter, float val[], size_t size)

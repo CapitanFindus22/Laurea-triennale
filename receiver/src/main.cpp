@@ -1,9 +1,5 @@
-#include "main.hpp"
+#include "main2.hpp"
 
-/*
-    This program read data from a csv file, create a stream for each column
-    and send one row of values from the file to its own stream
-*/
 int main()
 {
 
@@ -12,17 +8,38 @@ int main()
     setvbuf(stderr, (char *)NULL, _IONBF, 0);
 #endif
 
-    // Each stream will be called STREAM_number
-    // Example: the first column will be attached to STREAM_1
-    std::string baseName = "STREAM_";
-    std::string currentName;
-    size_t i = 0;
-
-    // Connect to Redis
+    Con2DB db1("localhost", "5432", "trafficlight", "47002", "logdb_trafficlight");
+    PGresult *res;
+ 
     redisContext *c = redisConnect(IP, PORT);
     redisReply *r;
 
-    // Close the connection
+    float val;
+    int block = 1000000000;
+
+    initStreams(c, "STREAM2");
+
+    while(1) {
+
+    r = RedisCommand(c, "XREAD BLOCK %d COUNT 1 STREAMS %s $", 
+                         block, "STREAM2");
+
+    assertReply(c, r);
+
+   /*  redisReply* messages = r->element[1];
+    val = std::stof(messages->element[1]->element[1]->str); */
+
+    std::cout << r->element[0]->element[1]->element[0]->element[1]->element[1]->str << "\n";
+
+    //std::cout << r->element[0]->element[1]->element[0]->str << "\n";
+
+    //dumpReply(r, 0);
+    freeReplyObject(r);
+
+    //log2db(db1,val);
+
+    }
+
     redisFree(c);
 
     // deque
