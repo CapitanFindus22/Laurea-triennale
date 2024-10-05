@@ -1,4 +1,4 @@
-#include <./include/main.hpp>
+#include "main.hpp"
 
 // Combine base and number to create a name
 // Example: STREAM_ + 5 -> STREAM_5
