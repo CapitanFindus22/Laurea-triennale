@@ -5,7 +5,7 @@ ODIR=../obj
 BDIR=../bin
 
 CC = g++
-CFLAGS = -std=c++20 -g -Wextra -Wall -L/usr/local/lib -I. -I$(IDIR) -I$(IDIR2) -I$(IDIR3) -I/usr/include/postgresql
+CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. -I$(IDIR) -I$(IDIR2) -I$(IDIR3) -I/usr/include/postgresql
 LFLAGS = -lm -lhiredis -lpq
 
 
@@ -20,7 +20,7 @@ OBJ_FILES = $(OBJ) $(Redis_OBJ) $(db_OBJ)
 
 .PHONY: all clean Redis db
 
-all: $(BDIR) $(ODIR) Redis db $(BDIR)/main
+all: $(ODIR) Redis db $(BDIR)  $(BDIR)/main
 
 Redis:
 	$(MAKE) -C $(IDIR)
@@ -31,7 +31,7 @@ db:
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(BDIR)/main: $(OBJ_FILES) $(DEPS)
+$(BDIR)/main: $(DEPS) $(OBJ_FILES)
 	$(CC) -o $@ $(OBJ_FILES) $(CFLAGS) $(LFLAGS)
 
 

@@ -1,29 +1,42 @@
 #include "main2.hpp"
 
-void log2db(Con2DB db1, float value)
-{
+std::mutex dbMutex;
 
+//Generate SQL commands to save the values in the DB
+void log2db(Con2DB db1, float value, std::string streamName)
+{
+  //Buffer
   char sqlcmd[1000];
 
+  //Complete command
   PGresult *res;
 
+  //BEGIN
   sprintf(sqlcmd, "BEGIN");
-  res = db1.ExecSQLcmd(sqlcmd);
-  PQclear(res);
 
-  sprintf(sqlcmd,
-          "INSERT INTO LogTable VALUES (\'%s\', %ld, %d, %d, %f, \'%s\') ON CONFLICT DO NOTHING",
-          "2020-10-10",
-          2,
-          3,
-          1,
-          value,
-          "GREEN");
+  std::lock_guard<std::mutex> lock(dbMutex);
 
-  res = db1.ExecSQLcmd(sqlcmd);
-  PQclear(res);
+  {
+    res = db1.ExecSQLcmd(sqlcmd);
+    PQclear(res);
 
-  sprintf(sqlcmd, "COMMIT");
-  res = db1.ExecSQLcmd(sqlcmd);
+    //INSERT
+    sprintf(sqlcmd,
+            "INSERT INTO LogTable VALUES (CURRENT_DATE, %ld, %f, %d, %.4f, \'%s\') ON CONFLICT DO NOTHING",
+            2L,
+            value,
+            1,
+            0.0,
+            streamName.c_str());
+
+    res = db1.ExecSQLcmd(sqlcmd);
+    PQclear(res);
+
+    //COMMIT
+    sprintf(sqlcmd, "COMMIT");
+    
+      
+      res = db1.ExecSQLcmd(sqlcmd);
+  }
   PQclear(res);
 }

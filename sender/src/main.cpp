@@ -20,7 +20,7 @@ int main()
     size_t i;
 
     // Open the csv file with name CSVName
-    std::string CSVName = "Customer_Churn.csv";
+    std::string CSVName = "winequality-red.csv";
     CSVFile f(CSVName);
 
     // Array that will contain a row of values
@@ -30,13 +30,20 @@ int main()
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
 
+    std::string names[f.num_columns];
+
     // Create the Streams
-    for (i = 0; i <= arr_size; i++)
+    for (i = 0; i < arr_size; i++)
     {
-        initStreams(c, GenerateStreamName(baseName, i).c_str());
+        names[i] = GenerateStreamName(baseName, i);
+        initStreams(c, names[i].c_str());
+        redisReply* r = RedisCommand(c, "XTRIM %s MINID %d", names[i].c_str(), 0);
+        assertReplyType(c, r, REDIS_REPLY_INTEGER);
+        freeReplyObject(r);
     }
 
-    SendMessage(c,arr_size,"STREAM0");
+    initStreams(c, "INFOSTREAM");
+    SendMessage(c,arr_size,"INFOSTREAM");
 
     sleep(1);
 
@@ -45,18 +52,17 @@ int main()
     {
 
         String2FloatArray(f.getline(), f.delimiter, values, arr_size);
-        i = 1;
+        i = 0;
 
         for (float val : values)
         {
-            SendMessage(c,val,GenerateStreamName(baseName, i).c_str());
-            printf("Added value -> mem:%f to %s \n", val, GenerateStreamName(baseName, i).c_str());
+            SendMessage(c,val,names[i]);
+            std::cout << "Added value -> mem: " << val << " to " << names[i] << std::endl;
             i++;
             
         }
 
-        sleep(2);
-        assert(i - 1 == arr_size);
+        //sleep(1);
         printf("\n");
     }
 

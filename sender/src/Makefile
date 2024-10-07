@@ -13,11 +13,12 @@ OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
 Redis_OBJ = $(wildcard ../../Redis/obj/*.o)
 
+.PHONY: all clean Redis
+
 all: $(ODIR) Redis $(BDIR)/main
 
 Redis:
 	$(MAKE) -C $(IDIR)
-
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -30,3 +31,4 @@ $(BDIR)/main: $(OBJ) $(Redis_OBJ)
 
 clean:
 	rm -f $(ODIR)/*.o *~ $(IDIR)/*~ core 
+	$(MAKE) -C $(IDIR) clean
