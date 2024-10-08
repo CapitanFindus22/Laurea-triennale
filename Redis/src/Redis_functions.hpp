@@ -32,5 +32,4 @@ void dumpReply(redisReply *r, int indent);
 
 void initStreams(redisContext *c, const char *stream);
 
-
 #endif

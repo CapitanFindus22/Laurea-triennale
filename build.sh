@@ -2,7 +2,7 @@
 
 cd db/Script/
 ./create.sh;
-cd ../../receiver/src;
+cd ../../mean/src;
 make;
-cd ../../sender/src;
+cd ../../test_gen/src;
 make;
