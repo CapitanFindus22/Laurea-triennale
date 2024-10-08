@@ -1,4 +1,4 @@
-#include "main2.hpp"
+#include "main.hpp"
 
 extern std::atomic<bool> running;
 
@@ -12,7 +12,6 @@ int main()
 
     // Connection to DB
     Con2DB db1("localhost", "5432", "trafficlight", "47002", "logdb_trafficlight");
-    PGresult *res;
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
@@ -47,7 +46,7 @@ int main()
     }
     // std::cout << log2db(db1,ReadMessage(c,GenerateStreamName(baseName, i)));
 
-    sleep(100000000000000000);
+    sleep(1222222);
     running = false;
 
     for (std::thread &t : threads)

@@ -12,8 +12,8 @@
 #include <atomic>
 #include <unistd.h>
 
-#include "Redis_functions.hpp"
-#include "pgsql.hpp"
+#include "../../Redis/src/Redis_functions.hpp"
+#include "../db/src/Con2DB.hpp"
 
 #define DEBUG 1000
 

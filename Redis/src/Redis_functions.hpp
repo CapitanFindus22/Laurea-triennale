@@ -32,19 +32,5 @@ void dumpReply(redisReply *r, int indent);
 
 void initStreams(redisContext *c, const char *stream);
 
-/* void ReadStreamReply(redisReply *r, int indent, int readstatus);
-
-int ReadStreamName(redisReply *r, char *streamname, long unsigned int k);
-
-int ReadNumStreams(redisReply *r);
-
-int ReadStreamNumMsg(redisReply *r, long unsigned int streamnum);
-
-int ReadStreamNumMsgID(redisReply *r, long unsigned int streamnum, int msgnum, char *msgid);
-
-int ReadStreamMsgNumVal(redisReply *r, long unsigned int streamnum, int msgnum);
-
-int ReadStreamMsgVal(redisReply *r, long unsigned int streamnum, int msgnum, int entry, char *fval);
- */
 
 #endif

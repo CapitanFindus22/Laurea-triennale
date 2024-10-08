@@ -1,41 +1,36 @@
-IDIR=../../Redis/src
-IDIR2=../db/src
-IDIR3=./include
-ODIR=../obj
-BDIR=../bin
+REDIS_DIR = ../../Redis
+DB_DIR = ../db
+OBJ_DIR = ../obj
+BDIR = ../bin
 
 CC = g++
-CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. -I$(IDIR) -I$(IDIR2) -I$(IDIR3) -I/usr/include/postgresql
-LFLAGS = -lm -lhiredis -lpq
+CFLAGS = -std=c++20 -Wextra -Wall -I/usr/include/postgresql
+LFLAGS = -lm -lhiredis -lpq -L/usr/local/lib
 
-
-DEPS = $(wildcard $(IDIR)/*.hpp)
+DEPS = $(wildcard *.hpp)
 SRC = $(wildcard *.cpp)
-OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
+OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
+REDIS_OBJ = $(REDIS_DIR)/obj/Redis_functions.o 
+DB_OBJ = $(DB_DIR)/obj/Con2DB.o 
 
-Redis_OBJ = $(wildcard ../../Redis/obj/*.o)
-db_OBJ = $(wildcard ../db/obj/*.o)
+.PHONY: all clean
 
-OBJ_FILES = $(OBJ) $(Redis_OBJ) $(db_OBJ)
+all: $(BDIR)/main
 
-.PHONY: all clean Redis db
+$(BDIR)/main: $(REDIS_OBJ) $(DB_OBJ) $(OBJ) $(DEPS)
+	$(CC) -o $@ $(REDIS_OBJ) $(DB_OBJ) $(OBJ) $(CPPFLAGS) $(LFLAGS)
 
-all: $(ODIR) Redis db $(BDIR)  $(BDIR)/main
+$(REDIS_OBJ):
+	$(MAKE) -C $(REDIS_DIR)/src
 
-Redis:
-	$(MAKE) -C $(IDIR)
+$(DB_OBJ):
+	$(MAKE) -C $(DB_DIR)/src
 
-db:
-	$(MAKE) -C $(IDIR2)
-
-$(ODIR)/%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(BDIR)/main: $(DEPS) $(OBJ_FILES)
-	$(CC) -o $@ $(OBJ_FILES) $(CFLAGS) $(LFLAGS)
-
+$(OBJ_DIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CPPFLAGS)
 
 clean:
-	rm -f $(ODIR)/*.o $(BDIR)/main
-	$(MAKE) -C $(IDIR) clean
-	$(MAKE) -C $(IDIR2) clean
+	rm -rf $(OBJ_DIR)/*.o
+	rm -rf ../bin/main
+	$(MAKE) -C $(REDIS_DIR)/src clean
+	$(MAKE) -C $(DB_DIR)/src clean

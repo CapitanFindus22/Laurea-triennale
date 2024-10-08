@@ -1,34 +1,30 @@
-IDIR=../../Redis/src
-IDIR2=./include
-ODIR=../obj
+OBJ_DIR = ../obj
+REDIS_DIR = ../../Redis
 BDIR=../bin
 
+DEPS = $(wildcard *.hpp)
+SRC = $(wildcard *.cpp) 
+OBJ = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SRC)) 
+REDIS_OBJ = $(REDIS_DIR)/obj/Redis_functions.o 
+
 CC = g++
-CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. -I$(IDIR) -I$(IDIR2)
-LFLAGS = -lm -lhiredis
+CFLAGS = -std=c++20 -Wextra -Wall
+LFLAGS = -lm -lhiredis -L/usr/local/lib
 
-DEPS = $(wildcard $(IDIR)/*.hpp)
-SRC = $(wildcard *.cpp)
-OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
+.PHONY: all clean
 
-Redis_OBJ = $(wildcard ../../Redis/obj/*.o)
+all: $(BDIR)/main
 
-.PHONY: all clean Redis
+$(BDIR)/main: $(REDIS_OBJ) $(OBJ) $(DEPS)
+	$(CC) -o $@ $(REDIS_OBJ) $(OBJ) $(CPPFLAGS) $(LFLAGS)
 
-all: $(ODIR) Redis $(BDIR)/main
+$(REDIS_OBJ): 
+	$(MAKE) -C $(REDIS_DIR)/src 
 
-Redis:
-	$(MAKE) -C $(IDIR)
-
-$(ODIR)/%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(BDIR)/main: $(OBJ) $(Redis_OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
-
-
-.PHONY: clean
+$(OBJ_DIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CPPFLAGS)
 
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*~ core 
-	$(MAKE) -C $(IDIR) clean
+	rm -rf $(OBJ_DIR)/*.o
+	rm -rf ../bin/main
+	$(MAKE) -C $(REDIS_DIR)/src clean

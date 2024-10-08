@@ -1,4 +1,4 @@
-#include "main2.hpp"
+#include "main.hpp"
 
 extern std::atomic<bool> running;
 extern size_t windowLength;

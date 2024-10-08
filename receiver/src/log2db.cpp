@@ -1,4 +1,4 @@
-#include "main2.hpp"
+#include "main.hpp"
 
 std::mutex dbMutex;
 
@@ -22,7 +22,7 @@ void log2db(Con2DB db1, float value, std::string streamName)
 
     //INSERT
     sprintf(sqlcmd,
-            "INSERT INTO LogTable VALUES (CURRENT_DATE, %ld, %f, %d, %.4f, \'%s\') ON CONFLICT DO NOTHING",
+            "INSERT INTO LogTable VALUES (NOW(), %ld, %f, %d, %.4f, \'%s\') ON CONFLICT DO NOTHING",
             2L,
             value,
             1,

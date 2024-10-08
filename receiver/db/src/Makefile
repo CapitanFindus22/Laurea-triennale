@@ -1,18 +1,17 @@
-ODIR=../obj
+OBJ_DIR = ../obj
+SRC = Con2DB.cpp
+OBJ = $(OBJ_DIR)/Con2DB.o
 
 CC=g++
-CPPFLAGS=-std=c++20 -Wall -lm -I. -I/usr/include/postgresql -L/usr/local/lib -lpq
+CPPFLAGS = -std=c++20 -Wall -lm -I. -I/usr/include/postgresql 
+LFLAGS = -L/usr/local/lib -lpq
 
-DEPS = $(wildcard $(IDIR)/*.hpp)
-SRC = $(wildcard *.cpp)
-OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
+all: $(OBJ)
 
-all: $(ODIR) $(OBJ)
-
-$(ODIR)/%.o: %.cpp $(DEPS) 
-	$(CC) -c -o $@ $< $(CPPFLAGS) 
+$(OBJ): $(SRC)
+	$(CC) -c $< -o $@ $(CPPFLAGS) $(LFLAGS)
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*~ core 
+	rm -rf $(OBJ_DIR)/*.o

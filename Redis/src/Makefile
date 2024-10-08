@@ -1,22 +1,17 @@
-IDIR=.
-ODIR=../obj
+OBJ_DIR = ../obj
+SRC = Redis_functions.cpp
+OBJ = $(OBJ_DIR)/Redis_functions.o
 
 CC = g++
-CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. -I$(IDIR)
+CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. 
 LFLAGS = -lm -lhiredis
 
-DEPS = $(wildcard $(IDIR)/*.h)
-SRC = $(wildcard *.cpp)
-OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
+all: $(OBJ)
 
-
-all: $(ODIR) $(OBJ)
-
-$(ODIR)/%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) $(LFLAGS)
-
+$(OBJ): $(SRC)
+	$(CC) -c $< -o $@ $(CPPFLAGS) $(LFLAGS)
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*~ core 
+	rm -rf $(OBJ_DIR)/*.o
