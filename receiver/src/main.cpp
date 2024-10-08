@@ -25,7 +25,7 @@ int main()
                                  BLOCK, "INFOSTREAM");
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
 
-    std::cout << num_stream;
+    std::cout << num_stream << " ";
 
     freeReplyObject(r);
 

@@ -36,7 +36,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
 
     val = std::stof(strValue);
 
-    if(arr.size() > windowLength) 
+    if(arr.size() >= windowLength) 
     {
       arr.pop_front();
     }

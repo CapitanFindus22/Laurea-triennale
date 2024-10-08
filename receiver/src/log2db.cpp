@@ -22,7 +22,7 @@ void log2db(Con2DB db1, float value, std::string streamName,int id)
 
     //INSERT
     sprintf(sqlcmd,
-            "INSERT INTO media (s_id,data_ora,nome_stream,valore) VALUES (%d ,NOW(), \'%s\', %f) ON CONFLICT DO NOTHING",
+            "INSERT INTO media (s_id,data_ora,nome_stream,valore) VALUES (%d ,NOW(), \'%s\', %f)",
             id,
             streamName.c_str(),
             value);
@@ -33,7 +33,6 @@ void log2db(Con2DB db1, float value, std::string streamName,int id)
     //COMMIT
     sprintf(sqlcmd, "COMMIT");
     
-      
       res = db1.ExecSQLcmd(sqlcmd);
   }
   PQclear(res);
