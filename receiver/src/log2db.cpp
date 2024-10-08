@@ -3,7 +3,7 @@
 std::mutex dbMutex;
 
 //Generate SQL commands to save the values in the DB
-void log2db(Con2DB db1, float value, std::string streamName)
+void log2db(Con2DB db1, float value, std::string streamName,int id)
 {
   //Buffer
   char sqlcmd[1000];
@@ -22,12 +22,10 @@ void log2db(Con2DB db1, float value, std::string streamName)
 
     //INSERT
     sprintf(sqlcmd,
-            "INSERT INTO LogTable VALUES (NOW(), %ld, %f, %d, %.4f, \'%s\') ON CONFLICT DO NOTHING",
-            2L,
-            value,
-            1,
-            0.0,
-            streamName.c_str());
+            "INSERT INTO media (s_id,data_ora,nome_stream,valore) VALUES (%d ,NOW(), \'%s\', %f) ON CONFLICT DO NOTHING",
+            id,
+            streamName.c_str(),
+            value);
 
     res = db1.ExecSQLcmd(sqlcmd);
     PQclear(res);

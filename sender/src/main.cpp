@@ -13,6 +13,8 @@ int main()
     setvbuf(stderr, (char *)NULL, _IONBF, 0);
 #endif
 
+    Con2DB db1(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
+
     // Each stream will be called STREAM_number
     // Example: the first column will be attached to STREAM_1
     std::string baseName = "STREAM";
@@ -26,6 +28,9 @@ int main()
     // Array that will contain a row of values
     float values[f.num_columns];
     size_t arr_size = f.num_columns;
+
+    log2db(db1,f.num_columns,CSVName);
+    int id = logfromdb(db1,f.getName());
 
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
@@ -43,9 +48,10 @@ int main()
     }
 
     initStreams(c, "INFOSTREAM");
+    RedisCommand(c, "XTRIM %s MINID %d", "INFOSTREAM", 0);
     SendMessage(c,arr_size,"INFOSTREAM");
-
     sleep(1);
+    SendMessage(c,(float)id,"INFOSTREAM");
 
     // Read a line from the file and send it through the streams
     while (1)
@@ -62,7 +68,7 @@ int main()
             
         }
 
-        //sleep(1);
+        sleep(2);
         printf("\n");
     }
 

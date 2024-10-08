@@ -11,7 +11,7 @@ int main()
 #endif
 
     // Connection to DB
-    Con2DB db1("localhost", "5432", "trafficlight", "47002", "logdb_trafficlight");
+    Con2DB db1(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
@@ -23,8 +23,19 @@ int main()
     initStreams(c, "INFOSTREAM");
     redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
                                  BLOCK, "INFOSTREAM");
-
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
+
+    std::cout << num_stream;
+
+    freeReplyObject(r);
+
+    r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
+                             BLOCK, "INFOSTREAM");
+    int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
+
+    std::cout << id;
+
+    freeReplyObject(r);
 
     // The names of the streams
     std::string names[num_stream];
@@ -42,9 +53,9 @@ int main()
 
     for (i = 0; i < numThreads; i++)
     {
-        threads.push_back(std::thread(ReadMessage, c, names[i],db1));
+        threads.push_back(std::thread(ReadMessage, c, names[i],db1,id));
     }
-    // std::cout << log2db(db1,ReadMessage(c,GenerateStreamName(baseName, i)));
+    
 
     sleep(1222222);
     running = false;
@@ -56,7 +67,6 @@ int main()
 
     /*TODO
 
-        - Controllare makefile
         - Funzione per calcolare covarianza
         - Implementare i 2 monitor
         - Creare roba per DB

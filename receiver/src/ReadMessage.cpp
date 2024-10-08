@@ -5,7 +5,7 @@ extern size_t windowLength;
 std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(redisContext *c, std::string StreamName, Con2DB db)
+void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
 {
 
   float val;
@@ -42,7 +42,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db)
     }
 
     arr.push_back(val);
-    if(arr.size() == windowLength) {log2db(db,Mean(arr),StreamName);}
+    if(arr.size() == windowLength) {log2db(db,Mean(arr),StreamName,id);}
     
   }
 }

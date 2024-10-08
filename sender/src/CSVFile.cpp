@@ -11,6 +11,8 @@ CSVFile::CSVFile(std::string name)
     exit(-1);
   }
 
+  file_name = name;
+
   std::string str;
 
   // Get the delimiter
@@ -35,6 +37,11 @@ CSVFile::~CSVFile()
 {
 
   file.close();
+}
+
+std::string CSVFile::getName()
+{
+    return file_name;
 }
 
 // Get the next line

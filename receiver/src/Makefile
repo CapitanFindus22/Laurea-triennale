@@ -1,5 +1,5 @@
 REDIS_DIR = ../../Redis
-DB_DIR = ../db
+DB_DIR = ../../db/Code
 OBJ_DIR = ../obj
 BDIR = ../bin
 

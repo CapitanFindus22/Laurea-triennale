@@ -17,5 +17,7 @@ public:
     CSVFile(std::string name);
     ~CSVFile();
 
+    std::string getName();
+
     std::string getline();
 };
