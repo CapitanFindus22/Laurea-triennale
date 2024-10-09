@@ -35,18 +35,16 @@ int main()
 
     // Stuff for the threads
     std::thread threads[num_stream];
-    std::string names[num_stream];
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
     {
-        names[i] = baseName + std::to_string(i);
-        initStreams(c, names[i].c_str());
+        initStreams(c, GenerateStreamName(baseName, i).c_str());
     }
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, c, names[i].c_str(), db1, id);
+        threads[i] = std::thread(ReadMessage, c, GenerateStreamName(baseName, i), db1, id);
     }
 
     sleep(1222222);
@@ -60,7 +58,7 @@ int main()
     /*TODO
 
         - Funzione per calcolare covarianza
-        - Implementare monitor
+        - Implementare i 2 monitor
         - Modificare log2db
         - Implementare alert
 

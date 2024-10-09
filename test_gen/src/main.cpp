@@ -18,7 +18,6 @@ int main()
     // Each stream will be called STREAM_number
     // Example: the first column will be attached to STREAM_1
     std::string baseName = "STREAM";
-    std::string currentName;
     size_t i;
 
     // Open the csv file with name CSVName
@@ -40,7 +39,7 @@ int main()
     // Create the Streams
     for (i = 0; i < arr_size; i++)
     {
-        names[i] = GenerateStreamName(baseName, i);
+        names[i] = baseName + std::to_string(i);
         initStreams(c, names[i].c_str());
         redisReply *r = RedisCommand(c, "XTRIM %s MINID %d", names[i].c_str(), 0);
         assertReplyType(c, r, REDIS_REPLY_INTEGER);

@@ -46,8 +46,6 @@ int logfromdb(Con2DB db1, std::string fileName)
 
   int result = std::stoi(PQgetvalue(res, 0, PQfnumber(res, "id")));
 
-  std::cout << result;
-
   PQclear(res);
 
   return result;
