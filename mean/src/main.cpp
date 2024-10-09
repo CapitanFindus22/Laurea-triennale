@@ -46,7 +46,7 @@ int main()
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, c, names[i].c_str(), db1, id);
+        threads[i] = std::thread(ReadMessage, c, names[i], db1, id);
     }
 
     sleep(1222222);

@@ -2,7 +2,6 @@
 #define main_hpp
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <thread>
 #include <mutex>
@@ -25,15 +24,14 @@
 
 #define BLOCK 10000000000
 
-void log2db(Con2DB, float, std::string, int);
-float logfromdb(Con2DB,std::string);
-void logMonitor(Con2DB,float,std::string,int);
+void log2db(Con2DB, float, std::string,std::string, int);
+float logfromdb(Con2DB,std::string,std::string);
+void logMonitor(Con2DB,float,std::string,std::string,int);
 
-std::string GenerateStreamName(std::string, size_t);
-
-void ReadMessage(redisContext *, std::string, Con2DB, int);
+void ReadMessage(redisContext *, std::string, Con2DB, int, std::deque<float>);
 
 float Mean(std::deque<float>);
+void Covariance(std::deque<float>[]);
 
 void monitor(Con2DB,std::string,float,int);
 

@@ -21,7 +21,6 @@
 #define PASSWORD "65568162"
 
 void String2FloatArray(std::string, char, float[], size_t);
-std::string GenerateStreamName(std::string, size_t);
 
 void SendMessage(redisContext *, size_t, std::string);
 void SendMessage(redisContext *, float, std::string);

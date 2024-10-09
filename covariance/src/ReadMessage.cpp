@@ -1,18 +1,16 @@
 #include "main.hpp"
 
+extern std::atomic<size_t> done;
 extern std::atomic<bool> running;
 extern size_t windowLength;
 std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
+void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::deque<float> arr)
 {
-  bool isEmpty = true;
-  float mean;
   float val;
   std::string strValue;
   redisReply *r;
-  std::deque<float> arr;
 
   while (running)
   {
@@ -24,7 +22,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
       std::lock_guard<std::mutex> lock(redisMutex);
 
       // Read
-      r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 STREAMS %s >",
+      r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 STREAMS %s >",
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);
@@ -41,19 +39,12 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
     if (arr.size() > windowLength)
     {
       arr.pop_front();
-      isEmpty = false;
-    }
-
-    mean = Mean(arr);
-
-    if (!isEmpty)
-    {
-      monitor(db, StreamName, mean, id);
     }
 
     if (arr.size() == windowLength)
     {
-      log2db(db, mean, StreamName, id);
+      done++;
+      while(done>0){}
     }
   }
 }

@@ -1,5 +1,6 @@
 #include "main.hpp"
 
+extern std::atomic<size_t> done;
 extern std::atomic<bool> running;
 
 int main()
@@ -21,13 +22,13 @@ int main()
 
     // Stream0 is used to receive various information, in this case the number of streams
     initStreams(c, "INFOSTREAM");
-    redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
+    redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 NOACK STREAMS %s >",
                                  BLOCK, "INFOSTREAM");
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
 
     freeReplyObject(r);
 
-    r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
+    r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 NOACK STREAMS %s >",
                      BLOCK, "INFOSTREAM");
     int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
 
@@ -35,19 +36,32 @@ int main()
 
     // Stuff for the threads
     std::thread threads[num_stream];
+    std::string names[num_stream];
+    std::deque<float> windows[num_stream];
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
     {
-        initStreams(c, GenerateStreamName(baseName, i).c_str());
+        names[i] = baseName + std::to_string(i);
+        initStreams(c, names[i].c_str());
     }
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, c, GenerateStreamName(baseName, i), db1, id);
+        threads[i] = std::thread(ReadMessage, c, names[i], db1, id, windows[i]);
     }
 
-    sleep(1222222);
+    while(1)
+    {
+        if(done >= num_stream)
+        {
+            Covariance(windows);
+            done = 0;
+        }
+
+
+    }
+
     running = false;
 
     for (std::thread &t : threads)
@@ -59,7 +73,6 @@ int main()
 
         - Funzione per calcolare covarianza
         - Implementare i 2 monitor
-        - Modificare log2db
         - Implementare alert
 
     */

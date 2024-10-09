@@ -2,7 +2,6 @@
 #define main_hpp
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <thread>
 #include <mutex>
@@ -28,8 +27,6 @@
 void log2db(Con2DB, float, std::string, int);
 float logfromdb(Con2DB,std::string);
 void logMonitor(Con2DB,float,std::string,int);
-
-std::string GenerateStreamName(std::string, size_t);
 
 void ReadMessage(redisContext *, std::string, Con2DB, int);
 
