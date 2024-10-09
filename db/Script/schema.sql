@@ -1,9 +1,12 @@
-\c :dbname CREATE DOMAIN TimePoint AS timestamp;
+\c :dbname 
+
+CREATE DOMAIN TimePoint AS timestamp;
 CREATE DOMAIN StreamName AS VARCHAR(30);
 CREATE DOMAIN Note AS VARCHAR(200);
 CREATE DOMAIN val AS double precision;
 CREATE DOMAIN posint AS INTEGER CHECK (VALUE > 0);
 CREATE TYPE ALERT_TYPE AS ENUM ('Media', 'Covarianza', 'Altro');
+
 CREATE TABLE IF NOT EXISTS session_info (
         id serial PRIMARY KEY,
         Data_inizio TimePoint NOT NULL,
@@ -11,6 +14,7 @@ CREATE TABLE IF NOT EXISTS session_info (
         Numero_stream posint NOT NULL,
         Descrizione Note
 );
+
 CREATE TABLE IF NOT EXISTS media (
         s_id posint NOT NULL,
         Data_ora TimePoint NOT NULL,
@@ -19,6 +23,7 @@ CREATE TABLE IF NOT EXISTS media (
         FOREIGN KEY (s_id) REFERENCES session_info(id),
         PRIMARY KEY (s_id, Data_ora, Nome_stream)
 );
+
 CREATE TABLE IF NOT EXISTS covarianza (
         s_id posint NOT NULL,
         Data_ora TimePoint NOT NULL,
@@ -28,6 +33,7 @@ CREATE TABLE IF NOT EXISTS covarianza (
         FOREIGN KEY (s_id) REFERENCES session_info(id),
         PRIMARY KEY (s_id, Data_ora, Nome_stream_1, Nome_stream_2)
 );
+
 CREATE TABLE IF NOT EXISTS alerts (
         id serial PRIMARY KEY,
         s_id posint NOT NULL,

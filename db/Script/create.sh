@@ -11,6 +11,4 @@
 
 
 # This does all
-sudo -u postgres psql postgres -f create-db-user.sql  -f schema.sql  -f grant.sql
-
-
+sudo -u postgres psql -f create-db-user.sql  -f schema.sql  -f grant.sql
