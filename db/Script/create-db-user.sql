@@ -1,6 +1,7 @@
 \set dbname log_anomalies 
-\set username monitor -- Crea il database
+\set username monitor 
 
+-- Crea il database
 DROP DATABASE IF EXISTS :dbname;
 CREATE DATABASE :dbname;
 
