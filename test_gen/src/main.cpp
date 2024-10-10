@@ -40,10 +40,10 @@ int main()
     for (i = 0; i < arr_size; i++)
     {
         names[i] = baseName + std::to_string(i);
-        initStreams(c, names[i].c_str());
-        redisReply *r = RedisCommand(c, "XTRIM %s MINID %d", names[i].c_str(), 0);
+        redisReply *r = RedisCommand(c, "DEL %s", names[i].c_str());
         assertReplyType(c, r, REDIS_REPLY_INTEGER);
         freeReplyObject(r);
+        initStreams(c, names[i].c_str());
     }
 
     initStreams(c, "INFOSTREAM");
@@ -57,17 +57,13 @@ int main()
     {
 
         String2FloatArray(f.getline(), f.delimiter, values, arr_size);
-        i = 0;
-
-        for (float val : values)
+        
+        for (i = 0; i < f.num_columns; i++)
         {
-            SendMessage(c, val, names[i]);
-            std::cout << "Added value -> mem: " << val << " to " << names[i] << std::endl;
-            i++;
+            SendMessage(c,values[i],names[i]);
         }
 
         sleep(2);
-        printf("\n");
     }
 
     // Close the connection

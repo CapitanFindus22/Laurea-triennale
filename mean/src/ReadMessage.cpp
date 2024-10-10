@@ -28,10 +28,10 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id)
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);
+
     }
 
     strValue = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
-
     freeReplyObject(r);
 
     val = std::stof(strValue);

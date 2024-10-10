@@ -6,13 +6,15 @@ extern size_t windowLength;
 std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::deque<float> arr)
+void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::deque<float>& arr)
 {
   float val;
   std::string strValue;
   redisReply *r;
 
-  while (running)
+  arr.clear();
+
+  while (1)
   {
 
     /*Since this function is used for the threads and redisContext* c
@@ -43,8 +45,8 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
 
     if (arr.size() == windowLength)
     {
-      done++;
-      while(done>0){}
+      done.fetch_add(1,std::memory_order_relaxed);
+      while(done.load()>0){std::this_thread::yield();}
     }
   }
 }

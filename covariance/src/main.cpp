@@ -48,17 +48,19 @@ int main()
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, c, names[i], db1, id, windows[i]);
+        threads[i] = std::thread(ReadMessage, c, names[i], db1, id, std::ref(windows[i]));
     }
 
-    while(1)
-    {
-        if(done >= num_stream)
-        {
-            Covariance(windows);
-            done = 0;
-        }
+    bool asd = true;
 
+    while(asd)
+    {
+        if(done.load() >= num_stream)
+        { 
+            Covariance(db1,windows,num_stream,id);
+            done = 0;
+            asd = false;
+        }
 
     }
 
@@ -71,7 +73,6 @@ int main()
 
     /*TODO
 
-        - Funzione per calcolare covarianza
         - Implementare i 2 monitor
         - Implementare alert
 

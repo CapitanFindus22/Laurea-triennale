@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-float Mean(std::deque<float> dq)
+float Mean(std::deque<float>& dq)
 {
 
     float sum = 0;

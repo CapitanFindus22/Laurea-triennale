@@ -20,7 +20,6 @@ int main()
     size_t i;
 
     // Stream0 is used to receive various information, in this case the number of streams
-    initStreams(c, "INFOSTREAM");
     redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
                                  BLOCK, "INFOSTREAM");
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
@@ -41,7 +40,6 @@ int main()
     for (i = 0; i < num_stream; i++)
     {
         names[i] = baseName + std::to_string(i);
-        initStreams(c, names[i].c_str());
     }
 
     for (i = 0; i < num_stream; i++)
@@ -56,15 +54,6 @@ int main()
     {
         t.join();
     }
-
-    /*TODO
-
-        - Funzione per calcolare covarianza
-        - Implementare monitor
-        - Modificare log2db
-        - Implementare alert
-
-    */
 
     // Close the connection
     redisFree(c);
