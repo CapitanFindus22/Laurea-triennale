@@ -33,21 +33,23 @@ int main()
 
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
-
+    redisReply *r;
     std::string names[f.num_columns];
 
     // Create the Streams
     for (i = 0; i < arr_size; i++)
     {
         names[i] = baseName + std::to_string(i);
-        redisReply *r = RedisCommand(c, "DEL %s", names[i].c_str());
+        r = RedisCommand(c, "DEL %s", names[i].c_str());
         assertReplyType(c, r, REDIS_REPLY_INTEGER);
         freeReplyObject(r);
         initStreams(c, names[i].c_str());
     }
 
+    r = RedisCommand(c, "DEL INFOSTREAM");
+    assertReplyType(c, r, REDIS_REPLY_INTEGER);
+
     initStreams(c, "INFOSTREAM");
-    RedisCommand(c, "XTRIM %s MINID %d", "INFOSTREAM", 0);
     SendMessage(c, arr_size, "INFOSTREAM");
     sleep(1);
     SendMessage(c, (float)id, "INFOSTREAM");

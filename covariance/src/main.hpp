@@ -33,6 +33,6 @@ void ReadMessage(redisContext *, std::string, Con2DB, int, std::deque<float>&);
 float Mean(std::deque<float>&);
 void Covariance(Con2DB,std::deque<float>[],size_t,int);
 
-void monitor(Con2DB,std::string,float,int);
+void monitor(Con2DB,std::string,std::string,float,int);
 
 #endif

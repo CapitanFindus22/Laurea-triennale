@@ -17,11 +17,11 @@ int main()
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
 
-    std::string baseName = "STREAM";
+    std::string baseName = "STREAM_";
     size_t i;
 
     // Stream0 is used to receive various information, in this case the number of streams
-    initStreams(c, "INFOSTREAM");
+/*     initStreams(c, "INFOSTREAM");
     redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 NOACK STREAMS %s >",
                                  BLOCK, "INFOSTREAM");
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
@@ -32,7 +32,12 @@ int main()
                      BLOCK, "INFOSTREAM");
     int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
 
-    freeReplyObject(r);
+    freeReplyObject(r); */
+
+    sleep(3);
+
+    size_t num_stream = 12;
+    int id = 1;
 
     // Stuff for the threads
     std::thread threads[num_stream];
@@ -43,7 +48,7 @@ int main()
     for (i = 0; i < num_stream; i++)
     {
         names[i] = baseName + std::to_string(i);
-        initStreams(c, names[i].c_str());
+
     }
 
     for (i = 0; i < num_stream; i++)
@@ -51,15 +56,13 @@ int main()
         threads[i] = std::thread(ReadMessage, c, names[i], db1, id, std::ref(windows[i]));
     }
 
-    bool asd = true;
-
-    while(asd)
+    while(1)
     {
         if(done.load() >= num_stream)
         { 
             Covariance(db1,windows,num_stream,id);
             done = 0;
-            asd = false;
+
         }
 
     }

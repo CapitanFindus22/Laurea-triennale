@@ -29,7 +29,9 @@ void Covariance(Con2DB db, std::deque<float> arr[], size_t size, int id){
             }
             
             covariance /= (windowLength-1);
+
             log2db(db,covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
+            monitor(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);
 
         }
         

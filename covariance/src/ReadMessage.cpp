@@ -8,8 +8,7 @@ std::mutex redisMutex;
 // Read a message from the stream named Streamname
 void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::deque<float>& arr)
 {
-  float val;
-  std::string strValue;
+  std::string str;
   redisReply *r;
 
   arr.clear();
@@ -24,29 +23,19 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
       std::lock_guard<std::mutex> lock(redisMutex);
 
       // Read
-      r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 STREAMS %s >",
+      r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 STREAMS %s >",
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);
+      dumpReply(r,0);
     }
 
-    strValue = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
+    str = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
 
     freeReplyObject(r);
 
-    val = std::stof(strValue);
+    done.fetch_add(1,std::memory_order_relaxed);
+    while(done.load()>0){std::this_thread::yield();}
 
-    arr.push_back(val);
-
-    if (arr.size() > windowLength)
-    {
-      arr.pop_front();
-    }
-
-    if (arr.size() == windowLength)
-    {
-      done.fetch_add(1,std::memory_order_relaxed);
-      while(done.load()>0){std::this_thread::yield();}
-    }
   }
 }
