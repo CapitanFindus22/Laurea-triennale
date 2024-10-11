@@ -2,6 +2,7 @@
 
 extern std::atomic<size_t> done;
 extern std::atomic<bool> running;
+extern size_t windowLength;
 
 int main()
 {
@@ -42,7 +43,8 @@ int main()
     // Stuff for the threads
     std::thread threads[num_stream];
     std::string names[num_stream];
-    std::deque<float> windows[num_stream];
+    std::string windows[num_stream];
+    std::vector<std::vector<float>> values(num_stream, std::vector<float>(windowLength+1,0));
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
@@ -60,7 +62,14 @@ int main()
     {
         if(done.load() >= num_stream)
         { 
-            Covariance(db1,windows,num_stream,id);
+
+            for (i = 0; i < num_stream; i++)
+            {
+                String2FloatArray(windows[i],values[i]);
+            }
+            
+
+            Covariance(db1,values,num_stream,id);
             done = 0;
 
         }

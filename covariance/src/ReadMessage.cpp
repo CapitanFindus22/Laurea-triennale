@@ -6,7 +6,7 @@ extern size_t windowLength;
 std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::deque<float>& arr)
+void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::string& arr)
 {
   std::string str;
   redisReply *r;
@@ -30,7 +30,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
       dumpReply(r,0);
     }
 
-    str = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
+    arr = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
 
     freeReplyObject(r);
 
