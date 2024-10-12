@@ -31,5 +31,4 @@ void String2FloatArray(std::string str, char delimiter, float val[], size_t size
         val[i] = std::stof(temp);
         temp.clear();
     }
-
 }
