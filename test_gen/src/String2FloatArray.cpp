@@ -32,5 +32,4 @@ void String2FloatArray(std::string str, char delimiter, float val[], size_t size
         temp.clear();
     }
 
-    assert(size >= i);
 }

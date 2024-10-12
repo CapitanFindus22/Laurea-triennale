@@ -16,7 +16,7 @@ int main()
     Con2DB db1(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
 
     // Each stream will be called STREAM_number
-    // Example: the first column will be attached to STREAM_1
+    // Example: the first column will be attached to STREAM1
     std::string baseName = "STREAM";
     size_t i;
 
@@ -34,24 +34,20 @@ int main()
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
     redisReply *r;
+
+    RedisCommand(c, "XTRIM INFOSTREAM 0");
+
     std::string names[f.num_columns];
 
     // Create the Streams
     for (i = 0; i < arr_size; i++)
     {
         names[i] = baseName + std::to_string(i);
-        r = RedisCommand(c, "DEL %s", names[i].c_str());
-        assertReplyType(c, r, REDIS_REPLY_INTEGER);
-        freeReplyObject(r);
-        initStreams(c, names[i].c_str());
+        RedisCommand(c, "XTRIM %s 0", names[i].c_str());
+
     }
 
-    r = RedisCommand(c, "DEL INFOSTREAM");
-    assertReplyType(c, r, REDIS_REPLY_INTEGER);
-
-    initStreams(c, "INFOSTREAM");
     SendMessage(c, arr_size, "INFOSTREAM");
-    sleep(1);
     SendMessage(c, (float)id, "INFOSTREAM");
 
     // Read a line from the file and send it through the streams

@@ -73,9 +73,9 @@ void dumpReply(redisReply *r, int indent)
 }
 
 // Initialize the stream
-void initStreams(redisContext *c, const char *stream)
+void initStreams(redisContext *c, const char *stream, const char *group)
 {
-    redisReply *r = RedisCommand(c, "XGROUP CREATE %s reader $ MKSTREAM", stream);
+    redisReply *r = RedisCommand(c, "XGROUP CREATE %s %s $ MKSTREAM", stream, group);
     assertReply(c, r);
     freeReplyObject(r);
 }

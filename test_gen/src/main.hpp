@@ -4,8 +4,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cassert>
-#include <mutex>
 #include <unistd.h>
 
 #include "../../Redis/src/Redis_functions.hpp"

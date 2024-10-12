@@ -24,7 +24,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
       std::lock_guard<std::mutex> lock(redisMutex);
 
       // Read
-      r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 STREAMS %s >",
+      r = RedisCommand(c, "XREADGROUP GROUP mean user BLOCK %d COUNT 1 STREAMS %s >",
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);
