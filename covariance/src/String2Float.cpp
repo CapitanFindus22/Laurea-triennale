@@ -1,11 +1,12 @@
 #include "main.hpp"
 
 // Extract the values from the string and put them in the array
-void String2FloatArray(std::string str, std::vector<float> val)
+void String2Float(std::string str, std::vector<float>& val)
 {
 
     std::string temp;
     size_t i = 0;
+    val.clear();
 
     for (char &c : str)
     {
@@ -13,7 +14,7 @@ void String2FloatArray(std::string str, std::vector<float> val)
         if (c == ',' && !temp.empty())
         {
 
-            val[i] = std::stof(temp);
+            val.push_back(std::stof(temp));
             temp.clear();
             i++;
         }
@@ -28,7 +29,7 @@ void String2FloatArray(std::string str, std::vector<float> val)
     if (!temp.empty())
     {
 
-        val[i] = std::stof(temp);
+        val.push_back(std::stof(temp));
         temp.clear();
     }
 

@@ -27,7 +27,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);
-      dumpReply(r,0);
+
     }
 
     arr = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;

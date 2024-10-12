@@ -27,14 +27,14 @@
 
 void log2db(Con2DB, double, std::string,std::string, int);
 float logfromdb(Con2DB,std::string,std::string);
-void logMonitor(Con2DB,float,std::string,std::string,int);
+void logAlert(Con2DB,float,std::string,std::string,int);
 
 void ReadMessage(redisContext *, std::string, Con2DB, int, std::string&);
 
-void Covariance(Con2DB, std::vector<std::vector<float>>,size_t,int);
+void Covariance(Con2DB, std::vector<std::vector<float>>&,size_t,int);
 
-void monitor(Con2DB,std::string,std::string,float,int);
+void Alert(Con2DB,std::string,std::string,float,int);
 
-void String2FloatArray(std::string,std::vector<float>);
+void String2Float(std::string,std::vector<float>&);
 
 #endif

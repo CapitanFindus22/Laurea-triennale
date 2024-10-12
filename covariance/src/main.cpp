@@ -17,34 +17,33 @@ int main()
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
+    redisReply *r;
 
     std::string baseName = "STREAM_";
     size_t i;
 
-    // Stream0 is used to receive various information, in this case the number of streams
-/*     initStreams(c, "INFOSTREAM");
-    redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 NOACK STREAMS %s >",
-                                 BLOCK, "INFOSTREAM");
-    size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
+    sleep(2);
 
+    // Stream0 is used to receive various information, in this case the number of streams
+    r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 STREAMS %s >",
+                                 BLOCK, "INFOSTREAM");
+    assertReplyType(c,r,REDIS_REPLY_ARRAY);
+    size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
     freeReplyObject(r);
 
-    r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 NOACK STREAMS %s >",
+    std::cout << "adgfdfdghd";
+
+    r = RedisCommand(c, "XREADGROUP GROUP reader r2 BLOCK %d COUNT 1 STREAMS %s >",
                      BLOCK, "INFOSTREAM");
+    assertReplyType(c,r,REDIS_REPLY_ARRAY);
     int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-
-    freeReplyObject(r); */
-
-    sleep(3);
-
-    size_t num_stream = 12;
-    int id = 1;
+    freeReplyObject(r);
 
     // Stuff for the threads
     std::thread threads[num_stream];
     std::string names[num_stream];
     std::string windows[num_stream];
-    std::vector<std::vector<float>> values(num_stream, std::vector<float>(windowLength+1,0));
+    std::vector<std::vector<float>> values(num_stream);
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
@@ -65,11 +64,10 @@ int main()
 
             for (i = 0; i < num_stream; i++)
             {
-                String2FloatArray(windows[i],values[i]);
+                String2Float(windows[i],std::ref(values[i]));
             }
-            
 
-            Covariance(db1,values,num_stream,id);
+            Covariance(db1,std::ref(values),num_stream,id);
             done = 0;
 
         }
@@ -86,7 +84,6 @@ int main()
     /*TODO
 
         - Implementare i 2 monitor
-        - Implementare alert
 
     */
 

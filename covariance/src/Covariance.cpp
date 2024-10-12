@@ -2,28 +2,31 @@
 
 extern size_t windowLength;
 
-void Covariance(Con2DB db, std::vector<std::vector<float>> arr, size_t size, int id){
+void Covariance(Con2DB db, std::vector<std::vector<float>>& arr, size_t size, int id){
 
     size_t i,j,k;
     float v1,v2;
-    double covariance;
+    float covariance;            
 
-    for (i = 0; i < size-1; i++) 
+    for (i = 0; i < arr.size()-1; i++) 
     {
-        for (j = i+1; j < size; j++)
+        for (j = i+1; j < arr.size(); j++)
         {        
 
-            covariance = 0;
+            covariance = 0.0;
 
             for (k = 0; k < windowLength; k++)
             {
-                covariance += (arr[i][k] - arr[i][-1])*(arr[j][k] - arr[j][-1]);
+                v1 = arr[i][k] - arr[i].back();
+                v2 = arr[j][k] - arr[j].back();
+                covariance += (v1*v2);
+
             }
-            
-            covariance /= (windowLength-1);
+
+            covariance /= (windowLength);
 
             log2db(db,covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
-            monitor(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);
+            Alert(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);
 
         }
         

@@ -28,7 +28,7 @@ void log2db(Con2DB db1, float value, std::string streamName, int id)
 }
 
 // Generate SQL commands to save the values in the DB
-void logMonitor(Con2DB db1, float value, std::string streamName, int id)
+void logAlert(Con2DB db1, float value, std::string streamName, int id)
 {
   // Buffer
   char sqlcmd[1000];

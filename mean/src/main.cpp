@@ -16,23 +16,37 @@ int main()
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
+    redisReply *r ;
 
     std::string baseName = "STREAM";
+    std::string ID;
     size_t i;
 
     sleep(1);
 
     // Stream0 is used to receive various information, in this case the number of streams
-    redisReply *r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
+    r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 STREAMS %s >",
                                  BLOCK, "INFOSTREAM");
+    assertReplyType(c,r,REDIS_REPLY_ARRAY);
     size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-
+    ID = r->element[0]->element[1]->element[0]->element[0]->str;
     freeReplyObject(r);
 
-    r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 NOACK STREAMS %s >",
-                     BLOCK, "INFOSTREAM");
-    int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
+    r = RedisCommand(c, "XACK %s reader %s",
+                                "INFOSTREAM",ID.c_str());
+    assertReplyType(c,r,REDIS_REPLY_INTEGER);
+    freeReplyObject(r);
 
+    r = RedisCommand(c, "XREADGROUP GROUP reader r1 BLOCK %d COUNT 1 STREAMS %s >",
+                     BLOCK, "INFOSTREAM");
+    assertReplyType(c,r,REDIS_REPLY_ARRAY);
+    int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
+    ID = r->element[0]->element[1]->element[0]->element[0]->str;
+    freeReplyObject(r);
+    
+    r = RedisCommand(c, "XACK %s reader %s",
+                                "INFOSTREAM",ID.c_str());
+    assertReplyType(c,r,REDIS_REPLY_INTEGER);
     freeReplyObject(r);
 
     // Stuff for the threads
@@ -61,7 +75,8 @@ int main()
         if(done.load() >= num_stream)
         { 
             for (i = 0; i < num_stream; i++)
-            {
+            {   
+                std::cout << names2[i] << ":" << toSend[i] << std::endl;
                 SendMessage(c,toSend[i].c_str(),names2[i]);
 
             }

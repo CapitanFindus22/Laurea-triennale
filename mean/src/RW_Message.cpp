@@ -38,23 +38,19 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
 
     arr.push_back(val);
 
-    if (arr.size() > windowLength)
-    {
-      arr.pop_front();
-      isEmpty = false;
-    }
-
     mean = Mean(arr);
 
     if (!isEmpty)
     {
-      monitor(db, StreamName, mean, id);
+      Alert(db, StreamName, mean, id);
     }
 
     if (arr.size() == windowLength)
     {
       log2db(db, mean, StreamName, id);
       
+      isEmpty = false;
+
       result.clear();
 
       for (float &v : arr)
@@ -66,6 +62,8 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
 
       done.fetch_add(1,std::memory_order_relaxed);
       while(done.load()>0){std::this_thread::yield();}
+
+      arr.pop_front();
 
     }
   }
