@@ -1,4 +1,3 @@
-obj/
-bin/
-*.o
-.vscode/
+**/obj
+**/bin/
+**/.vscode/
