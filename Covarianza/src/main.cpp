@@ -68,7 +68,7 @@ int main()
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, names[i], db1, id, std::ref(windows[i]));
+        threads[i] = std::thread(ReadMessage, names[i], std::ref(windows[i]));
     }
 
     while(1)
@@ -81,7 +81,7 @@ int main()
                 String2Float(windows[i],std::ref(values[i]));
             }
 
-            Covariance(db1,std::ref(values),num_stream,id);
+            Covariance(std::ref(db1),std::ref(values),id);
             done = 0;
 
         }
@@ -94,12 +94,6 @@ int main()
     {
         t.join();
     }
-
-    /*TODO
-
-        - Implementare i 2 monitor
-
-    */
 
     // Close the connection
     redisFree(c);

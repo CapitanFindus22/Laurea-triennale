@@ -19,4 +19,13 @@
 #define USERNAME "monitor"
 #define PASSWORD "65568162"
 
+#define BLOCK 1000000000
+
+void MM();
+void MMT();
+void MC();
+void MCT();
+
+std::string ReadMessage(redisContext *,std::string);
+
 #endif

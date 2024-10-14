@@ -11,9 +11,6 @@ int main()
     setvbuf(stderr, (char *)NULL, _IONBF, 0);
 #endif
 
-    // Connection to DB
-    Con2DB db1(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
-
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
     redisReply *r;
@@ -67,7 +64,7 @@ int main()
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, streamNameIN[i], db1, id, std::ref(windows[i]),std::ref(toSend[i]));
+        threads[i] = std::thread(ReadMessage, streamNameIN[i], id, std::ref(windows[i]),std::ref(toSend[i]));
     }
 
     while(1)

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ./Sender/bin;
+cd ./test_gen/bin;
 gnome-terminal --title='Test_generator' -- bash -c "./main; read" &
 
 cd ../../Media/bin;

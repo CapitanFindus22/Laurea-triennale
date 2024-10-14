@@ -2,14 +2,14 @@
 
 extern float difference;
 
-void Alert(Con2DB db, std::string streamName, float mean, int id)
+void Alert(Con2DB& db, std::string streamName, float mean, int id)
 {
 
-    float old_val = logfromdb(db, streamName);
+    float old_val = logfromdb(std::ref(db), streamName);
 
     if ((mean > old_val + difference) || (mean < old_val - difference))
     {
 
-        logAlert(db, mean - old_val, streamName, id);
+        logAlert(std::ref(db), mean - old_val, streamName, id);
     }
 }

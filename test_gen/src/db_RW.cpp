@@ -1,7 +1,7 @@
 #include "main.hpp"
 
 // Generate SQL commands to save the values in the DB
-void log2db(Con2DB db1, size_t numStream, std::string fileName)
+void log2db(Con2DB& db1, size_t numStream, std::string fileName)
 {
   // Buffer
   char sqlcmd[1000];
@@ -32,7 +32,7 @@ void log2db(Con2DB db1, size_t numStream, std::string fileName)
   PQclear(res);
 }
 
-int logfromdb(Con2DB db1, std::string fileName)
+int logfromdb(Con2DB& db1, std::string fileName)
 {
   // Buffer
   char sqlcmd[1000];

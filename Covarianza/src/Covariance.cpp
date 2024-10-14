@@ -1,8 +1,9 @@
 #include "main.hpp"
 
 extern size_t windowLength;
+extern bool firstRound;
 
-void Covariance(Con2DB db, std::vector<std::vector<float>>& arr, size_t size, int id){
+void Covariance(Con2DB& db, std::vector<std::vector<float>>& arr, int id){
 
     size_t i,j,k;
     float v1,v2;
@@ -13,7 +14,7 @@ void Covariance(Con2DB db, std::vector<std::vector<float>>& arr, size_t size, in
         for (j = i+1; j < arr.size(); j++)
         {        
 
-            covariance = 0.0;
+            covariance = 0;
 
             for (k = 0; k < windowLength; k++)
             {
@@ -25,12 +26,13 @@ void Covariance(Con2DB db, std::vector<std::vector<float>>& arr, size_t size, in
 
             covariance /= (windowLength);
 
+            if(!firstRound) {Alert(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);}
             log2db(db,covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
-            Alert(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);
-
+            
         }
         
     }
     
+    firstRound = false;
 
 }

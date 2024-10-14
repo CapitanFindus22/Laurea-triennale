@@ -3,16 +3,17 @@
 extern std::atomic<size_t> done;
 extern std::atomic<bool> running;
 extern size_t windowLength;
-std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(std::string StreamName, Con2DB db, int id, std::deque<float> &arr, std::string &result)
+void ReadMessage(std::string StreamName, int id, std::deque<float> &arr, std::string &result)
 {
   bool isEmpty = true;
   float mean;
   float val;
   redisContext *c = redisConnect(IP, PORT);
   redisReply *r;
+
+  Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
 
   while (1)
   {
@@ -31,12 +32,12 @@ void ReadMessage(std::string StreamName, Con2DB db, int id, std::deque<float> &a
 
     if (!isEmpty)
     {
-      Alert(db, StreamName, mean, id);
+      Alert(std::ref(db), StreamName, mean, id);
     }
 
     if (arr.size() == windowLength)
     {
-      log2db(db, mean, StreamName, id);
+      log2db(std::ref(db), mean, StreamName, id);
 
       isEmpty = false;
 
@@ -62,11 +63,9 @@ void ReadMessage(std::string StreamName, Con2DB db, int id, std::deque<float> &a
 
 void SendMessage(redisContext *c, const char *arr, std::string StreamName)
 {
-  {
 
-    std::lock_guard<std::mutex> lock(redisMutex);
     redisReply *r = RedisCommand(c, "XADD %s * value %s", StreamName.c_str(), arr);
     assertReplyType(c, r, REDIS_REPLY_STRING);
     freeReplyObject(r);
-  }
+  
 }

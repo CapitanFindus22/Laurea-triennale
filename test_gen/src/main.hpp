@@ -23,12 +23,12 @@
 
 #define CSV_PATH "../csv"
 
-void String2FloatArray(std::string, char, float[], size_t);
+void String2FloatArray(std::string, char, float[]);
 
 void SendMessage(redisContext *, float, std::string);
 
-void log2db(Con2DB, size_t, std::string);
-int logfromdb(Con2DB, std::string);
+void log2db(Con2DB&, size_t, std::string);
+int logfromdb(Con2DB&, std::string);
 
 std::string ChooseFile();
 

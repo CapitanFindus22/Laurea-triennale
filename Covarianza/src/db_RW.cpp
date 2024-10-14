@@ -1,18 +1,13 @@
 #include "main.hpp"
 
-std::mutex dbMutex;
-
 // Generate SQL commands to save the values in the DB
-void log2db(Con2DB db1, double value, std::string streamName1, std::string streamName2, int id)
+void log2db(Con2DB& db1, double value, std::string streamName1, std::string streamName2, int id)
 {
   // Buffer
   char sqlcmd[1000];
 
   // Complete command
   PGresult *res;
-
-  {
-    std::lock_guard<std::mutex> lock(dbMutex);
 
     // INSERT
     sprintf(sqlcmd,
@@ -23,22 +18,19 @@ void log2db(Con2DB db1, double value, std::string streamName1, std::string strea
             value);
 
     res = db1.ExecSQLcmd(sqlcmd);
-  }
+  
 
   PQclear(res);
 }
 
 // Generate SQL commands to save the values in the DB
-void logAlert(Con2DB db1, float value, std::string streamName1, std::string streamName2, int id)
+void logAlert(Con2DB& db1, float value, std::string streamName1, std::string streamName2, int id)
 {
   // Buffer
   char sqlcmd[1000];
 
   // Complete command
   PGresult *res;
-
-  {
-    std::lock_guard<std::mutex> lock(dbMutex);
 
     // INSERT
     sprintf(sqlcmd,
@@ -49,30 +41,27 @@ void logAlert(Con2DB db1, float value, std::string streamName1, std::string stre
             value);
 
     res = db1.ExecSQLcmd(sqlcmd);
-  }
+  
 
   PQclear(res);
 }
 
-float logfromdb(Con2DB db1, std::string streamName1, std::string streamName2)
+float logfromdb(Con2DB& db1, std::string streamName1, std::string streamName2)
 {
   // Buffer
   char sqlcmd[1000];
   PGresult *res;
 
-  {
+  sprintf(sqlcmd,
+          "SELECT * FROM covarianza WHERE nome_stream_1=\'%s\' AND nome_stream_2=\'%s\' ORDER BY data_ora DESC",
+          streamName1.c_str(),
+          streamName2.c_str());
 
-    std::lock_guard<std::mutex> lock(dbMutex);
-
-    sprintf(sqlcmd,
-            "SELECT valore FROM covarianza WHERE nome_stream_1=\'%s\' AND nome_stream_2=\'%s\' ORDER BY data_ora DESC",
-            streamName1.c_str(),
-            streamName2.c_str());
-
-    res = db1.ExecSQLtuples(sqlcmd);
-  }
-
+  res = db1.ExecSQLtuples(sqlcmd);
+  
   int result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
+
+  std::cout << streamName1 + "-" + streamName2 << " " << result << std::endl;
 
   PQclear(res);
 

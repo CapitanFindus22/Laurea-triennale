@@ -33,8 +33,8 @@ int main()
     float values[f.num_columns];
 
     // Create log for this session and get the id
-    log2db(db1, f.num_columns, CSVName);
-    int id = logfromdb(db1, f.getName());
+    log2db(std::ref(db1), f.num_columns, CSVName);
+    int id = logfromdb(std::ref(db1), f.getName());
 
     // Clean the Stream, INFOSTREAM is used to exchange informations
     RedisCommand(c, "XTRIM INFOSTREAM 0");
@@ -55,7 +55,7 @@ int main()
     {
 
         // Convert the row to floats
-        String2FloatArray(f.getline(), f.delimiter, values, f.num_columns);
+        String2FloatArray(f.getline(), f.delimiter, values);
 
         for (i = 0; i < f.num_columns; i++)
         {
