@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 #include "../../Redis/src/Redis_functions.hpp"
-#include "../../db/Code/src/Con2DB.hpp"
+#include "../../DB/Code/src/Con2DB.hpp"
 
 #define DEBUG 1000
 

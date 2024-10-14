@@ -3,10 +3,10 @@
 cd ./test_gen/bin;
 gnome-terminal --title='Test_generator' -- bash -c "./main; read" &
 
-cd ../../mean/bin;
+cd ../../Media/bin;
 gnome-terminal --title='Media' -- bash -c "./main; read" &
 
-cd ../../covariance/bin;
+cd ../../Covarianza/bin;
 gnome-terminal --title='Covarianza' -- bash -c "./main; read" &
 
 

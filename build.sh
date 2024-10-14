@@ -1,10 +1,10 @@
 #!/bin/bash
 
-cd db/Script/
+cd DB/Script/
 ./create.sh;
-cd ../../mean/src;
+cd ../../Media/src;
 make;
 cd ../../test_gen/src;
 make;
-cd ../../covariance/src;
+cd ../../Covarianza/src;
 make;

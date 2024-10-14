@@ -3,12 +3,15 @@ SRC = Redis_functions.cpp
 OBJ = $(OBJ_DIR)/Redis_functions.o
 
 CC = g++
-CFLAGS = -std=c++20 -Wextra -Wall -L/usr/local/lib -I. 
-LFLAGS = -lm -lhiredis
+CPPFLAGS = -std=c++20 -Wextra -Wall -I. 
+LFLAGS = -lm -lhiredis -L/usr/local/lib
 
-all: $(OBJ)
+all: $(OBJ_DIR) $(OBJ)
 
-$(OBJ): $(SRC)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ): $(SRC) | $(OBJ_DIR)
 	$(CC) -c $< -o $@ $(CPPFLAGS) $(LFLAGS)
 
 .PHONY: clean

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd ./mean/src;
+cd ./Media/src;
 make clean;
 cd ../../test_gen/src;
 make clean;
-cd ../../covariance/src;
+cd ../../Covarianza/src;
 make clean;
