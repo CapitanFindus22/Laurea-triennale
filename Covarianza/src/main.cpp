@@ -23,8 +23,6 @@ int main()
     std::string ID;
     size_t i;
 
-    sleep(2);
-
     initStreams(c,"INFOSTREAM","covariance");
 
     // Stream0 is used to receive various information, in this case the number of streams
@@ -70,7 +68,7 @@ int main()
 
     for (i = 0; i < num_stream; i++)
     {
-        threads[i] = std::thread(ReadMessage, c, names[i], db1, id, std::ref(windows[i]));
+        threads[i] = std::thread(ReadMessage, names[i], db1, id, std::ref(windows[i]));
     }
 
     while(1)

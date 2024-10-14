@@ -4,7 +4,9 @@ cd DB/Script/
 ./create.sh;
 cd ../../Media/src;
 make;
-cd ../../test_gen/src;
+cd ../../Sender/src;
 make;
 cd ../../Covarianza/src;
+make;
+cd ../../Monitor/src;
 make;

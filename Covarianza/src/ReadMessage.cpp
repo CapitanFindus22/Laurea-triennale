@@ -6,8 +6,11 @@ extern size_t windowLength;
 std::mutex redisMutex;
 
 // Read a message from the stream named Streamname
-void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std::string& arr)
+void ReadMessage(std::string StreamName, Con2DB db, int id, std::string& arr)
 {
+
+  redisContext *c = redisConnect(IP, PORT);
+
   std::string str;
   redisReply *r;
 
@@ -23,7 +26,7 @@ void ReadMessage(redisContext *c, std::string StreamName, Con2DB db, int id, std
       std::lock_guard<std::mutex> lock(redisMutex);
 
       // Read
-      r = RedisCommand(c, "XREADGROUP GROUP covariance user BLOCK %d COUNT 1 STREAMS %s >",
+      r = RedisCommand(c, "XREADGROUP GROUP covariance user BLOCK %d COUNT 1 NOACK STREAMS %s >",
                        BLOCK, StreamName.c_str());
 
       assertReplyType(c, r, REDIS_REPLY_ARRAY);

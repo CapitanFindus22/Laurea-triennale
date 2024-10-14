@@ -29,7 +29,7 @@ float logfromdb(Con2DB,std::string);
 void logAlert(Con2DB,float,std::string,int);
 
 void SendMessage(redisContext *,const char *,std::string);
-void ReadMessage(redisContext *, std::string, Con2DB, int, std::deque<float>&, std::string&);
+void ReadMessage(std::string, Con2DB, int, std::deque<float>&, std::string&);
 
 float Mean(std::deque<float>);
 

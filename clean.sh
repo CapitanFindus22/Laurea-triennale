@@ -2,7 +2,9 @@
 
 cd ./Media/src;
 make clean;
-cd ../../test_gen/src;
+cd ../../Sender/src;
 make clean;
 cd ../../Covarianza/src;
+make clean;
+cd ../../Monitor/src;
 make clean;

@@ -29,7 +29,7 @@ void log2db(Con2DB, double, std::string,std::string, int);
 float logfromdb(Con2DB,std::string,std::string);
 void logAlert(Con2DB,float,std::string,std::string,int);
 
-void ReadMessage(redisContext *, std::string, Con2DB, int, std::string&);
+void ReadMessage(std::string, Con2DB, int, std::string&);
 
 void Covariance(Con2DB, std::vector<std::vector<float>>&,size_t,int);
 
