@@ -3,9 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <thread>
 #include <deque>
-#include <atomic>
 #include <unistd.h>
 
 #include "../../Redis/src/Redis_functions.hpp"
@@ -23,18 +21,20 @@
 
 #define BLOCK 10000000000
 
-void log2db(Con2DB&, float, std::string, int);
+void log2db(Con2DB&, std::string, std::string, int);
 float logfromdb(Con2DB&,std::string);
-void logAlert(Con2DB&,float,std::string,int);
+void logAlert(Con2DB&,std::string,std::string,int);
 
 void SendMessage(redisContext *,std::string,std::string);
-void ReadMessage(std::string, int, std::deque<float>&, std::string&);
+double ReadMessage(redisContext *,std::string);
 std::string ReadInfo(redisContext *);
 
-float Mean(std::deque<float>);
+double Mean(std::deque<double>);
 
-void Alert(Con2DB&,std::string,float,int);
+void Alert(redisContext *c,Con2DB& db, std::string streamName, double mean, int id);
 
 size_t ChooseSize();
+
+std::string d2s(std::deque<double>);
 
 #endif

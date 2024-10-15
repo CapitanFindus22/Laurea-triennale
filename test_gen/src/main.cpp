@@ -30,7 +30,7 @@ int main()
     size_t i;
 
     // Array that will contain a row of values
-    float values[f.num_columns];
+    double values[f.num_columns];
 
     // Create log for this session and get the id
     log2db(std::ref(db1), f.num_columns, CSVName);
@@ -50,22 +50,22 @@ int main()
     std::cout << "Sessione n°" << id << std::endl;
 
     // Send to mean and covariance infos
-    SendMessage(c, (float)f.num_columns, "INFOSTREAM");
-    SendMessage(c, (float)id, "INFOSTREAM");
+    SendMessage(c, (double)f.num_columns, "INFOSTREAM");
+    SendMessage(c, (double)id, "INFOSTREAM");
 
     // Read a line from the file and send it through the streams
     while (1)
     {
 
         // Convert the row to floats
-        String2FloatArray(f.getline(), f.delimiter, values);
+        String2DoubleArray(f.getline(), f.delimiter, values);
 
         for (i = 0; i < f.num_columns; i++)
         {
             SendMessage(c, values[i], names[i]);
         }
 
-        sleep(10);
+        sleep(1);
     }
 
     // Close the connection

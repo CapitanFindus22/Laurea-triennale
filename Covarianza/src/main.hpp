@@ -3,9 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <thread>
 #include <deque>
-#include <atomic>
 #include <vector>
 #include <unistd.h>
 
@@ -25,16 +23,18 @@
 #define BLOCK 10000000000
 
 void log2db(Con2DB&, double, std::string,std::string, int);
-float logfromdb(Con2DB&,std::string,std::string);
-void logAlert(Con2DB&,float,std::string,std::string,int);
+double logfromdb(Con2DB&,std::string,std::string);
+void logAlert(Con2DB&,double,std::string,std::string,int);
 
-void ReadMessage(std::string, std::string&);
+std::string ReadMessage(redisContext *,std::string);
 std::string ReadInfo(redisContext *,std::string);
 
-void Covariance(Con2DB&, std::vector<std::vector<float>>&,int);
+void Covariance(redisContext*c,Con2DB&, std::vector<std::vector<double>>&,int);
 
-void Alert(Con2DB&,std::string,std::string,float,int);
+void Alert(redisContext*,Con2DB&,std::string,std::string,double,int);
 
-void String2Float(std::string,std::vector<float>&);
+void String2Float(std::string,std::vector<double>&);
+
+void SendMessage(redisContext *c, std::string arr, std::string StreamName);
 
 #endif

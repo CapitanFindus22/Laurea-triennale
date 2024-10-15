@@ -1,8 +1,6 @@
 #include "main.hpp"
 
-extern std::atomic<size_t> done;
-extern std::atomic<bool> running;
-extern size_t windowLength;
+extern bool firstRound;
 
 int main()
 {
@@ -22,57 +20,43 @@ int main()
     size_t i;
 
     initStreams(c,"INFOSTREAM","covariance");
-    initStreams(c,"WINDOW","covariance");
+    initStreams(c, "M3", "covariance");
+    initStreams(c, "M4", "covariance");
 
     size_t num_stream = std::stoi(ReadInfo(c,"INFOSTREAM"));
+    
     int id = std::stoi(ReadInfo(c,"INFOSTREAM"));
-    windowLength = std::stoi(ReadInfo(c,"WINDOW"));
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
-    std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
-
     // Stuff for the threads
-    std::thread threads[num_stream];
     std::string names[num_stream];
     std::string windows[num_stream];
-    std::vector<std::vector<float>> values(num_stream);
+    std::vector<std::vector<double>> values(num_stream);
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
     {
         names[i] = baseName + std::to_string(i);
         initStreams(c,names[i].c_str(),"covariance");
-
-    }
-
-    for (i = 0; i < num_stream; i++)
-    {
-        threads[i] = std::thread(ReadMessage, names[i], std::ref(windows[i]));
     }
 
     while(1)
     {
-        if(done.load() >= num_stream)
-        { 
 
-            for (i = 0; i < num_stream; i++)
-            {
-                String2Float(windows[i],std::ref(values[i]));
-            }
-
-            Covariance(std::ref(db1),std::ref(values),id);
-            done = 0;
-
+        for (i = 0; i < num_stream; i++)
+        {
+            windows[i] = ReadMessage(c,names[i]);
         }
 
-    }
-
-    running = false;
-
-    for (std::thread &t : threads)
-    {
-        t.join();
+        for (i = 0; i < num_stream; i++)
+        {
+            String2Float(windows[i],std::ref(values[i]));
+        }
+        
+        Covariance(c,std::ref(db1),std::ref(values),id);
+        
+        firstRound = false;
     }
 
     // Close the connection

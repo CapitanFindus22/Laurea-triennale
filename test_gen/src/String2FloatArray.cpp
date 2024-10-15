@@ -1,7 +1,7 @@
 #include "main.hpp"
 
 // Extract the values from the string and put them in the array
-void String2FloatArray(std::string str, char delimiter, float val[])
+void String2DoubleArray(std::string str, char delimiter, double val[])
 {
 
     std::string temp;
@@ -28,7 +28,7 @@ void String2FloatArray(std::string str, char delimiter, float val[])
     if (!temp.empty())
     {
 
-        val[i] = std::stof(temp);
+        val[i] = std::stod(temp);
         temp.clear();
     }
 }

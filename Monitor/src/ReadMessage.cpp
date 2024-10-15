@@ -32,3 +32,12 @@ std::string ReadInfo(redisContext *c, std::string groupName)
 
     return result;
 }
+
+void SendMessage(redisContext *c, std::string arr, std::string StreamName)
+{
+
+    redisReply *r = RedisCommand(c, "XADD %s * value %s", StreamName.c_str(), arr.c_str());
+    assertReplyType(c, r, REDIS_REPLY_STRING);
+    freeReplyObject(r);
+  
+}

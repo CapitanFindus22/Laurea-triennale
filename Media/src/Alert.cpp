@@ -1,15 +1,17 @@
 #include "main.hpp"
 
-extern float difference;
+extern double difference;
 
-void Alert(Con2DB& db, std::string streamName, float mean, int id)
+void Alert(redisContext *c,Con2DB& db, std::string streamName, double mean, int id)
 {
 
-    float old_val = logfromdb(std::ref(db), streamName);
+    double old_val = logfromdb(std::ref(db), streamName);
 
     if ((mean > old_val + difference) || (mean < old_val - difference))
     {
-
-        logAlert(std::ref(db), mean - old_val, streamName, id);
+        logAlert(std::ref(db), std::to_string(mean-old_val), streamName, id);
+        
+        SendMessage(c,streamName,"TMonitor");
+        ReadMessage(c,"M2");
     }
 }

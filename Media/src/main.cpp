@@ -1,7 +1,6 @@
 #include "main.hpp"
 
-extern std::atomic<size_t> done;
-extern std::atomic<bool> running;
+extern bool isEmpty;
 extern size_t windowLength;
 
 int main()
@@ -15,15 +14,14 @@ int main()
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
 
-    RedisCommand(c,"XTRIM WINDOW MAXLEN 0");
-    windowLength = ChooseSize();
-    std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
-    SendMessage(c,std::to_string(windowLength),"WINDOW");
+    Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
 
     std::string baseName = "STREAM";
     size_t i;
 
-    initStreams(c,"INFOSTREAM","mean");
+    initStreams(c, "INFOSTREAM", "mean");
+    initStreams(c, "M1", "mean");
+    initStreams(c, "M2", "mean");
 
     size_t num_stream = std::stoi(ReadInfo(c));
     int id = std::stoi(ReadInfo(c));
@@ -31,45 +29,64 @@ int main()
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
     // Stuff for the threads
-    std::thread threads[num_stream];
     std::string streamNameIN[num_stream];
     std::string streamNameOUT[num_stream];
-    std::deque<float> windows[num_stream];
+    std::deque<double> windows[num_stream];
     std::string toSend[num_stream];
+    float mean;
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
     {
         streamNameIN[i] = baseName + std::to_string(i);
         streamNameOUT[i] = baseName + '_' + std::to_string(i);
-        RedisCommand(c, "XTRIM %s MINID 0", streamNameOUT[i].c_str());
-        initStreams(c,streamNameIN[i].c_str(),"mean");
+        RedisCommand(c, "XTRIM %s MAXLEN 0", streamNameOUT[i].c_str());
+        initStreams(c, streamNameIN[i].c_str(), "mean");
     }
 
-    for (i = 0; i < num_stream; i++)
+    windowLength = ChooseSize();
+    std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
+
+    while (windows[0].size() < windowLength)
     {
-        threads[i] = std::thread(ReadMessage, streamNameIN[i], id, std::ref(windows[i]),std::ref(toSend[i]));
+        for (i = 0; i < num_stream; i++)
+        {
+            windows[i].push_back(ReadMessage(c, streamNameIN[i]));
+        }
     }
 
-    while(1)
+    while (1)
     {
-        if(done.load() >= num_stream)
-        { 
-            for (i = 0; i < num_stream; i++)
-            {   
-                std::cout << streamNameOUT[i] << ":" << toSend[i] << std::endl;
-                SendMessage(c,toSend[i],streamNameOUT[i]);
 
+        for (i = 0; i < num_stream; i++)
+        {
+            mean = Mean(windows[i]);
+
+            log2db(std::ref(db), std::to_string(mean), streamNameIN[i], id);
+
+            SendMessage(c,std::to_string(mean),"MMonitor");
+            SendMessage(c,streamNameIN[i],"MMonitor");
+            ReadMessage(c,"M1");
+            
+            if (!isEmpty)
+            {
+                Alert(c,std::ref(db), streamNameIN[i], mean, id);
             }
-            done = 0;
+
+            toSend[i] = d2s(windows[i]);
+            SendMessage(c, toSend[i], streamNameOUT[i]);
+            std::cout << toSend[i] << std::endl;
+            windows[i].pop_front();
 
         }
 
-    }
+        isEmpty = false;
 
-    for (std::thread &t : threads)
-    {
-        t.join();
+        for (i = 0; i < num_stream; i++)
+        {
+            windows[i].push_back(ReadMessage(c, streamNameIN[i]));
+        }
+
     }
 
     // Close the connection

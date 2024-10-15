@@ -1,7 +1,7 @@
 #include "main.hpp"
 
 // Extract the values from the string and put them in the array
-void String2Float(std::string str, std::vector<float>& val)
+void String2Float(std::string str, std::vector<double>& val)
 {
 
     std::string temp;

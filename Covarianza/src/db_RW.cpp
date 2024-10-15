@@ -24,7 +24,7 @@ void log2db(Con2DB& db1, double value, std::string streamName1, std::string stre
 }
 
 // Generate SQL commands to save the values in the DB
-void logAlert(Con2DB& db1, float value, std::string streamName1, std::string streamName2, int id)
+void logAlert(Con2DB& db1, double value, std::string streamName1, std::string streamName2, int id)
 {
   // Buffer
   char sqlcmd[1000];
@@ -46,7 +46,7 @@ void logAlert(Con2DB& db1, float value, std::string streamName1, std::string str
   PQclear(res);
 }
 
-float logfromdb(Con2DB& db1, std::string streamName1, std::string streamName2)
+double logfromdb(Con2DB& db1, std::string streamName1, std::string streamName2)
 {
   // Buffer
   char sqlcmd[1000];
@@ -59,7 +59,7 @@ float logfromdb(Con2DB& db1, std::string streamName1, std::string streamName2)
 
   res = db1.ExecSQLtuples(sqlcmd);
   
-  float result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
+  double result = std::stof(PQgetvalue(res, 1, PQfnumber(res, "valore")));
 
   std::cout << streamName1 + "-" + streamName2 << " " << result << std::endl;
 

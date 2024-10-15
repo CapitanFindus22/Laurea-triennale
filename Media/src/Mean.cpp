@@ -1,11 +1,11 @@
 #include "main.hpp"
 
-float Mean(std::deque<float> dq)
+double Mean(std::deque<double> dq)
 {
 
-    float sum = 0;
+    double sum = 0;
 
-    for (float num : dq)
+    for (double num : dq)
     {
         sum += num;
     }

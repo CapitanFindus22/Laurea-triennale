@@ -13,7 +13,7 @@ size_t ChooseSize()
         if (std::cin.fail()) {
         std::cout << "Input non valido. Per favore, inserisci un numero intero." << std::endl;
         std::cin.clear(); // Pulisce il flag di errore
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(1000000, '\n');
 
         }
 

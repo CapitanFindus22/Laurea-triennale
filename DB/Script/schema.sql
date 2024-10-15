@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS log_monitor (
         Data_controllo TimePoint NOT NULL,
         Nome_stream StreamName NOT NULL,
         Tipo ALERT_TYPE NOT NULL,
-        Esito OUTCOME NOT NULL,
-        Tempo_trascorso posint,
+        Esito OUTCOME,
+        Tempo_trascorso val,
         FOREIGN KEY (s_id) REFERENCES session_info(id)
 );

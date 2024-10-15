@@ -1,6 +1,5 @@
 #include "main.hpp"
 
-std::atomic<bool> running{false};
-std::atomic<size_t> done{0};
+bool isEmpty = true;
 size_t windowLength;
-float difference = 0.9;
+double difference = 0.5;
