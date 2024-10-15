@@ -37,14 +37,17 @@ int main()
     int id = logfromdb(std::ref(db1), f.getName());
 
     // Clean the Stream, INFOSTREAM is used to exchange informations
-    RedisCommand(c, "XTRIM INFOSTREAM 0");
+    RedisCommand(c, "XTRIM INFOSTREAM MAXLEN 0");
 
     // Create the Stream names and clean them
     for (i = 0; i < f.num_columns; i++)
     {
         names[i] = baseName + std::to_string(i);
-        RedisCommand(c, "XTRIM %s 0", names[i].c_str());
+        RedisCommand(c, "XTRIM %s MAXLEN 0 ", names[i].c_str());
+
     }
+
+    std::cout << "Sessione n°" << id << std::endl;
 
     // Send to mean and covariance infos
     SendMessage(c, (float)f.num_columns, "INFOSTREAM");
@@ -62,7 +65,7 @@ int main()
             SendMessage(c, values[i], names[i]);
         }
 
-        sleep(1);
+        sleep(10);
     }
 
     // Close the connection

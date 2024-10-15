@@ -2,6 +2,7 @@
 
 extern std::atomic<size_t> done;
 extern std::atomic<bool> running;
+extern size_t windowLength;
 
 int main()
 {
@@ -13,38 +14,21 @@ int main()
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
-    redisReply *r;
+
+    RedisCommand(c,"XTRIM WINDOW MAXLEN 0");
+    windowLength = ChooseSize();
+    std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
+    SendMessage(c,std::to_string(windowLength),"WINDOW");
 
     std::string baseName = "STREAM";
-    std::string ID;
     size_t i;
 
     initStreams(c,"INFOSTREAM","mean");
 
-    // Stream0 is used to receive various information, in this case the number of streams
-    r = RedisCommand(c, "XREADGROUP GROUP mean user BLOCK %d COUNT 1 STREAMS %s >",
-                                 BLOCK, "INFOSTREAM");
-    assertReplyType(c,r,REDIS_REPLY_ARRAY);
-    size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-    ID = r->element[0]->element[1]->element[0]->element[0]->str;
-    freeReplyObject(r);
+    size_t num_stream = std::stoi(ReadInfo(c));
+    int id = std::stoi(ReadInfo(c));
 
-    r = RedisCommand(c, "XACK %s mean %s",
-                                 "INFOSTREAM",ID.c_str());
-    assertReply(c,r);
-    freeReplyObject(r);
-
-    r = RedisCommand(c, "XREADGROUP GROUP mean user BLOCK %d COUNT 1 STREAMS %s >",
-                     BLOCK, "INFOSTREAM");
-    assertReplyType(c,r,REDIS_REPLY_ARRAY);
-    int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-    ID = r->element[0]->element[1]->element[0]->element[0]->str;
-    freeReplyObject(r);
-
-    r = RedisCommand(c, "XACK %s mean %s",
-                                 "INFOSTREAM",ID.c_str());
-    assertReply(c,r);
-    freeReplyObject(r);
+    std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
     // Stuff for the threads
     std::thread threads[num_stream];
@@ -58,7 +42,7 @@ int main()
     {
         streamNameIN[i] = baseName + std::to_string(i);
         streamNameOUT[i] = baseName + '_' + std::to_string(i);
-        RedisCommand(c, "XTRIM %s 0", streamNameOUT[i].c_str());
+        RedisCommand(c, "XTRIM %s MINID 0", streamNameOUT[i].c_str());
         initStreams(c,streamNameIN[i].c_str(),"mean");
     }
 
@@ -74,7 +58,7 @@ int main()
             for (i = 0; i < num_stream; i++)
             {   
                 std::cout << streamNameOUT[i] << ":" << toSend[i] << std::endl;
-                SendMessage(c,toSend[i].c_str(),streamNameOUT[i]);
+                SendMessage(c,toSend[i],streamNameOUT[i]);
 
             }
             done = 0;

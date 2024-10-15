@@ -4,16 +4,33 @@ void MM()
 {  
     Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
     redisContext *c = redisConnect(IP, PORT);
-    redisReply *r;
-    std::string str;
+    std::string streamName;
+    int id;
     
+    initStreams(c,"INFOSTREAM","mmonitor");
+
+    ReadInfo(c,"mmonitor");
+
+    id = std::stoi(ReadInfo(c,"mmonitor"));
+
+    initStreams(c,"MMonitor","monitor");
+
     while (1)
     {
-        str = ReadMessage(c,"MMonitor");
+        auto [mean,streamName] = Split(ReadMessage(c,"MMonitor"));
 
+        if(logfromdb(std::ref(db),streamName,"",true) == mean)
+        {
+            log2db(std::ref(db),true,true,streamName,"",id);
+        }
+
+        else
+
+        {
+            log2db(std::ref(db),false,true,streamName,"",id);
+        }
 
     }
-    
 
     return;
 }

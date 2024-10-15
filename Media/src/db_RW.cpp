@@ -57,7 +57,7 @@ float logfromdb(Con2DB& db1, std::string streamName)
     res = db1.ExecSQLtuples(sqlcmd);
   
 
-  int result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
+  float result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
 
   PQclear(res);
 

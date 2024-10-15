@@ -27,11 +27,14 @@ void log2db(Con2DB&, float, std::string, int);
 float logfromdb(Con2DB&,std::string);
 void logAlert(Con2DB&,float,std::string,int);
 
-void SendMessage(redisContext *,const char *,std::string);
+void SendMessage(redisContext *,std::string,std::string);
 void ReadMessage(std::string, int, std::deque<float>&, std::string&);
+std::string ReadInfo(redisContext *);
 
 float Mean(std::deque<float>);
 
 void Alert(Con2DB&,std::string,float,int);
+
+size_t ChooseSize();
 
 #endif

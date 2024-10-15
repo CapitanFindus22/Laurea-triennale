@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <mutex>
+#include <utility>
 
 #include "../../Redis/src/Redis_functions.hpp"
 #include "../../DB/Code/src/Con2DB.hpp"
@@ -27,5 +27,11 @@ void MC();
 void MCT();
 
 std::string ReadMessage(redisContext *,std::string);
+std::string ReadInfo(redisContext *,std::string);
+
+std::pair<float,std::string> Split(std::string);
+
+float logfromdb(Con2DB&,std::string,std::string,bool);
+void log2db(Con2DB&,bool,bool,std::string,std::string,int);
 
 #endif

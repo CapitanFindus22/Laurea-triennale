@@ -6,6 +6,7 @@ ALTER TABLE session_info OWNER TO :username;
 ALTER TABLE media OWNER TO :username;
 ALTER TABLE covarianza OWNER TO :username;
 ALTER TABLE alerts OWNER TO :username;
+ALTER TABLE log_monitor OWNER TO :username;
 
 -- grant all privileges on all tables in schema public to :username ;
 -- grant all privileges on all sequences in schema public to :username ;

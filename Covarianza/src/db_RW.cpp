@@ -59,7 +59,7 @@ float logfromdb(Con2DB& db1, std::string streamName1, std::string streamName2)
 
   res = db1.ExecSQLtuples(sqlcmd);
   
-  int result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
+  float result = std::stof(PQgetvalue(res, 0, PQfnumber(res, "valore")));
 
   std::cout << streamName1 + "-" + streamName2 << " " << result << std::endl;
 

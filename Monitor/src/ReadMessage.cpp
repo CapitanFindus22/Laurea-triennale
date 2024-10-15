@@ -15,3 +15,20 @@ std::string ReadMessage(redisContext *c, std::string StreamName)
   freeReplyObject(r);
   return result;
 }
+
+std::string ReadInfo(redisContext *c, std::string groupName)
+{
+    // Stream0 is used to receive various information, in this case the number of streams
+    redisReply *r = RedisCommand(c, "XREADGROUP GROUP %s monitor BLOCK %d COUNT 1 STREAMS %s >",
+                                 groupName.c_str(),BLOCK, "INFOSTREAM");
+    assertReplyType(c,r,REDIS_REPLY_ARRAY);
+    std::string result = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
+    std::string ID = r->element[0]->element[1]->element[0]->element[0]->str;
+    freeReplyObject(r);
+
+    r = RedisCommand(c, "XACK %s mean %s","INFOSTREAM",ID.c_str());
+    assertReply(c,r);
+    freeReplyObject(r);
+
+    return result;
+}

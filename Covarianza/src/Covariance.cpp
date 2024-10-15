@@ -26,6 +26,8 @@ void Covariance(Con2DB& db, std::vector<std::vector<float>>& arr, int id){
 
             covariance /= (windowLength);
 
+            std::cout << covariance << std::endl;
+
             if(!firstRound) {Alert(db, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), covariance,id);}
             log2db(db,covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
             

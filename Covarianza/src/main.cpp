@@ -17,40 +17,20 @@ int main()
 
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
-    redisReply *r;
 
     std::string baseName = "STREAM_";
-    std::string ID;
     size_t i;
 
     initStreams(c,"INFOSTREAM","covariance");
+    initStreams(c,"WINDOW","covariance");
 
-    // Stream0 is used to receive various information, in this case the number of streams
-    r = RedisCommand(c, "XREADGROUP GROUP covariance user BLOCK %d COUNT 1 STREAMS %s >",
-                                 BLOCK, "INFOSTREAM");
-    assertReplyType(c,r,REDIS_REPLY_ARRAY);
-    size_t num_stream = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-    ID = r->element[0]->element[1]->element[0]->element[0]->str;
-    freeReplyObject(r);
+    size_t num_stream = std::stoi(ReadInfo(c,"INFOSTREAM"));
+    int id = std::stoi(ReadInfo(c,"INFOSTREAM"));
+    windowLength = std::stoi(ReadInfo(c,"WINDOW"));
 
-    r = RedisCommand(c, "XACK %s mean %s",
-                                 "INFOSTREAM",ID.c_str());
-    assertReply(c,r);
-    freeReplyObject(r);
+    std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
-    r = RedisCommand(c, "XREADGROUP GROUP covariance user BLOCK %d COUNT 1 STREAMS %s >",
-                     BLOCK, "INFOSTREAM");
-    assertReplyType(c,r,REDIS_REPLY_ARRAY);
-    int id = std::stoi(r->element[0]->element[1]->element[0]->element[1]->element[1]->str);
-    ID = r->element[0]->element[1]->element[0]->element[0]->str;
-    freeReplyObject(r);
-
-    r = RedisCommand(c, "XACK %s mean %s",
-                                 "INFOSTREAM",ID.c_str());
-    assertReply(c,r);
-    freeReplyObject(r);
-
-    std::cout << num_stream << " " << id << std::endl;
+    std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
 
     // Stuff for the threads
     std::thread threads[num_stream];
