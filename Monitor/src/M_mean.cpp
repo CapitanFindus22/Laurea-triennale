@@ -25,8 +25,7 @@ void MM()
 
         streamName = ReadMessage(c,MONITOR_M_STREAM);
 
-    
-        log2db(std::ref(db),(logfromdb(std::ref(db),streamName,"",true) == mean)?true:false,true,streamName,"",id);
+        log2db(std::ref(db),(logfromdb(std::ref(db),streamName,"",true,id) == mean)?true:false,true,streamName,"",id);
 
 
         SendMessage(c,"1","M1");

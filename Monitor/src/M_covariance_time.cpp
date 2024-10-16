@@ -24,7 +24,7 @@ void MCT()
         streamName1 = ReadMessage(c,MONITOR_CT_STREAM);
         streamName2 = ReadMessage(c,MONITOR_CT_STREAM);
 
-        log2db_time(std::ref(db),false,streamName1,streamName2,id,logfromdb_time(std::ref(db),streamName1,streamName2,false));
+        log2db_time(std::ref(db),false,streamName1,streamName2,id,logfromdb_time(std::ref(db),streamName1,streamName2,false,id));
 
         SendMessage(c,"1","M4");
 

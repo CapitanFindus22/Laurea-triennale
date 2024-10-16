@@ -15,6 +15,7 @@ int main()
     threads[1] = std::thread(MC);
     threads[2] = std::thread(MMT);
     threads[3] = std::thread(MCT);
+    threads[4] = std::thread(MMA);
 
     for (std::thread &t : threads)
     {

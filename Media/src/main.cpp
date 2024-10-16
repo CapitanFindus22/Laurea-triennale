@@ -22,6 +22,7 @@ int main()
     initStreams(c, "INFOSTREAM", "mean");
     initStreams(c, "M1", "mean");
     initStreams(c, "M2", "mean");
+    initStreams(c, "M5", "mean");
 
     size_t num_stream = std::stoi(ReadInfo(c));
     int id = std::stoi(ReadInfo(c));
@@ -55,6 +56,8 @@ int main()
         }
     }
 
+    int j = 0;
+
     while (1)
     {
 
@@ -64,20 +67,19 @@ int main()
 
             log2db(std::ref(db), std::to_string(mean), streamNameIN[i], id);
 
-            SendMessage(c,std::to_string(mean),"MMonitor");
-            SendMessage(c,streamNameIN[i],"MMonitor");
-            ReadMessage(c,"M1");
-            
+            SendMessage(c, std::to_string(mean), "MMonitor");
+            SendMessage(c, streamNameIN[i], "MMonitor");
+            ReadMessage(c, "M1");
+
             if (!isEmpty)
             {
-                Alert(c,std::ref(db), streamNameIN[i], mean, id);
+                Alert(c, std::ref(db), streamNameIN[i], mean, id);
             }
 
             toSend[i] = d2s(windows[i]);
             SendMessage(c, toSend[i], streamNameOUT[i]);
             std::cout << toSend[i] << std::endl;
             windows[i].pop_front();
-
         }
 
         isEmpty = false;
@@ -87,6 +89,9 @@ int main()
             windows[i].push_back(ReadMessage(c, streamNameIN[i]));
         }
 
+        printf("\n%d\n", j);
+
+        j++;
     }
 
     // Close the connection

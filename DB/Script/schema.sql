@@ -6,14 +6,14 @@ CREATE DOMAIN Note AS VARCHAR(200);
 CREATE DOMAIN val AS double precision;
 CREATE DOMAIN posint AS INTEGER CHECK (VALUE > 0);
 CREATE TYPE ALERT_TYPE AS ENUM ('Media', 'Covarianza', 'Altro');
+CREATE TYPE CONTROL_TYPE AS ENUM ('Media', 'Covarianza', 'Tempo_m', 'Tempo_c', 'Alert_m');
 CREATE TYPE OUTCOME AS ENUM ('Ok', 'Errore');
 
 CREATE TABLE IF NOT EXISTS session_info (
         id serial PRIMARY KEY,
         Data_inizio TimePoint NOT NULL,
         Nome_file Note NOT NULL,
-        Numero_stream posint NOT NULL,
-        Descrizione Note
+        Numero_stream posint NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS media (
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS log_monitor (
         s_id posint NOT NULL,
         Data_controllo TimePoint NOT NULL,
         Nome_stream StreamName NOT NULL,
-        Tipo ALERT_TYPE NOT NULL,
+        Tipo CONTROL_TYPE NOT NULL,
         Esito OUTCOME,
         Tempo_trascorso val,
         FOREIGN KEY (s_id) REFERENCES session_info(id)

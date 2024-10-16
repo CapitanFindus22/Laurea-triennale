@@ -26,9 +26,7 @@ void MC()
         streamName1 = ReadMessage(c,MONITOR_C_STREAM);
         streamName2 = ReadMessage(c,MONITOR_C_STREAM);
 
-        std::cout << covariance << " - " << streamName1 << " - " << streamName2 << std::endl;
-
-        log2db(std::ref(db),(logfromdb(std::ref(db),streamName1,streamName2,false) == covariance)?true:false,false,streamName1,streamName2,id);
+        log2db(std::ref(db),(logfromdb(std::ref(db),streamName1,streamName2,false,id) == covariance)?true:false,false,streamName1,streamName2,id);
 
         SendMessage(c,"1","M3");
 

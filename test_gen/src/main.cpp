@@ -53,8 +53,10 @@ int main()
     SendMessage(c, (double)f.num_columns, "INFOSTREAM");
     SendMessage(c, (double)id, "INFOSTREAM");
 
+    int j = 0;
+
     // Read a line from the file and send it through the streams
-    while (1)
+    while (j<50)
     {
 
         // Convert the row to floats
@@ -65,7 +67,9 @@ int main()
             SendMessage(c, values[i], names[i]);
         }
 
-        sleep(1);
+        //sleep(1);
+
+        j++;
     }
 
     // Close the connection

@@ -23,9 +23,7 @@ void MMT()
 
         streamName = ReadMessage(c,MONITOR_MT_STREAM);
 
-        std::cout << streamName;
-
-        log2db_time(std::ref(db),true,streamName,"",id,logfromdb_time(std::ref(db),streamName,"",true));
+        log2db_time(std::ref(db),true,streamName,"",id,logfromdb_time(std::ref(db),streamName,"",true,id));
 
         SendMessage(c,"1","M2");
 

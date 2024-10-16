@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <utility>
 
 #include "../../Redis/src/Redis_functions.hpp"
 #include "../../DB/Code/src/Con2DB.hpp"
@@ -27,6 +26,9 @@
 #define MONITOR_MT_STREAM "TMonitor"
 #define MONITOR_MT_GROUP "tmonitor"
 
+#define MONITOR_MA_STREAM "AMonitor"
+#define MONITOR_MA_GROUP "amonitor"
+
 #define MONITOR_C_STREAM "CMonitor"
 #define MONITOR_C_GROUP "cmonitor"
 
@@ -36,6 +38,7 @@
 
 void MM();
 void MMT();
+void MMA();
 void MC();
 void MCT();
 
@@ -43,9 +46,11 @@ void SendMessage(redisContext *,std::string,std::string);
 std::string ReadMessage(redisContext *,std::string);
 std::string ReadInfo(redisContext *,std::string);
 
-double logfromdb(Con2DB&,std::string,std::string,bool);
-double logfromdb_time(Con2DB& db1, std::string streamName1, std::string streamName2, bool fromMean);
+double logfromdb(Con2DB&,std::string,std::string,bool,int);
+double logfromdb_time(Con2DB& db1, std::string streamName1, std::string streamName2, bool fromMean,int);
 void log2db(Con2DB&,bool,bool,std::string,std::string,int);
 void log2db_time(Con2DB& db1, bool isMean, std::string streamName1, std::string streamName2, int id , double time);
+double logfromdb_alert(Con2DB& db1, std::string streamName, int id);
+void log2db_alert(Con2DB& db1, bool outcome, std::string streamName, int id);
 
 #endif
