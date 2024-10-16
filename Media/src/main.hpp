@@ -21,20 +21,21 @@
 
 #define BLOCK 10000000000
 
-void log2db(Con2DB&, std::string, std::string, int);
-float logfromdb(Con2DB&,std::string);
-void logAlert(Con2DB&,std::string,std::string,int);
+void log2db(Con2DB &db1, std::string value, std::string streamName, int id);
+float logfromdb(Con2DB &db1, std::string streamName);
+void logAlert(Con2DB &db1, std::string value, std::string streamName, int id);
 
-void SendMessage(redisContext *,std::string,std::string);
-double ReadMessage(redisContext *,std::string);
-std::string ReadInfo(redisContext *);
+void SendMessage(redisContext *c, std::string arr, std::string StreamName);
+std::string ReadMessage(redisContext *c, std::string StreamName);
 
-double Mean(std::deque<double>);
+double Mean(std::deque<double> dq);
 
-void Alert(redisContext *c,Con2DB& db, std::string streamName, double mean, int id);
+void Alert(redisContext *c, Con2DB &db, std::string streamName, double mean, int id);
 
-size_t ChooseSize();
+size_t ChooseSize(size_t maxSize);
 
-std::string d2s(std::deque<double>);
+std::string d2s(std::deque<double> dq);
+
+double SetDiff();
 
 #endif

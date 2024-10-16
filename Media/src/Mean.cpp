@@ -1,5 +1,6 @@
 #include "main.hpp"
 
+// Calculate the mean
 double Mean(std::deque<double> dq)
 {
 

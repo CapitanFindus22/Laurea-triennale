@@ -1,5 +1,6 @@
 #include "CSVFile.hpp"
 
+// Open the file
 CSVFile::CSVFile(std::string name)
 {
 
@@ -33,12 +34,14 @@ CSVFile::CSVFile(std::string name)
   }
 }
 
+// Close the file
 CSVFile::~CSVFile()
 {
 
   file.close();
 }
 
+// Get the name file
 std::string CSVFile::getName()
 {
   return file_name;

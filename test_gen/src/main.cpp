@@ -19,12 +19,15 @@ int main()
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
 
+    // Clean the Stream, INFOSTREAM is used to exchange informations
+    RedisCommand(c, "XTRIM INFOSTREAM MAXLEN 0");
+
     // Choose the csv file
     std::string CSVName = ChooseFile();
     CSVFile f(CSVName);
 
     // Each stream will be called STREAMnumber
-    // Example: the first column will be attached to STREAM1
+    // Example: the first column will be sent to STREAM0
     std::string baseName = "STREAM";
     std::string names[f.num_columns];
     size_t i;
@@ -36,44 +39,43 @@ int main()
     log2db(std::ref(db1), f.num_columns, CSVName);
     int id = logfromdb(std::ref(db1), f.getName());
 
-    // Clean the Stream, INFOSTREAM is used to exchange informations
-    RedisCommand(c, "XTRIM INFOSTREAM MAXLEN 0");
+    // Basically simulation time
+    const size_t rowsToSend = SetNum();
+    size_t rowsSent = 0;
 
     // Create the Stream names and clean them
     for (i = 0; i < f.num_columns; i++)
     {
         names[i] = baseName + std::to_string(i);
         RedisCommand(c, "XTRIM %s MAXLEN 0 ", names[i].c_str());
-
     }
 
     std::cout << "Sessione n°" << id << std::endl;
 
-    // Send to mean and covariance infos
+    // Send infos to the other components
     SendMessage(c, (double)f.num_columns, "INFOSTREAM");
     SendMessage(c, (double)id, "INFOSTREAM");
-
-    int j = 0;
+    SendMessage(c, (double)rowsToSend, "INFOSTREAM");
 
     // Read a line from the file and send it through the streams
-    while (j<50)
+    while (rowsSent < rowsToSend)
     {
 
         // Convert the row to floats
         String2DoubleArray(f.getline(), f.delimiter, values);
 
+        // Send the values
         for (i = 0; i < f.num_columns; i++)
         {
             SendMessage(c, values[i], names[i]);
         }
 
-        //sleep(1);
-
-        j++;
+        rowsSent++;
     }
 
     // Close the connection
     redisFree(c);
+    db1.finish();
 
     return 0;
 }

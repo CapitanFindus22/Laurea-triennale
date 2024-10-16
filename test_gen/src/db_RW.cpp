@@ -1,19 +1,13 @@
 #include "main.hpp"
 
 // Generate SQL commands to save the values in the DB
-void log2db(Con2DB& db1, size_t numStream, std::string fileName)
+void log2db(Con2DB &db1, size_t numStream, std::string fileName)
 {
   // Buffer
   char sqlcmd[1000];
 
-  // Complete command
+  // The result of the command
   PGresult *res;
-
-  // BEGIN
-  sprintf(sqlcmd, "BEGIN");
-
-  res = db1.ExecSQLcmd(sqlcmd);
-  PQclear(res);
 
   // INSERT
   sprintf(sqlcmd,
@@ -23,19 +17,15 @@ void log2db(Con2DB& db1, size_t numStream, std::string fileName)
 
   res = db1.ExecSQLcmd(sqlcmd);
   PQclear(res);
-
-  // COMMIT
-  sprintf(sqlcmd, "COMMIT");
-
-  res = db1.ExecSQLcmd(sqlcmd);
-
-  PQclear(res);
 }
 
-int logfromdb(Con2DB& db1, std::string fileName)
+// Get this session ID
+int logfromdb(Con2DB &db1, std::string fileName)
 {
   // Buffer
   char sqlcmd[1000];
+
+  // The result of the command
   PGresult *res;
 
   sprintf(sqlcmd,

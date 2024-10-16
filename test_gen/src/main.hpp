@@ -23,13 +23,14 @@
 
 #define CSV_PATH "../csv"
 
-void String2DoubleArray(std::string, char, double[]);
-
-void SendMessage(redisContext *, double, std::string);
-
-void log2db(Con2DB&, size_t, std::string);
-int logfromdb(Con2DB&, std::string);
+void String2DoubleArray(std::string str, char delimiter, double val[]);
 
 std::string ChooseFile();
+size_t SetNum();
+
+void SendMessage(redisContext *c, double val, std::string StreamName);
+
+void log2db(Con2DB &db1, size_t numStream, std::string fileName);
+int logfromdb(Con2DB &db1, std::string fileName);
 
 #endif
