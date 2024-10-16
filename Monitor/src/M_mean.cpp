@@ -1,35 +1,36 @@
 #include "main.hpp"
 
+// Monitor for the Mean calculation
 void MM()
-{  
+{
     Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
     redisContext *c = redisConnect(IP, PORT);
-    std::string streamName;
+
+    std::string StreamName;
     double mean;
     int id;
-    
-    redisCommand(c,"XTRIM %s MAXLEN 0",MONITOR_M_STREAM);
-    redisCommand(c,"XTRIM M1 MAXLEN 0");
 
-    initStreams(c,"INFOSTREAM",MONITOR_M_GROUP);
+    redisCommand(c, "XTRIM %s MAXLEN 0", MONITOR_M_STREAM);
+    redisCommand(c, "XTRIM M1 MAXLEN 0");
 
-    ReadInfo(c,MONITOR_M_GROUP);
+    // Get info
+    initStreams(c, "INFOSTREAM", MONITOR_M_GROUP);
+    ReadMessage(c, "INFOSTREAM", MONITOR_M_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, "INFOSTREAM", MONITOR_M_GROUP, NAME));
 
-    id = std::stoi(ReadInfo(c,MONITOR_M_GROUP));
-
-    initStreams(c,MONITOR_M_STREAM,"monitor");
+    initStreams(c, MONITOR_M_STREAM, MONITOR_M_GROUP);
 
     while (1)
     {
-        mean = std::stod(ReadMessage(c,MONITOR_M_STREAM));
+        // Get value and StreamName to check
+        mean = std::stod(ReadMessage(c, MONITOR_M_STREAM, MONITOR_M_GROUP, NAME));
+        StreamName = ReadMessage(c, MONITOR_M_STREAM, MONITOR_M_GROUP, NAME);
 
-        streamName = ReadMessage(c,MONITOR_M_STREAM);
+        // Check on the db and write result on the db
+        log2db(std::ref(db), (logfromdb(std::ref(db), StreamName, "", true, id) == mean) ? true : false, true, StreamName, "", id);
 
-        log2db(std::ref(db),(logfromdb(std::ref(db),streamName,"",true,id) == mean)?true:false,true,streamName,"",id);
-
-
-        SendMessage(c,"1","M1");
-
+        // Send ACK
+        SendMessage(c, "1", "M1");
     }
 
     return;

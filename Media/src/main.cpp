@@ -13,103 +13,109 @@ int main()
     // Connection to Redis
     redisContext *c = redisConnect(IP, PORT);
 
-    //Create groups
-    initStreams(c, "INFOSTREAM", "mean");
-    initStreams(c, "M1", "mean");
-    initStreams(c, "M2", "mean");
-    initStreams(c, "M5", "mean");
+    // Create groups
+    initStreams(c, "INFOSTREAM", GROUPNAME);
+    initStreams(c, "M1", GROUPNAME);
+    initStreams(c, "M2", GROUPNAME);
+    initStreams(c, "M5", GROUPNAME);
 
     // Connection to DB
     Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
     size_t i;
 
-    //Get info
-    size_t num_stream = std::stoi(ReadMessage(c,"INFOSTREAM"));
-    int id = std::stoi(ReadMessage(c,"INFOSTREAM"));
-    size_t RowstoRead = std::stoi(ReadMessage(c,"INFOSTREAM"));
+    // Get info
+    size_t num_stream = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
+    int id = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
+    size_t RowstoRead = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
     std::cout << "La simulazione leggerà " << RowstoRead << " righe" << std::endl;
 
-    //Set the size of the window
+    // Set the size of the window
     size_t windowLength = ChooseSize(RowstoRead);
     std::cout << "La finestra contiene " << windowLength << " elementi" << std::endl;
 
-    size_t RowsToCalc = RowstoRead-windowLength+1;
+    // To stop the loop
+    size_t RowsToCalc = RowstoRead - windowLength + 1;
     size_t RowsCalculated = 0;
 
-    //Names used for the streams
+    // Names used for the streams
     std::string baseName = "STREAM";
-    std::string streamNameIN[num_stream];
-    std::string streamNameOUT[num_stream];
+    std::string StreamNameIN[num_stream];
+    std::string StreamNameOUT[num_stream];
 
-    //Will contain the values
+    // Will contain the values
     std::deque<double> windows[num_stream];
 
-    //Will contain the window to send to the Covariance calculator
+    // Will contain the window to send to the Covariance calculator
     std::string toSend[num_stream];
 
-    float mean;
-    bool isEmpty = true;
-
+    // Set the threshold
     difference = SetDiff();
+
+    float mean;
+    bool firstRound = true;
 
     // Initialize the streams and generate the names
     for (i = 0; i < num_stream; i++)
     {
-        streamNameIN[i] = baseName + std::to_string(i);
-        streamNameOUT[i] = baseName + '_' + std::to_string(i);
-        RedisCommand(c, "XTRIM %s MAXLEN 0", streamNameOUT[i].c_str());
-        initStreams(c, streamNameIN[i].c_str(), "mean");
+        StreamNameIN[i] = baseName + std::to_string(i);
+        StreamNameOUT[i] = baseName + '_' + std::to_string(i);
+        RedisCommand(c, "XTRIM %s MAXLEN 0", StreamNameOUT[i].c_str());
+        initStreams(c, StreamNameIN[i].c_str(), GROUPNAME);
     }
 
-    //Fill the window
-    while (windows[0].size() < windowLength)
+    SendMessage(c, std::to_string(RowsToCalc), "INFOSTREAM");
+
+    // Fill the window
+    while (windows[num_stream - 1].size() < windowLength)
     {
         for (i = 0; i < num_stream; i++)
         {
-            windows[i].push_back(std::stod(ReadMessage(c, streamNameIN[i])));
+            windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
         }
     }
 
-    while (RowsCalculated<RowsToCalc)
+    // Main loop
+    while (RowsCalculated < RowsToCalc)
     {
 
         for (i = 0; i < num_stream; i++)
         {
+            // Calculate mean
             mean = Mean(windows[i]);
 
-            log2db(std::ref(db), std::to_string(mean), streamNameIN[i], id);
+            log2db(std::ref(db), std::to_string(mean), StreamNameIN[i], id);
 
-            //Check
+            // Check
             SendMessage(c, std::to_string(mean), "MMonitor");
-            SendMessage(c, streamNameIN[i], "MMonitor");
-            ReadMessage(c, "M1");
+            SendMessage(c, StreamNameIN[i], "MMonitor");
+            ReadMessage(c, "M1", GROUPNAME, NAME);
 
-            //Send alert
-            if (!isEmpty)
+            // Send alert
+            if (!firstRound)
             {
-                Alert(c, std::ref(db), streamNameIN[i], mean, id);
+                Alert(c, std::ref(db), StreamNameIN[i], mean, id);
             }
 
-            //Convert and send the windows
+            // Convert and send the windows
             toSend[i] = d2s(windows[i]);
-            SendMessage(c, toSend[i], streamNameOUT[i]);
+            SendMessage(c, toSend[i], StreamNameOUT[i]);
 
-            //Remove oldest value
+            // Remove oldest value
             windows[i].pop_front();
         }
 
-        isEmpty = false;
+        // Start alert
+        firstRound = false;
 
-        //Get new value
+        // Get new value
         for (i = 0; i < num_stream; i++)
         {
-            windows[i].push_back(std::stod(ReadMessage(c, streamNameIN[i])));
+            windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
         }
 
         RowsCalculated++;
-        std::cout << RowsCalculated << std::endl;
     }
 
     // Close the connection

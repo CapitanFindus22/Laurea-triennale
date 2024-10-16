@@ -1,33 +1,35 @@
 #include "main.hpp"
 
+// Monitor that calculate the time passed before sending an alert (covariance)
 void MCT()
 {
     Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
     redisContext *c = redisConnect(IP, PORT);
-    std::string streamName1,streamName2;
+
+    std::string StreamName1, StreamName2;
     int id;
-    
-    redisCommand(c,"XTRIM %s MAXLEN 0",MONITOR_CT_STREAM);
-    redisCommand(c,"XTRIM M4 MAXLEN 0");
 
-    initStreams(c,"INFOSTREAM",MONITOR_CT_GROUP);
+    redisCommand(c, "XTRIM %s MAXLEN 0", MONITOR_CT_STREAM);
+    redisCommand(c, "XTRIM M4 MAXLEN 0");
 
-    ReadInfo(c,MONITOR_CT_GROUP);
+    // Get info
+    initStreams(c, "INFOSTREAM", MONITOR_CT_GROUP);
+    ReadMessage(c, "INFOSTREAM", MONITOR_CT_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, "INFOSTREAM", MONITOR_CT_GROUP, NAME));
 
-    id = std::stoi(ReadInfo(c,MONITOR_CT_GROUP));
-
-    initStreams(c,MONITOR_CT_STREAM,"monitor");
+    initStreams(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP);
 
     while (1)
     {
+        // Get the StreamNames to check
+        StreamName1 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME);
+        StreamName2 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME);
 
-        streamName1 = ReadMessage(c,MONITOR_CT_STREAM);
-        streamName2 = ReadMessage(c,MONITOR_CT_STREAM);
+        // Check on the db and write result on the db
+        log2db_time(std::ref(db), false, StreamName1, StreamName2, id, logfromdb_time(std::ref(db), StreamName1, StreamName2, false, id));
 
-        log2db_time(std::ref(db),false,streamName1,streamName2,id,logfromdb_time(std::ref(db),streamName1,streamName2,false,id));
-
-        SendMessage(c,"1","M4");
-
+        // Send ACK
+        SendMessage(c, "1", "M4");
     }
 
     return;

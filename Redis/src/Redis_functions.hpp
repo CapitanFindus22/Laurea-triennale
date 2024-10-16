@@ -1,6 +1,7 @@
 #ifndef con2redis_h
 #define con2redis_h
 
+#include <string>
 #include <stdio.h>
 
 extern "C"
@@ -24,6 +25,8 @@ extern "C"
 #define RedisCommand(fmt, ...) \
     (redisReply *)redisCommand(fmt, __VA_ARGS__)
 
+#define BLOCK 10000000
+
 void assertReplyType(redisContext *c, redisReply *r, int type);
 
 void assertReply(redisContext *c, redisReply *r);
@@ -31,5 +34,9 @@ void assertReply(redisContext *c, redisReply *r);
 void dumpReply(redisReply *r, int indent);
 
 void initStreams(redisContext *c, const char *, const char *);
+
+void SendMessage(redisContext *c, std::string arr, std::string StreamName);
+
+std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName);
 
 #endif

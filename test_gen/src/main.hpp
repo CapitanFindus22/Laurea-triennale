@@ -26,9 +26,8 @@
 void String2DoubleArray(std::string str, char delimiter, double val[]);
 
 std::string ChooseFile();
-size_t SetNum();
 
-void SendMessage(redisContext *c, double val, std::string StreamName);
+size_t SetNum();
 
 void log2db(Con2DB &db1, size_t numStream, std::string fileName);
 int logfromdb(Con2DB &db1, std::string fileName);

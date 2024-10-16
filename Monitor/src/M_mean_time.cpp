@@ -1,32 +1,34 @@
 #include "main.hpp"
 
+// Monitor that calculate the time passed before sending an alert (mean)
 void MMT()
 {
     Con2DB db(IP, PORT_DB, USERNAME, PASSWORD, DB_NAME);
     redisContext *c = redisConnect(IP, PORT);
-    std::string streamName;
+
+    std::string StreamName;
     int id;
-    
-    redisCommand(c,"XTRIM %s MAXLEN 0",MONITOR_MT_STREAM);
-    redisCommand(c,"XTRIM M2 MAXLEN 0");
 
-    initStreams(c,"INFOSTREAM",MONITOR_MT_GROUP);
+    redisCommand(c, "XTRIM %s MAXLEN 0", MONITOR_MT_STREAM);
+    redisCommand(c, "XTRIM M2 MAXLEN 0");
 
-    ReadInfo(c,MONITOR_MT_GROUP);
+    // Get info
+    initStreams(c, "INFOSTREAM", MONITOR_MT_GROUP);
+    ReadMessage(c, "INFOSTREAM", MONITOR_MT_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, "INFOSTREAM", MONITOR_MT_GROUP, NAME));
 
-    id = std::stoi(ReadInfo(c,MONITOR_MT_GROUP));
-
-    initStreams(c,MONITOR_MT_STREAM,"monitor");
+    initStreams(c, MONITOR_MT_STREAM, MONITOR_MT_GROUP);
 
     while (1)
     {
+        // Get StreamName to check
+        StreamName = ReadMessage(c, MONITOR_MT_STREAM, MONITOR_MT_GROUP, NAME);
 
-        streamName = ReadMessage(c,MONITOR_MT_STREAM);
+        // Check on the db and write result on the db
+        log2db_time(std::ref(db), true, StreamName, "", id, logfromdb_time(std::ref(db), StreamName, "", true, id));
 
-        log2db_time(std::ref(db),true,streamName,"",id,logfromdb_time(std::ref(db),streamName,"",true,id));
-
-        SendMessage(c,"1","M2");
-
+        // Send ACK
+        SendMessage(c, "1", "M2");
     }
 
     return;

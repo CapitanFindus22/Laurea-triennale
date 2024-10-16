@@ -30,6 +30,8 @@ int main()
     // Example: the first column will be sent to STREAM0
     std::string baseName = "STREAM";
     std::string names[f.num_columns];
+
+    // Counter
     size_t i;
 
     // Array that will contain a row of values
@@ -53,9 +55,9 @@ int main()
     std::cout << "Sessione n°" << id << std::endl;
 
     // Send infos to the other components
-    SendMessage(c, (double)f.num_columns, "INFOSTREAM");
-    SendMessage(c, (double)id, "INFOSTREAM");
-    SendMessage(c, (double)rowsToSend, "INFOSTREAM");
+    SendMessage(c, std::to_string(f.num_columns), "INFOSTREAM");
+    SendMessage(c, std::to_string(id), "INFOSTREAM");
+    SendMessage(c, std::to_string(rowsToSend), "INFOSTREAM");
 
     // Read a line from the file and send it through the streams
     while (rowsSent < rowsToSend)
@@ -67,7 +69,7 @@ int main()
         // Send the values
         for (i = 0; i < f.num_columns; i++)
         {
-            SendMessage(c, values[i], names[i]);
+            SendMessage(c, std::to_string(values[i]), names[i]);
         }
 
         rowsSent++;

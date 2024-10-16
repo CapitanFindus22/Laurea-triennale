@@ -2,20 +2,24 @@
 
 extern double difference;
 
-void Alert(redisContext *c, Con2DB &db, std::string streamName, double mean, int id)
+// Send the alert if appropriate
+void Alert(redisContext *c, Con2DB &db, std::string StreamName, double mean, int id)
 {
+    // Get last value
+    double old_val = logfromdb(std::ref(db), StreamName);
 
-    double old_val = logfromdb(std::ref(db), streamName);
-
+    // Compare
     if ((mean > old_val + difference) || (mean < old_val - difference))
     {
-        logAlert(std::ref(db), std::to_string(mean - old_val), streamName, id);
+        logAlert(std::ref(db), std::to_string(mean - old_val), StreamName, id);
 
-        SendMessage(c, streamName, "TMonitor");
-        ReadMessage(c, "M2");
+        // Time monitor
+        SendMessage(c, StreamName, "TMonitor");
+        ReadMessage(c, "M2", GROUPNAME, NAME);
 
-        SendMessage(c, streamName, "AMonitor");
+        // Control monitor
+        SendMessage(c, StreamName, "AMonitor");
         SendMessage(c, std::to_string(mean - old_val), "AMonitor");
-        ReadMessage(c, "M5");
+        ReadMessage(c, "M5", GROUPNAME, NAME);
     }
 }

@@ -20,21 +20,19 @@
 #define USERNAME "monitor"
 #define PASSWORD "65568162"
 
-#define BLOCK 10000000000
+#define GROUPNAME "Covariance"
+#define NAME "user"
 
-void log2db(Con2DB&, double, std::string,std::string, int);
-double logfromdb(Con2DB&,std::string,std::string);
-void logAlert(Con2DB&,double,std::string,std::string,int);
+void log2db(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id);
+void logAlert(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id);
+double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2);
 
-std::string ReadMessage(redisContext *,std::string);
-std::string ReadInfo(redisContext *,std::string);
+void Covariance(redisContext *c, Con2DB &, std::vector<std::vector<double>> &, int);
 
-void Covariance(redisContext*c,Con2DB&, std::vector<std::vector<double>>&,int);
+void Alert(redisContext *c, Con2DB &db, std::string StreamName1, std::string StreamName2, double covariance, int id);
 
-void Alert(redisContext*,Con2DB&,std::string,std::string,double,int);
+void String2Double(std::string str, std::vector<double> &val);
 
-void String2Float(std::string,std::vector<double>&);
-
-void SendMessage(redisContext *c, std::string arr, std::string StreamName);
+double SetDiff();
 
 #endif

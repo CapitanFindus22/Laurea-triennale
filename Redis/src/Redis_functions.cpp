@@ -79,3 +79,37 @@ void initStreams(redisContext *c, const char *stream, const char *group)
     assertReply(c, r);
     freeReplyObject(r);
 }
+
+// Send arr to StreamName
+void SendMessage(redisContext *c, std::string arr, std::string StreamName)
+{
+
+    redisReply *r = RedisCommand(c, "XADD %s * value %s", StreamName.c_str(), arr.c_str());
+    assertReplyType(c, r, REDIS_REPLY_STRING);
+    freeReplyObject(r);
+}
+
+// Read a message from StreamName as UserName from GroupName
+std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName)
+{
+    redisReply *r;
+    std::string result;
+    std::string ID;
+
+    // Read
+    r = RedisCommand(c, "XREADGROUP GROUP %s %s BLOCK %d COUNT 1 STREAMS %s >",
+                     GroupName.c_str(),
+                     UserName.c_str(),
+                     BLOCK,
+                     StreamName.c_str());
+    assertReplyType(c, r, REDIS_REPLY_ARRAY);
+    result = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;
+    ID = r->element[0]->element[1]->element[0]->element[0]->str;
+    freeReplyObject(r);
+
+    r = RedisCommand(c, "XACK %s mean %s", "INFOSTREAM", ID.c_str());
+    assertReply(c, r);
+    freeReplyObject(r);
+
+    return result;
+}

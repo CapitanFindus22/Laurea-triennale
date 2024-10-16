@@ -23,7 +23,7 @@ $(OBJ_DIR):
 $(BDIR):
 	mkdir -p $(BDIR)
 
-$(BDIR)/main: $(REDIS_OBJ) $(DB_OBJ) $(OBJ) $(DEPS) | $(OBJ_DIR) $(BDIR)
+$(BDIR)/main: $(OBJ) $(DEPS) | $(OBJ_DIR) $(BDIR) $(REDIS_OBJ) $(DB_OBJ)
 	$(CC) -o $@ $(REDIS_OBJ) $(DB_OBJ) $(OBJ) $(CPPFLAGS) $(LFLAGS)
 
 $(REDIS_OBJ):

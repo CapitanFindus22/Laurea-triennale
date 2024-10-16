@@ -19,22 +19,20 @@
 #define USERNAME "monitor"
 #define PASSWORD "65568162"
 
-#define BLOCK 10000000000
+#define GROUPNAME "MEAN"
+#define NAME "user"
 
-void log2db(Con2DB &db1, std::string value, std::string streamName, int id);
-float logfromdb(Con2DB &db1, std::string streamName);
-void logAlert(Con2DB &db1, std::string value, std::string streamName, int id);
-
-void SendMessage(redisContext *c, std::string arr, std::string StreamName);
-std::string ReadMessage(redisContext *c, std::string StreamName);
+void log2db(Con2DB &db1, std::string value, std::string StreamName, int id);
+void logAlert(Con2DB &db1, std::string value, std::string StreamName, int id);
+double logfromdb(Con2DB &db1, std::string StreamName);
 
 double Mean(std::deque<double> dq);
 
-void Alert(redisContext *c, Con2DB &db, std::string streamName, double mean, int id);
-
-size_t ChooseSize(size_t maxSize);
+void Alert(redisContext *c, Con2DB &db, std::string StreamName, double mean, int id);
 
 std::string d2s(std::deque<double> dq);
+
+size_t ChooseSize(size_t maxSize);
 
 double SetDiff();
 

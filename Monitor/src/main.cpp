@@ -1,14 +1,14 @@
 #include "main.hpp"
 
-
 int main()
 {
 
-    #if (DEBUG > 0)
-        setvbuf(stdout, (char *)NULL, _IONBF, 0);
-        setvbuf(stderr, (char *)NULL, _IONBF, 0);
-    #endif
+#if (DEBUG > 0)
+    setvbuf(stdout, (char *)NULL, _IONBF, 0);
+    setvbuf(stderr, (char *)NULL, _IONBF, 0);
+#endif
 
+    // Create the threads for each monitor
     std::thread threads[5];
 
     threads[0] = std::thread(MM);

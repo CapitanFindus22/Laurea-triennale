@@ -1,11 +1,12 @@
 #include "main.hpp"
 
 // Extract the values from the string and put them in the array
-void String2Float(std::string str, std::vector<double>& val)
+void String2Double(std::string str, std::vector<double> &val)
 {
 
     std::string temp;
     size_t i = 0;
+
     val.clear();
 
     for (char &c : str)
@@ -32,5 +33,4 @@ void String2Float(std::string str, std::vector<double>& val)
         val.push_back(std::stof(temp));
         temp.clear();
     }
-
 }

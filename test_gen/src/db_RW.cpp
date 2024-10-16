@@ -16,6 +16,7 @@ void log2db(Con2DB &db1, size_t numStream, std::string fileName)
           numStream);
 
   res = db1.ExecSQLcmd(sqlcmd);
+
   PQclear(res);
 }
 
@@ -28,13 +29,15 @@ int logfromdb(Con2DB &db1, std::string fileName)
   // The result of the command
   PGresult *res;
 
+  int result;
+
   sprintf(sqlcmd,
           "SELECT * FROM session_info WHERE nome_file=\'%s\' AND id = (SELECT MAX(id) FROM session_info)",
           fileName.c_str());
 
   res = db1.ExecSQLtuples(sqlcmd);
 
-  int result = std::stoi(PQgetvalue(res, 0, PQfnumber(res, "id")));
+  result = std::stoi(PQgetvalue(res, 0, PQfnumber(res, "id")));
 
   PQclear(res);
 
