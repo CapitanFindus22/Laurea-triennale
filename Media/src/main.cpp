@@ -14,7 +14,7 @@ int main()
     redisContext *c = redisConnect(IP, PORT);
 
     // Create groups
-    initStreams(c, "INFOSTREAM", GROUPNAME);
+    initStreams(c, ISTREAM, GROUPNAME);
     initStreams(c, "M1", GROUPNAME);
     initStreams(c, "M2", GROUPNAME);
     initStreams(c, "M5", GROUPNAME);
@@ -24,9 +24,9 @@ int main()
     size_t i;
 
     // Get info
-    size_t num_stream = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
-    int id = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
-    size_t RowstoRead = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
+    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    size_t RowstoRead = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
     std::cout << "La simulazione leggerà " << RowstoRead << " righe" << std::endl;
@@ -65,7 +65,7 @@ int main()
         initStreams(c, StreamNameIN[i].c_str(), GROUPNAME);
     }
 
-    SendMessage(c, std::to_string(RowsToCalc), "INFOSTREAM");
+    SendMessage(c, std::to_string(RowsToCalc), ISTREAM);
 
     // Fill the window
     while (windows[num_stream - 1].size() < windowLength)
@@ -79,6 +79,15 @@ int main()
     // Main loop
     while (RowsCalculated < RowsToCalc)
     {
+
+        if (windows[0].size() < windowLength)
+        {
+            // Get new value
+            for (i = 0; i < num_stream; i++)
+            {
+                windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
+            }
+        }
 
         for (i = 0; i < num_stream; i++)
         {
@@ -100,7 +109,8 @@ int main()
 
             // Convert and send the windows
             toSend[i] = d2s(windows[i]);
-            SendMessage(c, toSend[i], StreamNameOUT[i]);
+
+            SendMessage(c, toSend[i] + std::to_string(mean), StreamNameOUT[i]);
 
             // Remove oldest value
             windows[i].pop_front();
@@ -109,14 +119,10 @@ int main()
         // Start alert
         firstRound = false;
 
-        // Get new value
-        for (i = 0; i < num_stream; i++)
-        {
-            windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
-        }
-
         RowsCalculated++;
     }
+
+    std::cout << "Fine simulazione" << std::endl;
 
     // Close the connection
     redisFree(c);

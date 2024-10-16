@@ -20,14 +20,14 @@ int main()
     // Counter
     size_t i;
 
-    initStreams(c, "INFOSTREAM", GROUPNAME);
+    initStreams(c, ISTREAM, GROUPNAME);
     initStreams(c, "M3", GROUPNAME);
     initStreams(c, "M4", GROUPNAME);
 
     // Get info
-    size_t num_stream = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
-    int id = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
-    ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME);
+    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    ReadMessage(c, ISTREAM, GROUPNAME, NAME);
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
@@ -52,8 +52,7 @@ int main()
     }
 
     // To stop the loop
-    size_t RowsToCalc = std::stoi(ReadMessage(c, "INFOSTREAM", GROUPNAME, NAME));
-    std::cout << RowsToCalc;
+    size_t RowsToCalc = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
     size_t RowsCalculated = 0;
 
     // Main loop
@@ -79,6 +78,8 @@ int main()
 
         RowsCalculated++;
     }
+
+    std::cout << "Fine simulazione" << std::endl;
 
     // Close the connection
     redisFree(c);

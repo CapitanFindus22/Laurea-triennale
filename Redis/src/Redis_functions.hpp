@@ -27,6 +27,8 @@ extern "C"
 
 #define BLOCK 10000000
 
+#define ISTREAM "INFOSTREAM"
+
 void assertReplyType(redisContext *c, redisReply *r, int type);
 
 void assertReply(redisContext *c, redisReply *r);

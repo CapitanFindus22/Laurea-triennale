@@ -14,9 +14,9 @@ void MMA()
     redisCommand(c, "XTRIM M1 MAXLEN 0");
 
     // Get info
-    initStreams(c, "INFOSTREAM", MONITOR_MA_GROUP);
-    ReadMessage(c, "INFOSTREAM", MONITOR_MA_GROUP, NAME);
-    id = std::stoi(ReadMessage(c, "INFOSTREAM", MONITOR_MA_GROUP, NAME));
+    initStreams(c, ISTREAM, MONITOR_MA_GROUP);
+    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME));
 
     initStreams(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP);
 

@@ -107,7 +107,7 @@ std::string ReadMessage(redisContext *c, std::string StreamName, std::string Gro
     ID = r->element[0]->element[1]->element[0]->element[0]->str;
     freeReplyObject(r);
 
-    r = RedisCommand(c, "XACK %s mean %s", "INFOSTREAM", ID.c_str());
+    r = RedisCommand(c, "XACK %s mean %s", ISTREAM, ID.c_str());
     assertReply(c, r);
     freeReplyObject(r);
 

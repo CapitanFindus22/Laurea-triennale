@@ -55,9 +55,9 @@ int main()
     std::cout << "Sessione n°" << id << std::endl;
 
     // Send infos to the other components
-    SendMessage(c, std::to_string(f.num_columns), "INFOSTREAM");
-    SendMessage(c, std::to_string(id), "INFOSTREAM");
-    SendMessage(c, std::to_string(rowsToSend), "INFOSTREAM");
+    SendMessage(c, std::to_string(f.num_columns), ISTREAM);
+    SendMessage(c, std::to_string(id), ISTREAM);
+    SendMessage(c, std::to_string(rowsToSend), ISTREAM);
 
     // Read a line from the file and send it through the streams
     while (rowsSent < rowsToSend)
@@ -73,7 +73,9 @@ int main()
         }
 
         rowsSent++;
-    }
+        }
+
+    std::cout << "Fine simulazione" << std::endl;
 
     // Close the connection
     redisFree(c);

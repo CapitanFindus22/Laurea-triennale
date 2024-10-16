@@ -14,9 +14,9 @@ void MM()
     redisCommand(c, "XTRIM M1 MAXLEN 0");
 
     // Get info
-    initStreams(c, "INFOSTREAM", MONITOR_M_GROUP);
-    ReadMessage(c, "INFOSTREAM", MONITOR_M_GROUP, NAME);
-    id = std::stoi(ReadMessage(c, "INFOSTREAM", MONITOR_M_GROUP, NAME));
+    initStreams(c, ISTREAM, MONITOR_M_GROUP);
+    ReadMessage(c, ISTREAM, MONITOR_M_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_M_GROUP, NAME));
 
     initStreams(c, MONITOR_M_STREAM, MONITOR_M_GROUP);
 

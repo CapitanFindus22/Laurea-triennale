@@ -5,6 +5,16 @@ extern bool firstRound;
 // Calculate the covariance and save it on the DB
 void Covariance(redisContext *c, Con2DB &db, std::vector<std::vector<double>> &arr, int id)
 {
+
+    for (auto &q : arr)
+    {
+        for (auto &v : q)
+        {
+            std::cout << v << " ";
+        }
+        std::cout << std::endl;
+    }
+
     size_t i, j, k;
     double v1, v2;
     double covariance;
@@ -16,21 +26,15 @@ void Covariance(redisContext *c, Con2DB &db, std::vector<std::vector<double>> &a
 
             covariance = 0;
 
-            std::cout << arr[0].size() << std::endl;
-
             for (k = 0; k < arr[0].size() - 1; k++)
             {
                 v1 = arr[i][k] - arr[i].back();
                 v2 = arr[j][k] - arr[j].back();
-
-                std::cout << v1 << " " << v2 << " " << arr[i].back() << " " << arr[j].back() << std::endl;
-
                 covariance += (v1 * v2);
             }
 
-            covariance /= (arr[0].size() - 1);
+            covariance /= (arr[0].size() - 2);
 
-            std::cout << covariance << std::endl;
             log2db(db, covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
 
             // Control monitor
