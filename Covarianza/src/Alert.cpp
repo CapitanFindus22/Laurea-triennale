@@ -15,6 +15,6 @@ void Alert(redisContext *c, Con2DB &db, std::string StreamName1, std::string Str
         logAlert(db, covariance - old_val, StreamName1, StreamName2, id);
         SendMessage(c, StreamName1, "CTMonitor");
         SendMessage(c, StreamName2, "CTMonitor");
-        ReadMessage(c, "M4", GROUPNAME, NAME);
+        ReadMessage(c, "M4", GROUPNAME, NAME, true);
     }
 }

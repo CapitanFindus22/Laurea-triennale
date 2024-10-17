@@ -15,17 +15,17 @@ void MC()
 
     // Get info
     initStreams(c,ISTREAM,MONITOR_C_GROUP);
-    ReadMessage(c,ISTREAM,MONITOR_C_GROUP,NAME);
-    id = std::stoi(ReadMessage(c,ISTREAM,MONITOR_C_GROUP,NAME));
+    ReadMessage(c,ISTREAM,MONITOR_C_GROUP,NAME, true);
+    id = std::stoi(ReadMessage(c,ISTREAM,MONITOR_C_GROUP,NAME, true));
 
     initStreams(c,MONITOR_C_STREAM,MONITOR_C_GROUP);
 
     while (1)
     {
         // Get value and the two StreamNames to check
-        covariance = std::stod(ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME));
-        StreamName1 = ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME);
-        StreamName2 = ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME);
+        covariance = std::stod(ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME, true));
+        StreamName1 = ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME, true);
+        StreamName2 = ReadMessage(c,MONITOR_C_STREAM,MONITOR_C_GROUP,NAME, true);
 
         // Check on the db and write result on the db
         log2db(std::ref(db),(logfromdb(std::ref(db),StreamName1,StreamName2,false,id) == covariance)?true:false,false,StreamName1,StreamName2,id);

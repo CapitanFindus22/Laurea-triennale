@@ -25,9 +25,9 @@ int main()
     initStreams(c, "M4", GROUPNAME);
 
     // Get info
-    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
-    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
-    ReadMessage(c, ISTREAM, GROUPNAME, NAME);
+    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
+    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
+    ReadMessage(c, ISTREAM, GROUPNAME, NAME, true);
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
 
@@ -52,7 +52,7 @@ int main()
     }
 
     // To stop the loop
-    size_t RowsToCalc = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    size_t RowsToCalc = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
     size_t RowsCalculated = 0;
 
     // Main loop
@@ -61,7 +61,7 @@ int main()
         // Get the strings
         for (i = 0; i < num_stream; i++)
         {
-            windows[i] = ReadMessage(c, names[i], GROUPNAME, NAME);
+            windows[i] = ReadMessage(c, names[i], GROUPNAME, NAME, true);
         }
 
         // Transform the strings to doubles

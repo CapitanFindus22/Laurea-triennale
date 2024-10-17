@@ -6,15 +6,6 @@ extern bool firstRound;
 void Covariance(redisContext *c, Con2DB &db, std::vector<std::vector<double>> &arr, int id)
 {
 
-    for (auto &q : arr)
-    {
-        for (auto &v : q)
-        {
-            std::cout << v << " ";
-        }
-        std::cout << std::endl;
-    }
-
     size_t i, j, k;
     double v1, v2;
     double covariance;
@@ -41,7 +32,7 @@ void Covariance(redisContext *c, Con2DB &db, std::vector<std::vector<double>> &a
             SendMessage(c, std::to_string(covariance), "CMonitor");
             SendMessage(c, "STREAM" + std::to_string(i), "CMonitor");
             SendMessage(c, "STREAM" + std::to_string(j), "CMonitor");
-            ReadMessage(c, "M3", GROUPNAME, NAME);
+            ReadMessage(c, "M3", GROUPNAME, NAME, true);
 
             // Send alert
             if (!firstRound)

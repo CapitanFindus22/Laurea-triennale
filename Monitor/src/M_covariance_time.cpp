@@ -14,16 +14,16 @@ void MCT()
 
     // Get info
     initStreams(c, ISTREAM, MONITOR_CT_GROUP);
-    ReadMessage(c, ISTREAM, MONITOR_CT_GROUP, NAME);
-    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_CT_GROUP, NAME));
+    ReadMessage(c, ISTREAM, MONITOR_CT_GROUP, NAME, true);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_CT_GROUP, NAME, true));
 
     initStreams(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP);
 
     while (1)
     {
         // Get the StreamNames to check
-        StreamName1 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME);
-        StreamName2 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME);
+        StreamName1 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME, true);
+        StreamName2 = ReadMessage(c, MONITOR_CT_STREAM, MONITOR_CT_GROUP, NAME, true);
 
         // Check on the db and write result on the db
         log2db_time(std::ref(db), false, StreamName1, StreamName2, id, logfromdb_time(std::ref(db), StreamName1, StreamName2, false, id));

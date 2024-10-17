@@ -15,16 +15,16 @@ void MMA()
 
     // Get info
     initStreams(c, ISTREAM, MONITOR_MA_GROUP);
-    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME);
-    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME));
+    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME, true);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME, true));
 
     initStreams(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP);
 
     while (1)
     {
         // Get value and the StreamName to check
-        StreamName = ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME);
-        diff = std::stod(ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME));
+        StreamName = ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME, true);
+        diff = std::stod(ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME, true));
 
         // Check on the db and write result on the db
         log2db_alert(std::ref(db), (logfromdb_alert(std::ref(db), StreamName, id) == diff) ? true : false, StreamName, id);

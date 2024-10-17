@@ -90,7 +90,7 @@ void SendMessage(redisContext *c, std::string arr, std::string StreamName)
 }
 
 // Read a message from StreamName as UserName from GroupName
-std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName)
+std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName, bool blocking)
 {
     redisReply *r;
     std::string result;
@@ -100,7 +100,7 @@ std::string ReadMessage(redisContext *c, std::string StreamName, std::string Gro
     r = RedisCommand(c, "XREADGROUP GROUP %s %s BLOCK %d COUNT 1 STREAMS %s >",
                      GroupName.c_str(),
                      UserName.c_str(),
-                     BLOCK,
+                     (blocking)?BLOCK:0,
                      StreamName.c_str());
     assertReplyType(c, r, REDIS_REPLY_ARRAY);
     result = r->element[0]->element[1]->element[0]->element[1]->element[1]->str;

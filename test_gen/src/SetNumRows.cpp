@@ -18,9 +18,9 @@ size_t SetNum()
             std::cin.ignore(1000000, '\n');
         }
 
-        else if (result < 1)
+        else if (result < 2)
         {
-            std::cout << "Ci deve essere almeno un elemento" << std::endl;
+            std::cout << "Ci devono essere almeno 2 elementi" << std::endl;
             std::cin.clear();
             std::cin.ignore(1000000, '\n');
         }

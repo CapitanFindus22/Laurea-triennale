@@ -14,15 +14,15 @@ void MMT()
 
     // Get info
     initStreams(c, ISTREAM, MONITOR_MT_GROUP);
-    ReadMessage(c, ISTREAM, MONITOR_MT_GROUP, NAME);
-    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MT_GROUP, NAME));
+    ReadMessage(c, ISTREAM, MONITOR_MT_GROUP, NAME, true);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MT_GROUP, NAME, true));
 
     initStreams(c, MONITOR_MT_STREAM, MONITOR_MT_GROUP);
 
     while (1)
     {
         // Get StreamName to check
-        StreamName = ReadMessage(c, MONITOR_MT_STREAM, MONITOR_MT_GROUP, NAME);
+        StreamName = ReadMessage(c, MONITOR_MT_STREAM, MONITOR_MT_GROUP, NAME, true);
 
         // Check on the db and write result on the db
         log2db_time(std::ref(db), true, StreamName, "", id, logfromdb_time(std::ref(db), StreamName, "", true, id));
