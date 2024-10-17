@@ -8,7 +8,7 @@ CSVFile::CSVFile(std::string name)
 
   if (!file.is_open())
   {
-    std::cout << "Error opening file";
+    std::cout << "Errore nell'apertura del file" << std::endl;
     exit(-1);
   }
 
@@ -53,7 +53,20 @@ std::string CSVFile::getline()
 
   std::string str;
 
-  std::getline(file, str);
+  if (std::getline(file, str))
+  {
+    return str;
+  }
 
-  return str;
+  else
+  {
+    if (file.eof())
+    {
+      throw std::runtime_error("Fine del file raggiunta");
+    }
+    else
+    {
+      throw std::runtime_error("Errore nella lettura del file");
+    }
+  }
 }
