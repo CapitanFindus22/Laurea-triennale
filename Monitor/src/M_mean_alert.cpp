@@ -10,21 +10,29 @@ void MMA()
     double diff;
     int id;
 
-    redisCommand(c, "XTRIM %s MAXLEN 0", MONITOR_MA_STREAM);
-    redisCommand(c, "XTRIM M1 MAXLEN 0");
-
     // Get info
     initStreams(c, ISTREAM, MONITOR_MA_GROUP);
-    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME, true);
-    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME, true));
+
+    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME);
+    id = std::stoi(ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME));
+    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME);
+    ReadMessage(c, ISTREAM, MONITOR_MA_GROUP, NAME);
 
     initStreams(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP);
 
     while (1)
     {
         // Get value and the StreamName to check
-        StreamName = ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME, true);
-        diff = std::stod(ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME, true));
+        StreamName = ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME);
+
+        if (StreamName == "end")
+        {
+            break;
+        }
+
+        diff = std::stod(ReadMessage(c, MONITOR_MA_STREAM, MONITOR_MA_GROUP, NAME));
+
+        std::cout << "Attenzione!! Il nuovo valore della media di " << StreamName << " differisce di " << diff << " dal precedente" << std::endl;
 
         // Check on the db and write result on the db
         log2db_alert(std::ref(db), (logfromdb_alert(std::ref(db), StreamName, id) == diff) ? true : false, StreamName, id);

@@ -39,6 +39,6 @@ void initStreams(redisContext *c, const char *, const char *);
 
 void SendMessage(redisContext *c, std::string arr, std::string StreamName);
 
-std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName, bool blocking);
+std::string ReadMessage(redisContext *c, std::string StreamName, std::string GroupName, std::string UserName);
 
 #endif

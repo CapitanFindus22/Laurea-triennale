@@ -22,5 +22,7 @@ int main()
         t.join();
     }
 
+    std::cout << "Fine simulazione";
+
     return 0;
 }

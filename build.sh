@@ -2,6 +2,11 @@
 
 cd DB/Script/
 ./create.sh
+
+cd ../Code/src
+make
+cd ../../../Redis/src
+make
 cd ../../Media/src
 make
 cd ../../test_gen/src

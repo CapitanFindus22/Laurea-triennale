@@ -63,8 +63,6 @@ double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2)
 
   result = std::stof(PQgetvalue(res, 1, PQfnumber(res, "valore")));
 
-  std::cout << StreamName1 + "-" + StreamName2 << " " << result << std::endl;
-
   PQclear(res);
 
   return result;

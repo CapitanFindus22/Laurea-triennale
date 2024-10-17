@@ -26,13 +26,15 @@ void Covariance(redisContext *c, Con2DB &db, std::vector<std::vector<double>> &a
 
             covariance /= (arr[0].size() - 2);
 
+            std::cout << "La covarianza tra STREAM" << i << " e STREAM " << j << " è: " << covariance << std::endl;
+
             log2db(db, covariance, "STREAM" + std::to_string(i), "STREAM" + std::to_string(j), id);
 
             // Control monitor
-            SendMessage(c, std::to_string(covariance), "CMonitor");
             SendMessage(c, "STREAM" + std::to_string(i), "CMonitor");
             SendMessage(c, "STREAM" + std::to_string(j), "CMonitor");
-            ReadMessage(c, "M3", GROUPNAME, NAME, true);
+            SendMessage(c, std::to_string(covariance), "CMonitor");
+            ReadMessage(c, "M3", GROUPNAME, NAME);
 
             // Send alert
             if (!firstRound)

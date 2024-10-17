@@ -24,9 +24,9 @@ int main()
     size_t i;
 
     // Get info
-    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
-    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
-    size_t RowstoRead = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME, true));
+    size_t num_stream = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    int id = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
+    size_t RowstoRead = std::stoi(ReadMessage(c, ISTREAM, GROUPNAME, NAME));
 
     std::cout << "Sessione n°" << id << " Numero di stream: " << num_stream << std::endl;
     std::cout << "La simulazione leggerà " << RowstoRead << " righe" << std::endl;
@@ -40,14 +40,23 @@ int main()
     size_t RowsCalculated = 0;
 
     // Names used for the streams
-    std::string baseName = "STREAM";
+    std::string baseNameIN = "STREAM";
+    std::string baseNameOUT = "STREAM_";
     std::string StreamNameIN[num_stream];
     std::string StreamNameOUT[num_stream];
+
+    // Initialize the streams and generate the names
+    for (i = 0; i < num_stream; i++)
+    {
+        StreamNameIN[i] = baseNameIN + std::to_string(i);
+        StreamNameOUT[i] = baseNameOUT + std::to_string(i);
+        initStreams(c, StreamNameIN[i].c_str(), GROUPNAME);
+    }
 
     // Will contain the values
     std::deque<double> windows[num_stream];
 
-    // Will contain the window to send to the Covariance calculator
+    // Will contain the windows
     std::string toSend[num_stream];
 
     // Set the threshold
@@ -56,15 +65,7 @@ int main()
     float mean;
     bool firstRound = true;
 
-    // Initialize the streams and generate the names
-    for (i = 0; i < num_stream; i++)
-    {
-        StreamNameIN[i] = baseName + std::to_string(i);
-        StreamNameOUT[i] = baseName + '_' + std::to_string(i);
-        RedisCommand(c, "XTRIM %s MAXLEN 0", StreamNameOUT[i].c_str());
-        initStreams(c, StreamNameIN[i].c_str(), GROUPNAME);
-    }
-
+    // Send info to Covariance
     SendMessage(c, std::to_string(RowsToCalc), ISTREAM);
 
     // Fill the window
@@ -72,7 +73,7 @@ int main()
     {
         for (i = 0; i < num_stream; i++)
         {
-            windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME, true)));
+            windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
         }
     }
 
@@ -85,7 +86,7 @@ int main()
             // Get new value
             for (i = 0; i < num_stream; i++)
             {
-                windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME, true)));
+                windows[i].push_back(std::stod(ReadMessage(c, StreamNameIN[i], GROUPNAME, NAME)));
             }
         }
 
@@ -94,12 +95,14 @@ int main()
             // Calculate mean
             mean = Mean(windows[i]);
 
+            std::cout << "La media di " << StreamNameIN[i] << " è " << mean << std::endl;
+
             log2db(std::ref(db), std::to_string(mean), StreamNameIN[i], id);
 
             // Check
-            SendMessage(c, std::to_string(mean), "MMonitor");
             SendMessage(c, StreamNameIN[i], "MMonitor");
-            ReadMessage(c, "M1", GROUPNAME, NAME, true);
+            SendMessage(c, std::to_string(mean), "MMonitor");
+            ReadMessage(c, "M1", GROUPNAME, NAME);
 
             // Send alert
             if (!firstRound)
@@ -108,9 +111,13 @@ int main()
             }
 
             // Convert and send the windows
-            toSend[i] = d2s(windows[i]);
+            toSend[i] = d2s(windows[i]) + std::to_string(mean);
 
-            SendMessage(c, toSend[i] + std::to_string(mean), StreamNameOUT[i]);
+            std::cout << "Invio: " << toSend[i] << " a " << StreamNameOUT[i] << "\n"
+                      << std::endl;
+
+            // Send the window to Covariance
+            SendMessage(c, toSend[i], StreamNameOUT[i]);
 
             // Remove oldest value
             windows[i].pop_front();

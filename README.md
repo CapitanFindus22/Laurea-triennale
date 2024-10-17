@@ -9,4 +9,4 @@ Lista dei file:
 - run.sh Script per eseguire tutte le componenti
 - clean_stream.sh Script che pulisce i Stream usati dai componenti
 
-Per eseguire è basta eseguire run.sh (dopo aver eseguito build.sh)
+Per usare il programma basta eseguire run.sh (dopo aver eseguito build.sh)

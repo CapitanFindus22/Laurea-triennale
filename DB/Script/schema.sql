@@ -2,7 +2,7 @@
 
 CREATE DOMAIN TimePoint AS timestamp;
 CREATE DOMAIN StreamName AS VARCHAR(30);
-CREATE DOMAIN Note AS VARCHAR(200);
+CREATE DOMAIN FileName AS VARCHAR(100);
 CREATE DOMAIN val AS double precision;
 CREATE DOMAIN posint AS INTEGER CHECK (VALUE > 0);
 CREATE TYPE ALERT_TYPE AS ENUM ('Media', 'Covarianza', 'Altro');
@@ -12,7 +12,7 @@ CREATE TYPE OUTCOME AS ENUM ('Ok', 'Errore');
 CREATE TABLE IF NOT EXISTS session_info (
         id serial PRIMARY KEY,
         Data_inizio TimePoint NOT NULL,
-        Nome_file Note NOT NULL,
+        Nome_file FileName NOT NULL,
         Numero_stream posint NOT NULL
 );
 

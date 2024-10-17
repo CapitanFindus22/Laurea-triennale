@@ -19,9 +19,6 @@ int main()
     // Connect to Redis
     redisContext *c = redisConnect(IP, PORT);
 
-    // Clean the Stream, INFOSTREAM is used to exchange informations
-    RedisCommand(c, "XTRIM INFOSTREAM MAXLEN 0");
-
     // Choose the csv file
     std::string CSVName = ChooseFile();
     CSVFile f(CSVName);
@@ -49,7 +46,6 @@ int main()
     for (i = 0; i < f.num_columns; i++)
     {
         names[i] = baseName + std::to_string(i);
-        RedisCommand(c, "XTRIM %s MAXLEN 0 ", names[i].c_str());
     }
 
     std::cout << "Sessione n°" << id << std::endl;
@@ -70,10 +66,12 @@ int main()
         for (i = 0; i < f.num_columns; i++)
         {
             SendMessage(c, std::to_string(values[i]), names[i]);
+            std::cout << "Invio: " << values[i] << " a " << names[i] << "\n"
+                      << std::endl;
         }
 
         rowsSent++;
-        }
+    }
 
     std::cout << "Fine simulazione" << std::endl;
 
