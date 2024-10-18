@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <deque>
 #include <vector>
 #include <unistd.h>
 
@@ -25,7 +24,7 @@
 
 void log2db(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id);
 void logAlert(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id);
-double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2);
+double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, int id);
 
 void Covariance(redisContext *c, Con2DB &, std::vector<std::vector<double>> &, int);
 

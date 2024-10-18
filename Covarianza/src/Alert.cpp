@@ -6,7 +6,7 @@ extern double difference;
 void Alert(redisContext *c, Con2DB &db, std::string StreamName1, std::string StreamName2, double covariance, int id)
 {
     // Get last value
-    double old_val = logfromdb(db, StreamName1, StreamName2);
+    double old_val = logfromdb(db, StreamName1, StreamName2, id);
 
     // Compare
     if ((covariance > old_val + difference) || (covariance < old_val - difference))

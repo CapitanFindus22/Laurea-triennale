@@ -24,7 +24,7 @@
 
 void log2db(Con2DB &db1, std::string value, std::string StreamName, int id);
 void logAlert(Con2DB &db1, std::string value, std::string StreamName, int id);
-double logfromdb(Con2DB &db1, std::string StreamName);
+double logfromdb(Con2DB &db1, std::string StreamName, int id);
 
 double Mean(std::deque<double> dq);
 

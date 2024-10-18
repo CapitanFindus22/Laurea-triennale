@@ -1,27 +1,6 @@
 #include "main.hpp"
 
-// Generate SQL commands to save the values in the DB
-void log2db(Con2DB &db1, bool outcome, bool isMean, std::string StreamName1, std::string StreamName2, int id)
-{
-  // Buffer
-  char sqlcmd[1000];
-
-  // The result of the command
-  PGresult *res;
-
-  // INSERT
-  sprintf(sqlcmd,
-          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,esito) VALUES (%d ,NOW(), \'%s\', \'%s\',\'%s\')",
-          id,
-          (isMean) ? StreamName1.c_str() : (StreamName1 + "-" + StreamName2).c_str(),
-          (isMean) ? "Media" : "Covarianza",
-          (outcome) ? "Ok" : "Errore");
-
-  res = db1.ExecSQLcmd(sqlcmd);
-
-  PQclear(res);
-}
-
+// Get last entry for StreamName1 (mean) or StreamName1-StreamName2 (Covariance)
 double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int id)
 {
   // Buffer
@@ -54,26 +33,8 @@ double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, 
   return result;
 }
 
-void log2db_time(Con2DB &db1, bool isMean, std::string StreamName1, std::string StreamName2, int id, double time)
-{
-  // Buffer
-  char sqlcmd[1000];
-
-  // The result of the command
-  PGresult *res;
-
-  sprintf(sqlcmd,
-          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,Tempo_trascorso) VALUES (%d ,NOW(), \'%s\', \'%s\',%f)",
-          id,
-          (isMean) ? StreamName1.c_str() : (StreamName1 + "-" + StreamName2).c_str(),
-          (isMean) ? "Tempo_m" : "Tempo_c",
-          time);
-
-  res = db1.ExecSQLcmd(sqlcmd);
-
-  PQclear(res);
-}
-
+/*Get last entry for StreamName1 (mean) or StreamName1-StreamName2 (Covariance) and
+ calculate the time passed before sending the alert */
 double logfromdb_time(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int id)
 {
   // Buffer
@@ -106,6 +67,7 @@ double logfromdb_time(Con2DB &db1, std::string StreamName1, std::string StreamNa
   return result;
 }
 
+// Get last entry for StreamName (Alert)
 double logfromdb_alert(Con2DB &db1, std::string StreamName, int id)
 {
   // Buffer
@@ -130,6 +92,50 @@ double logfromdb_alert(Con2DB &db1, std::string StreamName, int id)
   return result;
 }
 
+// Insert outcome of the control in the DB
+void log2db(Con2DB &db1, bool outcome, bool isMean, std::string StreamName1, std::string StreamName2, int id)
+{
+  // Buffer
+  char sqlcmd[1000];
+
+  // The result of the command
+  PGresult *res;
+
+  // INSERT
+  sprintf(sqlcmd,
+          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,esito) VALUES (%d ,NOW(), \'%s\', \'%s\',\'%s\')",
+          id,
+          (isMean) ? StreamName1.c_str() : (StreamName1 + "-" + StreamName2).c_str(),
+          (isMean) ? "Media" : "Covarianza",
+          (outcome) ? "Ok" : "Errore");
+
+  res = db1.ExecSQLcmd(sqlcmd);
+
+  PQclear(res);
+}
+
+// Insert time passed before sending the alert in the DB
+void log2db_time(Con2DB &db1, bool isMean, std::string StreamName1, std::string StreamName2, int id, double time)
+{
+  // Buffer
+  char sqlcmd[1000];
+
+  // The result of the command
+  PGresult *res;
+
+  sprintf(sqlcmd,
+          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,Tempo_trascorso) VALUES (%d ,NOW(), \'%s\', \'%s\',%f)",
+          id,
+          (isMean) ? StreamName1.c_str() : (StreamName1 + "-" + StreamName2).c_str(),
+          (isMean) ? "Tempo_m" : "Tempo_c",
+          time);
+
+  res = db1.ExecSQLcmd(sqlcmd);
+
+  PQclear(res);
+}
+
+// Insert outcome of the control in the DB (Alert)
 void log2db_alert(Con2DB &db1, bool outcome, std::string StreamName, int id)
 {
   // Buffer

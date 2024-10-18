@@ -42,12 +42,12 @@ void MMA();
 void MC();
 void MCT();
 
-double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int id);
-double logfromdb_time(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int);
-double logfromdb_alert(Con2DB &db1, std::string StreamName, int id);
-
 void log2db(Con2DB &db1, bool outcome, bool isMean, std::string StreamName1, std::string StreamName2, int id);
 void log2db_time(Con2DB &db1, bool isMean, std::string StreamName1, std::string StreamName2, int id, double time);
 void log2db_alert(Con2DB &db1, bool outcome, std::string StreamName, int id);
+
+double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int id);
+double logfromdb_time(Con2DB &db1, std::string StreamName1, std::string StreamName2, bool fromMean, int id);
+double logfromdb_alert(Con2DB &db1, std::string StreamName, int id);
 
 #endif

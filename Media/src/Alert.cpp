@@ -6,7 +6,7 @@ extern double difference;
 void Alert(redisContext *c, Con2DB &db, std::string StreamName, double mean, int id)
 {
     // Get last value
-    double old_val = logfromdb(std::ref(db), StreamName);
+    double old_val = logfromdb(std::ref(db), StreamName, id);
 
     // Compare
     if ((mean > old_val + difference) || (mean < old_val - difference))

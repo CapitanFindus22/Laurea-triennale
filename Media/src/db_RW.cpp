@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-// Generate SQL commands to save the values in the DB
+// Insert mean value in the db
 void log2db(Con2DB &db1, std::string value, std::string StreamName, int id)
 {
   // Buffer
@@ -21,7 +21,7 @@ void log2db(Con2DB &db1, std::string value, std::string StreamName, int id)
   PQclear(res);
 }
 
-// Generate SQL commands to save the values in the DB
+// Insert alert in the DB
 void logAlert(Con2DB &db1, std::string value, std::string StreamName, int id)
 {
   // Buffer
@@ -43,7 +43,8 @@ void logAlert(Con2DB &db1, std::string value, std::string StreamName, int id)
   PQclear(res);
 }
 
-double logfromdb(Con2DB &db1, std::string StreamName)
+// Get last entry for StreamName
+double logfromdb(Con2DB &db1, std::string StreamName, int id)
 {
   // Buffer
   char sqlcmd[1000];
@@ -54,8 +55,9 @@ double logfromdb(Con2DB &db1, std::string StreamName)
   double result;
 
   sprintf(sqlcmd,
-          "SELECT valore FROM media WHERE nome_stream=\'%s\' ORDER BY data_ora DESC",
-          StreamName.c_str());
+          "SELECT valore FROM media WHERE nome_stream=\'%s\' AND s_id=%d ORDER BY data_ora DESC",
+          StreamName.c_str(),
+          id);
 
   res = db1.ExecSQLtuples(sqlcmd);
 

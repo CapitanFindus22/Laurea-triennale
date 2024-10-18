@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-// Generate SQL commands to save the values in the DB
+// Save session info in the DB
 void log2db(Con2DB &db1, size_t numStream, std::string fileName)
 {
   // Buffer

@@ -23,6 +23,10 @@ int main()
     std::string CSVName = ChooseFile();
     CSVFile f(CSVName);
 
+    // Create log for this session and get the id
+    log2db(std::ref(db1), f.num_columns, CSVName);
+    int id = logfromdb(std::ref(db1), f.getName());
+
     // Each stream will be called STREAMnumber
     // Example: the first column will be sent to STREAM0
     std::string baseName = "STREAM";
@@ -33,10 +37,6 @@ int main()
 
     // Array that will contain a row of values
     double values[f.num_columns];
-
-    // Create log for this session and get the id
-    log2db(std::ref(db1), f.num_columns, CSVName);
-    int id = logfromdb(std::ref(db1), f.getName());
 
     // Basically simulation time
     const size_t rowsToSend = SetNum();

@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-// Generate SQL commands to save the values in the DB
+// Insert covariance in the DB
 void log2db(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id)
 {
   // Buffer
@@ -22,7 +22,7 @@ void log2db(Con2DB &db1, double value, std::string StreamName1, std::string Stre
   PQclear(res);
 }
 
-// Generate SQL commands to save the values in the DB
+// Insert alert in the DB
 void logAlert(Con2DB &db1, double value, std::string StreamName1, std::string StreamName2, int id)
 {
   // Buffer
@@ -44,7 +44,8 @@ void logAlert(Con2DB &db1, double value, std::string StreamName1, std::string St
   PQclear(res);
 }
 
-double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2)
+// Get last entry for StreamName1-StreamName2
+double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2, int id)
 {
   // Buffer
   char sqlcmd[1000];
@@ -55,9 +56,10 @@ double logfromdb(Con2DB &db1, std::string StreamName1, std::string StreamName2)
   double result;
 
   sprintf(sqlcmd,
-          "SELECT * FROM covarianza WHERE nome_stream_1=\'%s\' AND nome_stream_2=\'%s\' ORDER BY data_ora DESC",
+          "SELECT * FROM covarianza WHERE nome_stream_1=\'%s\' AND nome_stream_2=\'%s\' AND s_id=%d ORDER BY data_ora DESC",
           StreamName1.c_str(),
-          StreamName2.c_str());
+          StreamName2.c_str(),
+          id);
 
   res = db1.ExecSQLtuples(sqlcmd);
 
