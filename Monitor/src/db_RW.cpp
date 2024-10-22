@@ -123,11 +123,24 @@ void log2db_time(Con2DB &db1, bool isMean, std::string StreamName1, std::string 
   // The result of the command
   PGresult *res;
 
+  std::string outcome;
+
+  // Check time
+  if (isMean)
+  {
+    outcome = (time <= 0.5) ? "Ok" : "Errore";
+  }
+  else
+  {
+    outcome = (time <= 1) ? "Ok" : "Errore";
+  }
+
   sprintf(sqlcmd,
-          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,Tempo_trascorso) VALUES (%d ,NOW(), \'%s\', \'%s\',%f)",
+          "INSERT INTO log_monitor (s_id,data_controllo,nome_stream,tipo,esito,tempo_trascorso) VALUES (%d ,NOW(), \'%s\', \'%s\', \'%s\', %f)",
           id,
           (isMean) ? StreamName1.c_str() : (StreamName1 + "-" + StreamName2).c_str(),
           (isMean) ? "Tempo_m" : "Tempo_c",
+          outcome.c_str(),
           time);
 
   res = db1.ExecSQLcmd(sqlcmd);

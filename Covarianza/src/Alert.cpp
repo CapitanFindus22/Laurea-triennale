@@ -16,5 +16,8 @@ void Alert(redisContext *c, Con2DB &db, std::string StreamName1, std::string Str
         SendMessage(c, StreamName1, "CTMonitor");
         SendMessage(c, StreamName2, "CTMonitor");
         ReadMessage(c, "M4", GROUPNAME, NAME);
+
+        std::cout << "Attenzione!! Il nuovo valore della covarianza tra " << StreamName1 << " e " << StreamName2 << " differisce di " << covariance - old_val << " dal precedente" << std::endl;
+
     }
 }
