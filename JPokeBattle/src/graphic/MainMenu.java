@@ -8,10 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import game_mechanics_pokemon.PlayerPokemon;
+import i_o.FileReader;
 
 public final class MainMenu extends JFrame {
 
@@ -37,9 +41,10 @@ public final class MainMenu extends JFrame {
 		
 		JPanel main_panel = new JPanel();
 		main_panel.setLayout(new BorderLayout(0, 0));
-		
-		GamePanel gp = new GamePanel(c,container);
 
+		JComboBox<String> cbox = new JComboBox<>(FileReader.allPokemon().toArray(String[]::new));
+		cbox.setPreferredSize(new Dimension(100,50));
+		
 		JButton start_button = new JButton(String.format("<html>G<br>I<br>O<br>C<br>A</html>"));
 		start_button.setOpaque(false);
 		start_button.setContentAreaFilled(false);
@@ -52,8 +57,11 @@ public final class MainMenu extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) { 
+				
+					GamePanel gp = new GamePanel(c,container);
+					container.add(gp);
 					c.last(container);
-					gp.start();
+					gp.start(new PlayerPokemon((String)cbox.getSelectedItem()));
 					
 			  } 			
 		});
@@ -74,16 +82,16 @@ public final class MainMenu extends JFrame {
 			  } 			
 		});
 
-		JLabel title = new JLabel("ewherjt");
+		JLabel title = new JLabel("JPokeBattle");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setFont(new Font("Vineta Bt",Font.PLAIN,18));
 		
+		main_panel.add(cbox, BorderLayout.SOUTH);
 		main_panel.add(lead_button, BorderLayout.WEST);
 		main_panel.add(start_button, BorderLayout.EAST);
 		main_panel.add(title, BorderLayout.CENTER);
 		
 		container.add(main_panel);
-		container.add(gp);
 		
 		this.add(container);
 		

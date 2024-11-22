@@ -3,3 +3,21 @@ Normale
 
 100
 40
+
+Tackle
+Normale
+40
+100
+35
+
+Tail Whip
+Normale
+
+100
+30
+
+Scratch
+Normale
+40
+100
+35

@@ -24,7 +24,8 @@ public final class OptionPanel extends JPanel{
 	private CardLayout c;
 	private JLabel txt;
 	
-	public OptionPanel(CardLayout c_parent, JPanel parent) {
+	
+	public OptionPanel(CardLayout c_grandparent, JPanel grandparent, GamePanel parent) {
 		
 		c = new CardLayout(0,0);
 		this.setLayout(c);
@@ -52,7 +53,8 @@ public final class OptionPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) { 
 				
-					c_parent.first(parent);
+					c_grandparent.first(grandparent);
+					c_grandparent.removeLayoutComponent(parent);
 				
 			  }
 		});
