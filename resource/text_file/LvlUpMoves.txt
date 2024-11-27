@@ -1,0 +1,17 @@
+Bulbasaur
+13 Vine_Whip
+27 Razor_Leaf
+34 Growth
+
+Charmander
+9 Ember
+15 Leer
+30 Slash
+38 Flamethrower
+
+Squirtle
+8 Bubble
+15 Water_Gun
+22 Bite
+28 Withdraw
+42 Hydro_Pump
