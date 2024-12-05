@@ -1,0 +1,52 @@
+File Format
+Pokemon
+Type
+Second Type
+Base Move
+Base Move 2
+Base Hp
+Base Att
+Base Dif
+Base Special Att
+Base Special Dif
+Base Velocity
+Base Xp
+
+name:Bulbasaur
+Erba
+Veleno
+Ruggito
+Azione
+45
+49
+49
+65
+65
+45
+64
+
+name:Charmander
+Fuoco
+
+Ruggito
+Graffio
+39
+52
+43
+60
+50
+65
+65
+
+name:Squirtle
+Acqua
+
+Azione
+Colpocoda
+44
+48
+65
+50
+64
+43
+66
