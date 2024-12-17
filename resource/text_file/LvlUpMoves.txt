@@ -1,5 +1,0 @@
-Bulbasaur,13 Frustata,27 Foglielama,34 Crescita
-
-Charmander,9 Braciere,15 Fulmisguardo,30 Lacerazione,38 Lanciafiamme
-
-Squirtle,8 Bolla,15 Pistolacqua,22 Morso,28 Ritirata,42 Idropompa
