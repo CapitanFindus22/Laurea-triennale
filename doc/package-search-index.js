@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"audio"},{"l":"game"},{"l":"i_o"},{"l":"main"},{"l":"menu"},{"l":"move"},{"l":"move.damage"},{"l":"move.stats"},{"l":"pokemon"}];updateSearchResults();
