@@ -23,7 +23,6 @@ import move.Move;
 
 import pokemon.EnemyPokemon;
 import pokemon.PlayerPokemon;
-import pokemon.Pokemon;
 
 /**
  * A custom panel containing the game itself
@@ -256,7 +255,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (Pokemon.doesHit(player, move, enemy)||(move.alwaysHit())) {
+					if (player.doesHit(move, enemy)||(move.alwaysHit())) {
 
 						move.esegui(player, enemy);
 						commands.updateButtons();
@@ -280,7 +279,7 @@ public final class Game extends JPanel {
 						Thread.sleep(MILLIS_DELAY);
 
 						// Check if the move hit
-						if (Pokemon.doesHit(player, enemy, used)||(used.alwaysHit())) {
+						if (enemy.doesHit( used, player)||(used.alwaysHit())) {
 
 							used.esegui(enemy, player);
 							Thread.sleep(MILLIS_DELAY);
@@ -307,7 +306,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (Pokemon.doesHit(player, enemy, used)||(used.alwaysHit())) {
+					if (enemy.doesHit(used, player)||(used.alwaysHit())) {
 
 						used.esegui(enemy, player);
 						Thread.sleep(MILLIS_DELAY);
@@ -329,7 +328,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (Pokemon.doesHit(player, move, enemy)||(move.alwaysHit())) {
+					if (player.doesHit(move, enemy)||(move.alwaysHit())) {
 
 						move.esegui(player, enemy);
 						commands.updateButtons();
@@ -377,7 +376,7 @@ public final class Game extends JPanel {
 
 			streak++;
 
-			if (player.addXp(Pokemon.calculateXp(player, enemy))) {
+			if (player.addXp(player.calculateXp(enemy))) {
 				
 				bv.lvlUp(player);
 				checkNewMove();
@@ -542,7 +541,6 @@ public final class Game extends JPanel {
 		}
 
 		Thread.sleep(MILLIS_DELAY);
-
 	}
 
 	/**

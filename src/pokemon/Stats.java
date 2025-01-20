@@ -52,6 +52,23 @@ public class Stats {
 
 	}
 
+	/**
+	 * Create and save the values
+	 * 
+	 * @param allStats the array containing all the stats in order: hp, att, sp_att,
+	 *                 dif, sp_dif, vel
+	 */
+	public Stats(int[] allStats) {
+
+		this.hp = allStats[0];
+		this.att = allStats[1];
+		this.dif = allStats[2];
+		this.spAtt = allStats[3];
+		this.spDif = allStats[4];
+		this.speed = allStats[5];
+
+	}
+	
 	// Getter
 
 	/**

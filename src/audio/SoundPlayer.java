@@ -64,7 +64,7 @@ public class SoundPlayer {
 		
 		clip.start();
 		
-		try {Thread.sleep((int)(clip.getMicrosecondLength()*0.001));} 
+		try {Thread.sleep((int)(clip.getMicrosecondLength()*0.001-100));} 
 		catch (InterruptedException e) {e.printStackTrace();}
 		
 		clip.stop();

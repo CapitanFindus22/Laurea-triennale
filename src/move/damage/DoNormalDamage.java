@@ -31,13 +31,13 @@ public class DoNormalDamage implements Damage {
 
 		damage += 2;
 
-		if (m.getType() == p1.getType() || m.getType() == p1.getType2())
+		if (m.getType() == p1.getType() || m.getType() == p1.getType2().orElse(null))
 			damage *= 1.5;
 
 		damage *= Move.TYPES_ADVANTAGE[m.getType().toInt()][p2.getType().toInt()];
 
-		if (p2.getType2() != null)
-			damage *= Move.TYPES_ADVANTAGE[m.getType().toInt()][p2.getType2().toInt()];
+		if (p2.getType2().isPresent())
+			damage *= Move.TYPES_ADVANTAGE[m.getType().toInt()][p2.getType2().orElseThrow().toInt()];
 
 		if (damage > 1) {
 
