@@ -276,7 +276,7 @@ public abstract class Pokemon {
 
 		int limit = RNG.nextInt(256);
 
-		return (limit < accuracy) ? true : false;
+		return limit < accuracy;
 	}
 
 	// Getter
@@ -299,7 +299,7 @@ public abstract class Pokemon {
 	 * {@return the second type of the pokémon}
 	 */
 	public Optional<Type> getType2() {
-		return Optional.of(type2);
+		return Optional.ofNullable(type2);
 	}
 
 	/**

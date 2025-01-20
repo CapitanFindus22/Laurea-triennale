@@ -145,7 +145,7 @@ public class Move {
 	 */
 	public boolean alwaysHit() {
 		
-		return (accuracy==0||accuracy==100)?true:false;
+		return (accuracy==0||accuracy==100);
 		
 	}
 	
