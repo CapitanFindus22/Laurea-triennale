@@ -35,7 +35,7 @@ public class Entry {
 	private int streak;
 
 	/**
-	 * The name of the pokemon used
+	 * The name of the pokémon used
 	 */
 	private String pokemon_name;
 
@@ -44,7 +44,7 @@ public class Entry {
 	 * 
 	 * @param name        the player name
 	 * @param streak      the number of rounds won
-	 * @param pokemonName the name of the pokemon used
+	 * @param pokemonName the name of the pokémon used
 	 */
 	public Entry(String name, int streak, String pokemonName) {
 
@@ -58,7 +58,7 @@ public class Entry {
 	 * Create an entry
 	 * 
 	 * @param values an array of strings containing: [0] the name, [1] the streak,
-	 *               [2] the pokemon name
+	 *               [2] the pokémon name
 	 */
 	public Entry(String[] values) {
 
@@ -132,7 +132,7 @@ public class Entry {
 	 * Save a new record in the file
 	 * 
 	 * @param name        the player name
-	 * @param pokemonName the pokemon used
+	 * @param pokemonName the pokémon used
 	 * @param roundWon    the number of rounds won
 	 */
 	public static void saveNewRecord(String name, String pokemonName, int roundWon) {
@@ -214,7 +214,7 @@ public class Entry {
 
 	/**
 	 * 
-	 * {@return the used pokemon name}
+	 * {@return the used pokémon name}
 	 */
 	public String getPkmn() {
 		return pokemon_name;

@@ -1,7 +1,7 @@
 package pokemon;
 
 /**
- * All the pokemon and move types in the first gen
+ * All the pokémon and move types in the first gen
  */
 public enum Type {
 

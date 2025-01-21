@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class FileRw {
 
 	/**
-	 * The path to the file containing all the pokemons and their stats
+	 * The path to the file containing all the pokémons and their stats
 	 */
 	private static final Path PKMN_PATH = Paths.get("resource", "text_file", "PokemonList.txt");
 
@@ -25,15 +25,15 @@ public class FileRw {
 	private static final Path MOVE_PATH = Paths.get("resource", "text_file", "MoveList.txt");
 
 	/**
-	 * The path to the file containing the moves learned by the pokemon on level up
+	 * The path to the file containing the moves learned by the pokémon on level up
 	 */
 	private static final Path LVL_UP_MOVE_PATH = Paths.get("resource", "text_file", "LvlUpMoves.txt");
 
 	/**
-	 * Find a pokemon in the file
+	 * Find a pokémon in the file
 	 * 
-	 * @param name the name of the pokemon to find
-	 * @return a string containing all the info about the pokemon
+	 * @param name the name of the pokémon to find
+	 * @return a string containing all the info about the pokémon
 	 */
 	public static String findPokemon(String name) {
 
@@ -101,9 +101,9 @@ public class FileRw {
 	}
 
 	/**
-	 * Find all the moves learned by level up of the pokemon
+	 * Find all the moves learned by level up of the pokémon
 	 * 
-	 * @param name the pokemon name
+	 * @param name the pokémon name
 	 * @return a map of the form (level_needed, move_name)
 	 */
 	public static TreeMap<Integer, String> getLvlUpMoves(String name) {
@@ -133,9 +133,9 @@ public class FileRw {
 	}
 
 	/**
-	 * Create a list of all the pokemon in the files
+	 * Create a list of all the pokémon in the files
 	 * 
-	 * @return a set containing all the available pokemon
+	 * @return a set containing all the available pokémon
 	 */
 	public static TreeSet<String> allPokemon() {
 

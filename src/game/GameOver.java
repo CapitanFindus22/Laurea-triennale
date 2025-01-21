@@ -30,7 +30,7 @@ public class GameOver extends JDialog {
 	 * Create the window
 	 * 
 	 * @param streak      the number of rounds won
-	 * @param pokemonName the pokemon used
+	 * @param pokemonName the pokémon used
 	 */
 	public GameOver(int streak, String pokemonName) {
 

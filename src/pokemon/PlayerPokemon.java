@@ -12,12 +12,12 @@ import i_o.SpriteFinder;
 import move.Move;
 
 /**
- * The pokemon used by the player
+ * The pokémon used by the player
  */
 public class PlayerPokemon extends Pokemon {
 
 	/**
-	 * The sprite of the pokemon
+	 * The sprite of the pokémon
 	 */
 	private Image backSprite;
 
@@ -32,9 +32,9 @@ public class PlayerPokemon extends Pokemon {
 	private HashSet<String> pastMoves;
 
 	/**
-	 * Create a level 1 pokemon with a sprite
+	 * Create a level 1 pokémon with a sprite
 	 * 
-	 * @param name the name of the pokemon
+	 * @param name the name of the pokémon
 	 */
 	public PlayerPokemon(String name) {
 
@@ -59,7 +59,7 @@ public class PlayerPokemon extends Pokemon {
 	}
 
 	/**
-	 * Check if the pokemon wants to learn a new move and act accordingly to how
+	 * Check if the pokémon wants to learn a new move and act accordingly to how
 	 * many moves he knows
 	 */
 	private void checkNewMove() {
@@ -141,7 +141,7 @@ public class PlayerPokemon extends Pokemon {
 	}
 
 	/**
-	 * Add a move to those known by the pokemon
+	 * Add a move to those known by the pokémon
 	 * 
 	 * @param name the name of the move
 	 */
@@ -152,7 +152,7 @@ public class PlayerPokemon extends Pokemon {
 	// Getter
 
 	/**
-	 * {@return the sprite of the pokemon}
+	 * {@return the sprite of the pokémon}
 	 */
 	public Image getBackSprite() {
 		return backSprite;

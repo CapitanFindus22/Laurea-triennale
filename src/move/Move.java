@@ -14,7 +14,7 @@ import pokemon.Pokemon;
 import pokemon.Type;
 
 /**
- * A move performed by a pokemon
+ * A move performed by a pokémon
  */
 public class Move {
 
@@ -129,8 +129,8 @@ public class Move {
 	/**
 	 * Execute the move
 	 * 
-	 * @param p1 the attacking pokemon
-	 * @param p2 the defending pokemon
+	 * @param p1 the attacking pokémon
+	 * @param p2 the defending pokémon
 	 */
 	public void esegui(Pokemon p1, Pokemon p2) {
 

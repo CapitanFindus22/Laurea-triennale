@@ -55,7 +55,7 @@ public final class Game extends JPanel {
 	private static JLabel txt;
 
 	/**
-	 * All the available pokemon
+	 * All the available pokémon
 	 */
 	private final TreeSet<String> ALL_POKEMON = FileRw.allPokemon();
 
@@ -65,12 +65,12 @@ public final class Game extends JPanel {
 	private final Random RNG = new Random();
 
 	/**
-	 * The enemy pokemon
+	 * The enemy pokémon
 	 */
 	private EnemyPokemon enemy;
 
 	/**
-	 * The player pokemon
+	 * The player pokémon
 	 */
 	private PlayerPokemon player;
 
@@ -82,7 +82,7 @@ public final class Game extends JPanel {
 	/**
 	 * Delay used to "animate"
 	 */
-	private final int MILLIS_DELAY = 95;
+	private final int MILLIS_DELAY = 97;
 
 	/**
 	 * The number of rounds won
@@ -94,7 +94,7 @@ public final class Game extends JPanel {
 	 * 
 	 * @param cLayout   the card layout used for switching
 	 * @param container the parent of this panel
-	 * @param player    the pokemon chose by the player
+	 * @param player    the pokémon chose by the player
 	 */
 	public Game(CardLayout cLayout, JPanel container, PlayerPokemon player) {
 
@@ -125,7 +125,7 @@ public final class Game extends JPanel {
 			}
 		});
 
-		// Each button in commands is related to one of the player pokemon moves
+		// Each button in commands is related to one of the player pokémon moves
 
 		// First
 		commands.getFirstMove().addActionListener(new ActionListener() {
@@ -361,9 +361,9 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Check if the enemy pokemon has 0 HP
+	 * Check if the enemy pokémon has 0 HP
 	 * 
-	 * @return true if the enemy pokemon fainted
+	 * @return true if the enemy pokémon fainted
 	 * @throws InterruptedException if Thread.sleep fails
 	 */
 	private boolean checkKo() throws InterruptedException {
@@ -377,6 +377,10 @@ public final class Game extends JPanel {
 			streak++;
 
 			if (player.addXp(player.calculateXp(enemy))) {
+				
+				textWrite(player.getName() + " sale di livello");
+
+				Thread.sleep(MILLIS_DELAY*2);
 				
 				bv.lvlUp(player);
 				checkNewMove();
@@ -415,9 +419,9 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Choose a random move from those available to the enemy pokemon
+	 * Choose a random move from those available to the enemy pokémon
 	 * 
-	 * @return a random move of the enemy pokemon
+	 * @return a random move of the enemy pokémon
 	 */
 	private Move getRandomMove() {
 
@@ -428,9 +432,9 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Get a random enemy pokemon from those available
+	 * Get a random enemy pokémon from those available
 	 * 
-	 * @return a random pokemon name from the allPokemon set
+	 * @return a random pokémon name from the allPokemon set
 	 */
 	private String getRandomPokemon() {
 
@@ -450,7 +454,7 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Create a new enemy pokemon
+	 * Create a new enemy pokémon
 	 * 
 	 * @throws InterruptedException if Thread.sleep fails
 	 */
@@ -480,7 +484,7 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Check if the player pokemon has a new move and update the associated button
+	 * Check if the player pokémon has a new move and update the associated button
 	 */
 	private void checkNewMove() {
 

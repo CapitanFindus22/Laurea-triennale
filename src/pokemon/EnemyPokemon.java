@@ -11,19 +11,19 @@ import i_o.SpriteFinder;
 import move.Move;
 
 /**
- * The pokemon used by the enemy
+ * The pokémon used by the enemy
  */
 public class EnemyPokemon extends Pokemon {
 
 	/**
-	 * The sprite of the pokemon
+	 * The sprite of the pokémon
 	 */
 	private Image frontSprite;
 
 	/**
-	 * Create a level 1 enemy pokemon
+	 * Create a level 1 enemy pokémon
 	 * 
-	 * @param name the name of the pokemon
+	 * @param name the name of the pokémon
 	 */
 	public EnemyPokemon(String name) {
 
@@ -35,10 +35,10 @@ public class EnemyPokemon extends Pokemon {
 	}
 
 	/**
-	 * Create an enemy pokemon of the specified level
+	 * Create an enemy pokémon of the specified level
 	 * 
-	 * @param name  the name of the pokemon
-	 * @param level the level of the pokemon
+	 * @param name  the name of the pokémon
+	 * @param level the level of the pokémon
 	 */
 	public EnemyPokemon(String name, int level) {
 
@@ -51,7 +51,7 @@ public class EnemyPokemon extends Pokemon {
 	}
 
 	/**
-	 * Choose random moves for the pokemon according to its level and the available
+	 * Choose random moves for the pokémon according to its level and the available
 	 * moves for that level
 	 */
 	private void chooseMoves() {
@@ -98,7 +98,7 @@ public class EnemyPokemon extends Pokemon {
 	// Getter
 
 	/**
-	 * {@return the sprite of the pokemon}
+	 * {@return the sprite of the pokémon}
 	 */
 	public Image getFrontSprite() {
 		return frontSprite;

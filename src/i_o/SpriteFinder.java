@@ -8,14 +8,14 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 
 /**
- * Find the sprites of the pokemon
+ * Find the sprites of the pokémon
  */
 public class SpriteFinder {
 
 	/**
 	 * Find the front sprite
 	 * 
-	 * @param name the name of the pokemon
+	 * @param name the name of the pokémon
 	 * @return the image of the sprite
 	 */
 	public static BufferedImage findFront(String name) {
@@ -35,7 +35,7 @@ public class SpriteFinder {
 	/**
 	 * Find the back sprite
 	 * 
-	 * @param name the name of the pokemon
+	 * @param name the name of the pokémon
 	 * @return the image of the sprite
 	 */
 	public static BufferedImage findBack(String name) {

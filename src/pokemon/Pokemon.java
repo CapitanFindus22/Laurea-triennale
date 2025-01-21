@@ -8,7 +8,7 @@ import i_o.FileRw;
 import move.Move;
 
 /**
- * A pokemon
+ * A pokémon
  */
 public abstract class Pokemon {
 
@@ -78,7 +78,7 @@ public abstract class Pokemon {
 	private final Random RNG = new Random();
 
 	/**
-	 * Create a level 1 pokemon
+	 * Create a level 1 pokémon
 	 * 
 	 * @param name the name of the pokémon
 	 */

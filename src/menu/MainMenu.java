@@ -81,15 +81,15 @@ public final class MainMenu extends JFrame {
 		main_panel.setLayout(new BorderLayout(0, 0));
 		main_panel.setBackground(new Color(196, 207, 161));
 
-		// The panel containing stuff to select the pokemon
+		// The panel containing stuff to select the pokémon
 		JPanel choosePanel = new JPanel();
 		choosePanel.setBackground(new Color(196, 207, 161));
 
 		// Just text
-		JLabel choose = new JLabel("Scegli il tuo pokemon");
+		JLabel choose = new JLabel("Scegli il tuo pokémon");
 		choose.setFont(new Font("Monospaced", Font.BOLD, 20));
 
-		// A list of pokemon to choose from
+		// A list of pokémon to choose from
 		JComboBox<String> cbox = new JComboBox<>(FileRw.allPokemon().toArray(String[]::new));
 		cbox.setFont(new Font("Monospaced", Font.BOLD, 20));
 		cbox.setPreferredSize(new Dimension(200, 60));

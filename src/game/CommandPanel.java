@@ -59,7 +59,7 @@ public final class CommandPanel extends JPanel {
 	/**
 	 * Create the panel
 	 * 
-	 * @param player the pokemon used by the player
+	 * @param player the pokémon used by the player
 	 */
 	public CommandPanel(Pokemon player) {
 
@@ -89,7 +89,7 @@ public final class CommandPanel extends JPanel {
 		strumenti.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		strumenti.setFont(new Font("Monospaced", Font.ITALIC, 14));
 
-		// Pokemon button
+		// Pokémon button
 		JButton pokemon = new JButton("POKÉMON");
 		pokemon.setPreferredSize(new Dimension(100, 150));
 		pokemon.setEnabled(false);

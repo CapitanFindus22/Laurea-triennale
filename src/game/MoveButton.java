@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import move.Move;
 
 /**
- * A custom button that is associated with a pokemon move
+ * A custom button that is associated with a pokémon move
  */
 public class MoveButton extends JButton {
 

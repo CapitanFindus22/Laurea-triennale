@@ -21,8 +21,8 @@ public class EnStat implements StatsChange {
 	/**
 	 * Save the stats to consider and the values for each
 	 * 
-	 * @param stats  a string containing the stats affected
-	 * @param amount an array of string containing the values for each stat
+	 * @param stats  an array of strings containing the stats affected
+	 * @param amount an array of strings containing the values for each stat
 	 */
 	public EnStat(String[] stats, String[] amount) {
 

@@ -32,44 +32,44 @@ public final class VisualBattle extends JPanel {
 	// Player
 
 	/**
-	 * Contain the name of the player pokemon
+	 * Contain the name of the player pokémon
 	 */
 	private JLabel playerName;
 
 	/**
-	 * Contain the level of the player pokemon
+	 * Contain the level of the player pokémon
 	 */
 	private JLabel playerLvl;
 
 	/**
-	 * Contain the sprite of the player pokemon
+	 * Contain the sprite of the player pokémon
 	 */
 	private JLabel playerSprite;
 
 	/**
-	 * Display the hp of the player pokemon
+	 * Display the hp of the player pokémon
 	 */
 	private JProgressBar playerHp;
 
 	// Enemy
 
 	/**
-	 * Contain the name of the enemy pokemon
+	 * Contain the name of the enemy pokémon
 	 */
 	private JLabel enemyName;
 
 	/**
-	 * Contain the level of the enemy pokemon
+	 * Contain the level of the enemy pokémon
 	 */
 	private JLabel enemyLvl;
 
 	/**
-	 * Contain the sprite of the enemy pokemon
+	 * Contain the sprite of the enemy pokémon
 	 */
 	private JLabel enemySprite;
 
 	/**
-	 * Display the hp of the enemy pokemon
+	 * Display the hp of the enemy pokémon
 	 */
 	private JProgressBar enemyHp;
 
@@ -86,8 +86,8 @@ public final class VisualBattle extends JPanel {
 	/**
 	 * Create the panel
 	 * 
-	 * @param player the player pokemon
-	 * @param enemy  the Enemy pokemon
+	 * @param player the player pokémon
+	 * @param enemy  the Enemy pokémon
 	 */
 	public VisualBattle(PlayerPokemon player, EnemyPokemon enemy) {
 
@@ -212,8 +212,8 @@ public final class VisualBattle extends JPanel {
 	/**
 	 * Update the healthbars
 	 * 
-	 * @param player the player pokemon
-	 * @param enemy  the enemy pokemon
+	 * @param player the player pokémon
+	 * @param enemy  the enemy pokémon
 	 */
 	public void updateBars(PlayerPokemon player, EnemyPokemon enemy) {
 
@@ -230,7 +230,7 @@ public final class VisualBattle extends JPanel {
 	/**
 	 * Update the panel with the new enemy
 	 * 
-	 * @param enemy the enemy pokemon
+	 * @param enemy the enemy pokémon
 	 */
 	public void newEnemy(EnemyPokemon enemy) {
 
@@ -250,7 +250,7 @@ public final class VisualBattle extends JPanel {
 	/**
 	 * Update the player elements on level up
 	 * 
-	 * @param player the player pokemon
+	 * @param player the player pokémon
 	 */
 	public void lvlUp(PlayerPokemon player) {
 

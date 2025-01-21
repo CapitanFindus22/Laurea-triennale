@@ -20,7 +20,7 @@ import pokemon.PlayerPokemon;
 
 /**
  * A custom JDialog that let the player choose to swap a move or not when the
- * pokemon has 4 moves and wants to learn a new one
+ * pokémon has 4 moves and wants to learn a new one
  */
 public final class MoveChange extends JDialog {
 
@@ -32,7 +32,7 @@ public final class MoveChange extends JDialog {
 	/**
 	 * Create the window
 	 * 
-	 * @param player   the pokemon of the player
+	 * @param player   the pokémon of the player
 	 * @param moveName the new move
 	 */
 	public MoveChange(PlayerPokemon player, String moveName) {

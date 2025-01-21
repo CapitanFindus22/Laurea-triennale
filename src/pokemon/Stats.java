@@ -1,7 +1,7 @@
 package pokemon;
 
 /**
- * The stats of a pokemon
+ * The stats of a pokémon
  */
 public class Stats {
 
