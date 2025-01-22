@@ -42,9 +42,9 @@ public class Move {
 	};
 	
 	/**
-	 * The function
+	 * The function associated
 	 */
-	private MoveFunction execute;
+	private MoveFunction function;
 
 	/**
 	 * The move name
@@ -112,7 +112,7 @@ public class Move {
 	 */
 	private void findFunction(String[] subString) {
 
-		execute = switch (MoveType.valueOf(subString[0])) {
+		function = switch (MoveType.valueOf(subString[0])) {
 
 		case NorAtt -> new DoNormalDamage();
 		case SpAtt -> new DoSpecialDamage();
@@ -134,7 +134,7 @@ public class Move {
 	 */
 	public void esegui(Pokemon p1, Pokemon p2) {
 
-		execute.esegui(p1, p2, this);
+		function.execute(p1, p2, this);
 		pp--;
 		timeUsed++;
 

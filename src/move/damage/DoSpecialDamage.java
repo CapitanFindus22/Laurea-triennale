@@ -12,7 +12,7 @@ public class DoSpecialDamage implements Damage {
 	 * Calculate the damage dealt from p1 to p2 with the first gen formula
 	 */
 	@Override
-	public void esegui(Pokemon p1, Pokemon p2, Move m) {
+	public void execute(Pokemon p1, Pokemon p2, Move m) {
 
 		float damage = p1.getLevel() * 2;
 

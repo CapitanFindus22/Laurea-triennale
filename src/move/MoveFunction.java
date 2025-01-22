@@ -14,6 +14,6 @@ public interface MoveFunction {
 	 * @param p2 the other pokémon
 	 * @param m  the move used
 	 */
-	abstract void esegui(Pokemon p1, Pokemon p2, Move m);
+	abstract void execute(Pokemon p1, Pokemon p2, Move m);
 
 }

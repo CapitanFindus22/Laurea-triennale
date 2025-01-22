@@ -41,7 +41,7 @@ public class SelfStat implements StatsChange {
 	 * Increment the appropriate stats
 	 */
 	@Override
-	public void esegui(Pokemon p1, Pokemon p2, Move m) {
+	public void execute(Pokemon p1, Pokemon p2, Move m) {
 
 		if (m.getTimeUsed() <= 6) {
 
