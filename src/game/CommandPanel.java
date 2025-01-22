@@ -27,11 +27,6 @@ public final class CommandPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The panel containing everything
-	 */
-	private JPanel buttons;
-
-	/**
 	 * The button associated to the first move
 	 */
 	private MoveButton b1;
@@ -65,7 +60,7 @@ public final class CommandPanel extends JPanel {
 
 		this.setLayout(new BorderLayout(0, 0));
 
-		buttons = new JPanel();
+		JPanel buttons = new JPanel();
 		buttons.setLayout(new BorderLayout(10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		buttons.setBackground(new Color(192, 192, 192));

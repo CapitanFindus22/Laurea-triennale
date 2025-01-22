@@ -54,6 +54,11 @@ public final class Leaderboard extends JFrame {
 	private Entry[] record;
 
 	/**
+	 * The table containing the values
+	 */
+	private RecordTable table;
+	
+	/**
 	 * Create the window
 	 */
 	private Leaderboard() {
@@ -70,7 +75,7 @@ public final class Leaderboard extends JFrame {
 		record = new Entry[MAX_SIZE];
 		Entry.fill(record);
 
-		RecordTable table = new RecordTable(record);
+		table = new RecordTable(record);
 		table.setRowHeight(this.getHeight() / table.getRowCount());
 
 		JScrollPane pane = new JScrollPane(table);
@@ -103,7 +108,7 @@ public final class Leaderboard extends JFrame {
 	 */
 	public static boolean existIstance() {
 
-		return (instance != null) ? true : false;
+		return instance != null;
 
 	}
 

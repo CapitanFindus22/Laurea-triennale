@@ -82,7 +82,7 @@ public final class Game extends JPanel {
 	/**
 	 * Delay used to "animate"
 	 */
-	private final int MILLIS_DELAY = 97;
+	private final int MILLIS_DELAY = 100;
 
 	/**
 	 * The number of rounds won
