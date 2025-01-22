@@ -47,9 +47,19 @@ public final class CommandPanel extends JPanel {
 	private MoveButton b4;
 
 	/**
-	 * The button for returning to the menu
+	 * The button used for returning to the menu
 	 */
 	private JButton backButton;
+	
+	/**
+	 * The button used for viewing what's in the bag
+	 */
+	private JButton bag;
+	
+	/**
+	 * The button used for viewing your other pokémon
+	 */
+	private JButton pokemon;
 
 	/**
 	 * Create the panel
@@ -76,16 +86,16 @@ public final class CommandPanel extends JPanel {
 		backButton.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
 		// Instruments button
-		JButton strumenti = new JButton("STRUMENTI");
-		strumenti.setPreferredSize(new Dimension(100, 150));
-		strumenti.setEnabled(false);
-		strumenti.setBorder(null);
-		strumenti.setBackground(new Color(255, 128, 64));
-		strumenti.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		strumenti.setFont(new Font("Monospaced", Font.ITALIC, 14));
+		bag = new JButton("STRUMENTI");
+		bag.setPreferredSize(new Dimension(100, 150));
+		bag.setEnabled(false);
+		bag.setBorder(null);
+		bag.setBackground(new Color(255, 128, 64));
+		bag.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		bag.setFont(new Font("Monospaced", Font.ITALIC, 14));
 
 		// Pokémon button
-		JButton pokemon = new JButton("POKÉMON");
+		pokemon = new JButton("POKÉMON");
 		pokemon.setPreferredSize(new Dimension(100, 150));
 		pokemon.setEnabled(false);
 		pokemon.setBorder(null);
@@ -132,7 +142,7 @@ public final class CommandPanel extends JPanel {
 		mosse.add(mosseDown, BorderLayout.SOUTH);
 
 		buttons.add(backButton, BorderLayout.SOUTH);
-		buttons.add(strumenti, BorderLayout.WEST);
+		buttons.add(bag, BorderLayout.WEST);
 		buttons.add(pokemon, BorderLayout.EAST);
 		buttons.add(mosse, BorderLayout.CENTER);
 
