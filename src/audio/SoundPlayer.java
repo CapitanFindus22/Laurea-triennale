@@ -39,7 +39,7 @@ public class SoundPlayer {
 	public void setFile(String name) {
 
 		audio_path = Paths.get("resource", "audio", name + ".wav");
-		
+
 		try {
 
 			audio = AudioSystem.getAudioInputStream(audio_path.toFile());
@@ -61,12 +61,15 @@ public class SoundPlayer {
 	 * Play the set sound
 	 */
 	public void play() {
-		
+
 		clip.start();
-		
-		try {Thread.sleep((int)(clip.getMicrosecondLength()*0.001-100));} 
-		catch (InterruptedException e) {e.printStackTrace();}
-		
+
+		try {
+			Thread.sleep((int) (clip.getMicrosecondLength() * 0.001 - 100));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		clip.stop();
 		clip.close();
 	}

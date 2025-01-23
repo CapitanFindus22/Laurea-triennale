@@ -36,7 +36,7 @@ public class DoSpecialDamage implements Damage {
 
 		damage *= Move.TYPES_ADVANTAGE[m.getType().toInt()][p2.getType().toInt()];
 
-		if (p2.getType2() != null)
+		if (p2.getType2().isPresent())
 			damage *= Move.TYPES_ADVANTAGE[m.getType().toInt()][p2.getType2().orElseThrow().toInt()];
 
 		if (damage > 1) {

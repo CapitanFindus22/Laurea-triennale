@@ -163,7 +163,7 @@ public final class VisualBattle extends JPanel {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				
+
 				SoundPlayer sound = new SoundPlayer();
 				sound.setFile(player.getName());
 
@@ -181,7 +181,7 @@ public final class VisualBattle extends JPanel {
 				playerHp.setVisible(true);
 
 				sound.play();
-				
+
 				sound.setFile(enemy.getName());
 
 				enemySprite.setIcon(new ImageIcon(enemy.getFrontSprite()));

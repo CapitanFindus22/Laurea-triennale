@@ -46,7 +46,7 @@ public class Pokemon {
 	 * The IVs of the pokémon
 	 */
 	private final Stats IVs;
-	
+
 	/**
 	 * Accuracy
 	 */
@@ -106,9 +106,10 @@ public class Pokemon {
 		BASE_STATS = new Stats(Arrays.copyOfRange(s, 5, s.length - 1));
 
 		BASE_XP = Integer.parseInt(s[s.length - 1]);
-		
+
 		// Create the IVs
-		int[] rng = new int[] {RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16)};
+		int[] rng = new int[] { RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16),
+				RNG.nextInt(16) };
 		IVs = new Stats(rng);
 
 		level = 1;
@@ -152,9 +153,10 @@ public class Pokemon {
 		BASE_STATS = new Stats(Arrays.copyOfRange(s, 5, s.length - 1));
 
 		BASE_XP = Integer.parseInt(s[s.length - 1]);
-		
+
 		// Create the IVs
-		int[] rng = new int[] {RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16),RNG.nextInt(16)};
+		int[] rng = new int[] { RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16), RNG.nextInt(16),
+				RNG.nextInt(16) };
 		IVs = new Stats(rng);
 
 		level = lvl - 1;
@@ -263,8 +265,8 @@ public class Pokemon {
 	/**
 	 * Check if a move hit
 	 * 
-	 * @param move   the move used
-	 * @param defender  the defending pokémon
+	 * @param move     the move used
+	 * @param defender the defending pokémon
 	 * @return true if the player move hit the enemy
 	 */
 	public boolean doesHit(Move move, Pokemon defender) {

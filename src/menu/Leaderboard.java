@@ -57,7 +57,7 @@ public final class Leaderboard extends JFrame {
 	 * The table containing the values
 	 */
 	private RecordTable table;
-	
+
 	/**
 	 * Create the window
 	 */

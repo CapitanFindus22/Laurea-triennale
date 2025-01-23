@@ -191,7 +191,7 @@ public class Entry {
 	 * @return true if it's empty
 	 */
 	private static boolean isEmpty(Entry[] entries) {
-		return (entries[0] == null) ? true : false;
+		return entries[0] == null;
 	}
 
 	// Getter

@@ -50,12 +50,12 @@ public final class CommandPanel extends JPanel {
 	 * The button used for returning to the menu
 	 */
 	private JButton backButton;
-	
+
 	/**
 	 * The button used for viewing what's in the bag
 	 */
 	private JButton bag;
-	
+
 	/**
 	 * The button used for viewing your other pokémon
 	 */

@@ -68,7 +68,7 @@ public class Stats {
 		this.speed = allStats[5];
 
 	}
-	
+
 	// Getter
 
 	/**

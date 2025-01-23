@@ -22,25 +22,25 @@ public class Move {
 	 * Represent the move types advantage, to use with Types as indexes
 	 */
 	public static final float[][] TYPES_ADVANTAGE = {
-		
-	{ 1f, 1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   0.5f, 0f,   1f   },
-	{ 1f, 0.5f, 0.5f, 1f,   2f,   2f,   1f,   1f,   1f,   1f,   1f,   2f,   0.5f, 1f,   0.5f },
-	{ 1f, 2f,   0.5f, 1f,   0.5f, 1f,   1f,   1f,   2f,   1f,   1f,   1f,   2f,   1f,   0.5f },
-	{ 1f, 1f,   2f,   0.5f, 0.5f, 1f,   1f,   1f,   0f,   2f,   1f,   1f,   1f,   1f,   0.5f },
-	{ 1f, 0.5f, 2f,   1f,   0.5f, 1f,   1f,   0.5f, 2f,   0.5f, 1f,   0.5f, 2f,   1f,   0.5f },
-	{ 1f, 1f,   0.5f, 1f,   2f,   0.5f, 1f,   1f,   2f,   2f,   1f,   1f,   1f,   1f,   2f   },
-	{ 2f, 1f,   1f,   1f,   1f,   2f,   1f,   0.5f, 1f,   0.5f, 0.5f, 0.5f, 2f,   0f,   1f   },
-	{ 1f, 1f,   1f,   1f,   2f,   1f,   1f,   0.5f, 0.5f, 1f,   1f,   2f,   0.5f, 0.5f, 1f   },
-	{ 1f, 2f,   1f,   2f,   0.5f, 1f,   1f,   2f,   1f,   0f,   1f,   0.5f, 2f,   1f,   1f   },
-	{ 1f, 1f,   1f,   0.5f, 2f,   1f,   2f,   1f,   1f,   1f,   1f,   2f,   0.5f, 1f,   1f   },
-	{ 1f, 1f,   1f,   1f,   1f,   1f,   2f,   2f,   1f,   1f,   0.5f, 1f,   1f,   1f,   1f   },
-	{ 1f, 0.5f, 1f,   1f,   2f,   1f,   0.5f, 2f,   1f,   0.5f, 2f,   1f,   1f,   0.5f, 1f   },
-	{ 1f, 2f,   1f,   1f,   1f,   2f,   0.5f, 1f,   0.5f, 2f,   1f,   2f,   1f,   1f,   1f   },
-	{ 0f, 1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   0f,   1f,   1f,   2f,   1f   },
-	{ 1f, 1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   2f   }
-		
+
+			{ 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0.5f, 0f, 1f },
+			{ 1f, 0.5f, 0.5f, 1f, 2f, 2f, 1f, 1f, 1f, 1f, 1f, 2f, 0.5f, 1f, 0.5f },
+			{ 1f, 2f, 0.5f, 1f, 0.5f, 1f, 1f, 1f, 2f, 1f, 1f, 1f, 2f, 1f, 0.5f },
+			{ 1f, 1f, 2f, 0.5f, 0.5f, 1f, 1f, 1f, 0f, 2f, 1f, 1f, 1f, 1f, 0.5f },
+			{ 1f, 0.5f, 2f, 1f, 0.5f, 1f, 1f, 0.5f, 2f, 0.5f, 1f, 0.5f, 2f, 1f, 0.5f },
+			{ 1f, 1f, 0.5f, 1f, 2f, 0.5f, 1f, 1f, 2f, 2f, 1f, 1f, 1f, 1f, 2f },
+			{ 2f, 1f, 1f, 1f, 1f, 2f, 1f, 0.5f, 1f, 0.5f, 0.5f, 0.5f, 2f, 0f, 1f },
+			{ 1f, 1f, 1f, 1f, 2f, 1f, 1f, 0.5f, 0.5f, 1f, 1f, 2f, 0.5f, 0.5f, 1f },
+			{ 1f, 2f, 1f, 2f, 0.5f, 1f, 1f, 2f, 1f, 0f, 1f, 0.5f, 2f, 1f, 1f },
+			{ 1f, 1f, 1f, 0.5f, 2f, 1f, 2f, 1f, 1f, 1f, 1f, 2f, 0.5f, 1f, 1f },
+			{ 1f, 1f, 1f, 1f, 1f, 1f, 2f, 2f, 1f, 1f, 0.5f, 1f, 1f, 1f, 1f },
+			{ 1f, 0.5f, 1f, 1f, 2f, 1f, 0.5f, 2f, 1f, 0.5f, 2f, 1f, 1f, 0.5f, 1f },
+			{ 1f, 2f, 1f, 1f, 1f, 2f, 0.5f, 1f, 0.5f, 2f, 1f, 2f, 1f, 1f, 1f },
+			{ 0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f, 1f, 1f, 2f, 1f },
+			{ 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 2f }
+
 	};
-	
+
 	/**
 	 * The function associated
 	 */
@@ -75,7 +75,7 @@ public class Move {
 	 * The move current pp
 	 */
 	private int pp;
-	
+
 	/**
 	 * Counter for the number of times this move has been used
 	 */
@@ -123,7 +123,7 @@ public class Move {
 		case Other -> throw new IllegalArgumentException("Unexpected value: " + MoveType.valueOf(subString[0]));
 
 		};
-		
+
 	}
 
 	/**
@@ -144,16 +144,18 @@ public class Move {
 	 * {@return true if the move always hit}
 	 */
 	public boolean alwaysHit() {
-		
-		return (accuracy==0||accuracy==100);
-		
+
+		return (accuracy == 0 || accuracy == 100);
+
 	}
-	
+
 	/**
 	 * Decrease PP by one
 	 */
-	public void decreasePP() {pp--;}
-	
+	public void decreasePP() {
+		pp--;
+	}
+
 	// Getter
 
 	/**

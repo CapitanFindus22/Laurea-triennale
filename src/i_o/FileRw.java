@@ -56,7 +56,7 @@ public class FileRw {
 			br.close();
 
 		} catch (IOException e) {
-			
+
 			result = "MissingNo.,Volante,Normale,Pistolacqua,Legatutto,178,19,11,23,23,0,0";
 			e.printStackTrace();
 		}

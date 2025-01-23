@@ -226,7 +226,7 @@ public final class Game extends JPanel {
 				commands.enableBack();
 				return null;
 			}
-			
+
 		}.execute();
 	}
 
@@ -255,7 +255,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (player.doesHit(move, enemy)||(move.alwaysHit())) {
+					if (player.doesHit(move, enemy) || (move.alwaysHit())) {
 
 						move.esegui(player, enemy);
 						commands.updateButtons();
@@ -279,7 +279,7 @@ public final class Game extends JPanel {
 						Thread.sleep(MILLIS_DELAY);
 
 						// Check if the move hit
-						if (enemy.doesHit( used, player)||(used.alwaysHit())) {
+						if (enemy.doesHit(used, player) || (used.alwaysHit())) {
 
 							used.esegui(enemy, player);
 							Thread.sleep(MILLIS_DELAY);
@@ -306,7 +306,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (enemy.doesHit(used, player)||(used.alwaysHit())) {
+					if (enemy.doesHit(used, player) || (used.alwaysHit())) {
 
 						used.esegui(enemy, player);
 						Thread.sleep(MILLIS_DELAY);
@@ -328,7 +328,7 @@ public final class Game extends JPanel {
 					Thread.sleep(MILLIS_DELAY);
 
 					// Check if the move hit
-					if (player.doesHit(move, enemy)||(move.alwaysHit())) {
+					if (player.doesHit(move, enemy) || (move.alwaysHit())) {
 
 						move.esegui(player, enemy);
 						commands.updateButtons();
@@ -372,19 +372,19 @@ public final class Game extends JPanel {
 
 			textWrite(enemy.getName() + " avversario è stato sconfitto!");
 
-			Thread.sleep(MILLIS_DELAY*2);
+			Thread.sleep(MILLIS_DELAY * 2);
 
 			streak++;
 
 			if (player.addXp(player.calculateXp(enemy))) {
-				
+
 				textWrite(player.getName() + " sale di livello");
 
-				Thread.sleep(MILLIS_DELAY*2);
-				
+				Thread.sleep(MILLIS_DELAY * 2);
+
 				bv.lvlUp(player);
 				checkNewMove();
-				
+
 			}
 
 			newPkmn();
@@ -460,11 +460,12 @@ public final class Game extends JPanel {
 	 */
 	private void newPkmn() throws InterruptedException {
 
-		Thread.sleep(MILLIS_DELAY*2);
-		
+		Thread.sleep(MILLIS_DELAY * 2);
+
 		enemy = null;
 
-		enemy = new EnemyPokemon(getRandomPokemon(), RNG.nextInt(Math.max(1, player.getLevel()-5), player.getLevel()+1));
+		enemy = new EnemyPokemon(getRandomPokemon(),
+				RNG.nextInt(1, player.getLevel() + 1));
 
 		SOUNDS.setFile(enemy.getName());
 
@@ -554,11 +555,11 @@ public final class Game extends JPanel {
 
 		if (SOUNDS.isSet())
 			SOUNDS.close();
-		
+
 		cParent.first(this.getParent());
-		
+
 		this.getParent().remove(this);
-		
+
 	}
 
 }
