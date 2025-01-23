@@ -10,7 +10,7 @@ import move.Move;
 /**
  * A pokémon
  */
-public abstract class Pokemon {
+public class Pokemon {
 
 	/**
 	 * Name
