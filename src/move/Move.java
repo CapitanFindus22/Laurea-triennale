@@ -19,25 +19,26 @@ import pokemon.Type;
 public class Move {
 
 	/**
-	 * Represent the move types advantage, to use with Types as indexes
+	 * Represent the move types advantage, to use with Pokemon.Type as indexes, 
+	 * @see <a href="https://img.pokemondb.net/images/typechart-gen1.png">Type advantage chart for first generation</a>
 	 */
 	public static final float[][] TYPES_ADVANTAGE = {
 
-			{ 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0.5f, 0f, 1f },
-			{ 1f, 0.5f, 0.5f, 1f, 2f, 2f, 1f, 1f, 1f, 1f, 1f, 2f, 0.5f, 1f, 0.5f },
-			{ 1f, 2f, 0.5f, 1f, 0.5f, 1f, 1f, 1f, 2f, 1f, 1f, 1f, 2f, 1f, 0.5f },
-			{ 1f, 1f, 2f, 0.5f, 0.5f, 1f, 1f, 1f, 0f, 2f, 1f, 1f, 1f, 1f, 0.5f },
-			{ 1f, 0.5f, 2f, 1f, 0.5f, 1f, 1f, 0.5f, 2f, 0.5f, 1f, 0.5f, 2f, 1f, 0.5f },
-			{ 1f, 1f, 0.5f, 1f, 2f, 0.5f, 1f, 1f, 2f, 2f, 1f, 1f, 1f, 1f, 2f },
-			{ 2f, 1f, 1f, 1f, 1f, 2f, 1f, 0.5f, 1f, 0.5f, 0.5f, 0.5f, 2f, 0f, 1f },
-			{ 1f, 1f, 1f, 1f, 2f, 1f, 1f, 0.5f, 0.5f, 1f, 1f, 2f, 0.5f, 0.5f, 1f },
-			{ 1f, 2f, 1f, 2f, 0.5f, 1f, 1f, 2f, 1f, 0f, 1f, 0.5f, 2f, 1f, 1f },
-			{ 1f, 1f, 1f, 0.5f, 2f, 1f, 2f, 1f, 1f, 1f, 1f, 2f, 0.5f, 1f, 1f },
-			{ 1f, 1f, 1f, 1f, 1f, 1f, 2f, 2f, 1f, 1f, 0.5f, 1f, 1f, 1f, 1f },
-			{ 1f, 0.5f, 1f, 1f, 2f, 1f, 0.5f, 2f, 1f, 0.5f, 2f, 1f, 1f, 0.5f, 1f },
-			{ 1f, 2f, 1f, 1f, 1f, 2f, 0.5f, 1f, 0.5f, 2f, 1f, 2f, 1f, 1f, 1f },
-			{ 0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f, 1f, 1f, 2f, 1f },
-			{ 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 2f }
+			{ 1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	0.5f, 	0f, 	1f 		},
+			{ 1f, 	0.5f, 	0.5f, 	1f, 	2f, 	2f, 	1f, 	1f, 	1f, 	1f, 	1f, 	2f, 	0.5f, 	1f, 	0.5f 	},
+			{ 1f, 	2f, 	0.5f, 	1f, 	0.5f, 	1f, 	1f, 	1f, 	2f, 	1f, 	1f, 	1f, 	2f, 	1f, 	0.5f 	},
+			{ 1f, 	1f, 	2f, 	0.5f, 	0.5f, 	1f, 	1f, 	1f, 	0f, 	2f, 	1f, 	1f, 	1f, 	1f, 	0.5f 	},
+			{ 1f, 	0.5f, 	2f, 	1f, 	0.5f, 	1f, 	1f, 	0.5f, 	2f, 	0.5f, 	1f, 	0.5f, 	2f, 	1f, 	0.5f 	},
+			{ 1f, 	1f, 	0.5f, 	1f, 	2f, 	0.5f, 	1f, 	1f, 	2f, 	2f, 	1f, 	1f, 	1f, 	1f, 	2f 		},
+			{ 2f, 	1f, 	1f, 	1f, 	1f, 	2f, 	1f, 	0.5f, 	1f, 	0.5f, 	0.5f, 	0.5f, 	2f, 	0f, 	1f 		},
+			{ 1f, 	1f, 	1f, 	1f, 	2f, 	1f, 	1f, 	0.5f, 	0.5f, 	1f, 	1f, 	2f, 	0.5f, 	0.5f, 	1f 		},
+			{ 1f, 	2f, 	1f, 	2f, 	0.5f, 	1f, 	1f, 	2f, 	1f, 	0f, 	1f, 	0.5f, 	2f, 	1f, 	1f 		},
+			{ 1f, 	1f, 	1f, 	0.5f, 	2f, 	1f, 	2f, 	1f, 	1f, 	1f, 	1f, 	2f, 	0.5f, 	1f, 	1f 		},
+			{ 1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	2f, 	2f, 	1f, 	1f, 	0.5f, 	1f, 	1f, 	1f, 	1f 		},
+			{ 1f, 	0.5f, 	1f, 	1f, 	2f, 	1f, 	0.5f, 	2f, 	1f, 	0.5f, 	2f, 	1f, 	1f, 	0.5f, 	1f 		},
+			{ 1f, 	2f, 	1f, 	1f, 	1f, 	2f, 	0.5f, 	1f, 	0.5f, 	2f, 	1f, 	2f, 	1f, 	1f, 	1f 		},
+			{ 0f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	0f, 	1f, 	1f, 	2f, 	1f 		},
+			{ 1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	1f, 	2f 		}
 
 	};
 
