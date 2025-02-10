@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 
 /**
- * Find the sprites of the pokémon
+ * Find the sprite of the pokémon
  */
 public class SpriteFinder {
 
@@ -19,7 +19,7 @@ public class SpriteFinder {
 	 * @return the image of the sprite
 	 */
 	public static BufferedImage findFront(String name) {
-
+	
 		File file = Paths.get("resource", "image", "front_sprite", name + ".png").toFile();
 		try {
 			BufferedImage image = ImageIO.read(file);

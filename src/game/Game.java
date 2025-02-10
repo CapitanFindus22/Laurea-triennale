@@ -25,7 +25,7 @@ import pokemon.EnemyPokemon;
 import pokemon.PlayerPokemon;
 
 /**
- * A custom panel containing the game itself
+ * A custom panel containing all the game elements
  */
 public final class Game extends JPanel {
 
@@ -35,7 +35,7 @@ public final class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The Card Layout of the parent, to switch back to the menu
+	 * The Card Layout of the parent
 	 */
 	private CardLayout cParent;
 
@@ -77,7 +77,7 @@ public final class Game extends JPanel {
 	/**
 	 * The sound player
 	 */
-	private final SoundPlayer SOUNDS = new SoundPlayer();
+	private final SoundPlayer SOUNDS = new SoundPlayer();	
 
 	/**
 	 * Delay used to "animate"
@@ -231,7 +231,7 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Execute a step of the battle
+	 * Execute one step of the battle
 	 * 
 	 * @param move The move chose by the player
 	 */
@@ -361,10 +361,10 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Check if the enemy pokémon has 0 HP
+	 * Check if the enemy pokémon has fainted
 	 * 
 	 * @return true if the enemy pokémon fainted
-	 * @throws InterruptedException if Thread.sleep fails
+	 * @throws InterruptedException if {@link java.lang.Thread#sleep(long)} fails
 	 */
 	private boolean checkKo() throws InterruptedException {
 
@@ -400,7 +400,7 @@ public final class Game extends JPanel {
 	/**
 	 * Check if the player lost
 	 * 
-	 * @throws InterruptedException if Thread.sleep fails
+	 * @throws InterruptedException if {@link java.lang.Thread#sleep(long)} fails
 	 */
 	private void checkGameOver() throws InterruptedException {
 
@@ -434,7 +434,7 @@ public final class Game extends JPanel {
 	/**
 	 * Get a random enemy pokémon from those available
 	 * 
-	 * @return a random pokémon name from the allPokemon set
+	 * @return a random pokémon name
 	 */
 	private String getRandomPokemon() {
 
@@ -454,9 +454,9 @@ public final class Game extends JPanel {
 	}
 
 	/**
-	 * Create a new enemy pokémon
+	 * Create a new enemy
 	 * 
-	 * @throws InterruptedException if Thread.sleep fails
+	 * @throws InterruptedException if {@link java.lang.Thread#sleep(long)} fails
 	 */
 	private void newPkmn() throws InterruptedException {
 
@@ -529,10 +529,10 @@ public final class Game extends JPanel {
 
 	/**
 	 * 
-	 * Write the text passed slowly on the txt label
-	 * 
+	 * Slowly write the text passed on the middle label
+	 * 	
 	 * @param toWrite the string to write
-	 * @throws InterruptedException if Thread.sleep fails
+	 * @throws InterruptedException if {@link java.lang.Thread#sleep(long)} fails
 	 */
 	private void textWrite(String toWrite) throws InterruptedException {
 

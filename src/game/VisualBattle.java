@@ -87,7 +87,7 @@ public final class VisualBattle extends JPanel {
 	 * Create the panel
 	 * 
 	 * @param player the player pokémon
-	 * @param enemy  the Enemy pokémon
+	 * @param enemy  the enemy pokémon
 	 */
 	public VisualBattle(PlayerPokemon player, EnemyPokemon enemy) {
 
@@ -224,7 +224,7 @@ public final class VisualBattle extends JPanel {
 		enemyHp.setString(String.valueOf(enemy.getStats().getHp()));
 
 		playerLvl.setText(spacer + "Lv: " + player.getLevel());
-
+	
 	}
 
 	/**
@@ -248,7 +248,7 @@ public final class VisualBattle extends JPanel {
 	}
 
 	/**
-	 * Update the player elements on level up
+	 * Update the player elements when he levels up
 	 * 
 	 * @param player the player pokémon
 	 */

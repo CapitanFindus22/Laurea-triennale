@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import i_o.Entry;
 
 /**
- * A custom table used to store records from the game
+ * A custom table used to store records 
  */
 public final class RecordTable extends JTable {
 
@@ -75,7 +75,7 @@ public final class RecordTable extends JTable {
 	}
 
 	/**
-	 * Convert an array of Entry to rows of the table
+	 * Convert an array of {@link i_o.Entry} to rows of the table
 	 * 
 	 * @param entries the array of records to convert
 	 */

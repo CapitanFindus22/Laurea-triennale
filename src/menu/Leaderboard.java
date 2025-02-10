@@ -13,8 +13,7 @@ import javax.swing.JScrollPane;
 import i_o.Entry;
 
 /**
- * A custom window that display the records of the game, uses a singleton
- * pattern to avoid multiple open windows
+ * A custom window that display the records of the game
  */
 public final class Leaderboard extends JFrame {
 
@@ -26,7 +25,7 @@ public final class Leaderboard extends JFrame {
 	/**
 	 * The maximum number of records
 	 */
-	private final int MAX_SIZE = 10;
+	private final int MAX_SIZE = 10;	
 
 	/**
 	 * Path of the icon
@@ -90,9 +89,7 @@ public final class Leaderboard extends JFrame {
 	}
 
 	/**
-	 * For the singleton pattern
-	 * 
-	 * @return the instance of the class
+	 * {@return the instance of the class}
 	 */
 	public static Leaderboard getIstance() {
 
@@ -104,7 +101,7 @@ public final class Leaderboard extends JFrame {
 	}
 
 	/**
-	 * {@return true if exist the instance}
+	 * {@return true if the instance exists}
 	 */
 	public static boolean existIstance() {
 

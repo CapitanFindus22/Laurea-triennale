@@ -4,7 +4,7 @@ import move.Move;
 import pokemon.Pokemon;
 
 /**
- * For moves that change the enemy stats
+ * Change the enemy stats
  */
 public class EnStat implements StatsChange {
 
@@ -19,7 +19,7 @@ public class EnStat implements StatsChange {
 	private final int[] amount;
 
 	/**
-	 * Save the stats to consider and the values for each
+	 * Save the stats affected and how much they change
 	 * 
 	 * @param stats  an array of strings containing the stats affected
 	 * @param amount an array of strings containing the values for each stat

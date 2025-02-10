@@ -14,7 +14,7 @@ import pokemon.Pokemon;
 import pokemon.Type;
 
 /**
- * A move performed by a pokémon
+ * A move performed by a {@link pokemon.Pokemon}
  */
 public class Move {
 
@@ -83,7 +83,7 @@ public class Move {
 	private int timeUsed = 0;
 
 	/**
-	 * Create a new move by reading from the file
+	 * Create a new move
 	 * 
 	 * @param name the name of the move
 	 */
@@ -151,7 +151,7 @@ public class Move {
 	}
 
 	/**
-	 * Decrease PP by one
+	 * Decrease the PP of this move by one
 	 */
 	public void decreasePP() {
 		pp--;
@@ -167,7 +167,7 @@ public class Move {
 	}
 
 	/**
-	 * {@return the type of the move}
+	 * {@return the {@link pokemon.Type} of the move}
 	 */
 	public Type getType() {
 		return type;

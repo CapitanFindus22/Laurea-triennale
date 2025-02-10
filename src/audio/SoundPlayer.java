@@ -12,7 +12,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * An audio player used for the pokémon's cry
+ * An audio player used to reproduce the pokémon's cry
  */
 public class SoundPlayer {
 
@@ -22,7 +22,7 @@ public class SoundPlayer {
 	private AudioInputStream audio;
 
 	/**
-	 * The audio clip
+	 * The audio clip to play
 	 */
 	private Clip clip;
 
@@ -32,7 +32,7 @@ public class SoundPlayer {
 	private Path audio_path;
 
 	/**
-	 * Set the file to play
+	 * Find the clip to play
 	 * 
 	 * @param name the name of the pokémon
 	 */
@@ -58,7 +58,7 @@ public class SoundPlayer {
 	}
 
 	/**
-	 * Play the set sound
+	 * Play the clip
 	 */
 	public void play() {
 
@@ -75,9 +75,9 @@ public class SoundPlayer {
 	}
 
 	/**
-	 * Check if the sound is set
+	 * Check if there's a clip
 	 * 
-	 * @return true if it's set
+	 * @return true if it's present
 	 */
 	public boolean isSet() {
 		return (audio != null) ? true : false;

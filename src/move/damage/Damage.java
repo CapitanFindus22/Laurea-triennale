@@ -5,7 +5,7 @@ import java.util.Random;
 import move.MoveFunction;
 
 /**
- * For the moves that deal damage
+ * Move that only deal damage
  */
 public interface Damage extends MoveFunction {
 

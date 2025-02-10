@@ -4,12 +4,12 @@ import move.Move;
 import pokemon.Pokemon;
 
 /**
- * For the normal attacks
+ * Normal attacks
  */
 public class DoNormalDamage implements Damage {
 
 	/**
-	 * Calculate the damage dealt from p1 to p2 with the first gen formula
+	 * Calculate the damage dealt from p1 to p2
 	 */
 	@Override
 	public void execute(Pokemon p1, Pokemon p2, Move m) {

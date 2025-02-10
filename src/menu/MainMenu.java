@@ -140,7 +140,7 @@ public final class MainMenu extends JFrame {
 			}
 		});
 
-		// Title
+		// Title	
 		JLabel title = new JLabel("", JLabel.CENTER);
 		title.setIcon(new ImageIcon(title_path.toString()));
 		title.setOpaque(false);

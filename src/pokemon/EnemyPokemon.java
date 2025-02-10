@@ -21,7 +21,7 @@ public class EnemyPokemon extends Pokemon {
 	private Image frontSprite;
 
 	/**
-	 * Create a level 1 enemy pokémon
+	 * Create a level 1 pokémon
 	 * 
 	 * @param name the name of the pokémon
 	 */
@@ -35,7 +35,7 @@ public class EnemyPokemon extends Pokemon {
 	}
 
 	/**
-	 * Create an enemy pokémon of the specified level
+	 * Create a pokémon of the specified level
 	 * 
 	 * @param name  the name of the pokémon
 	 * @param level the level of the pokémon
@@ -51,8 +51,7 @@ public class EnemyPokemon extends Pokemon {
 	}
 
 	/**
-	 * Choose random moves for the pokémon according to its level and the available
-	 * moves for that level
+	 * Choose random moves for the pokémon from those available to it
 	 */
 	private void chooseMoves() {
 

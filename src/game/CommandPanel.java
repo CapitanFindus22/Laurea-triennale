@@ -17,7 +17,7 @@ import move.Move;
 import pokemon.Pokemon;
 
 /**
- * A custom panel containing all the choices for the player
+ * A custom panel containing all the buttons available for the player	
  */
 public final class CommandPanel extends JPanel {
 
@@ -47,17 +47,17 @@ public final class CommandPanel extends JPanel {
 	private MoveButton b4;
 
 	/**
-	 * The button used for returning to the menu
+	 * The button used to return to the menu
 	 */
 	private JButton backButton;
 
 	/**
-	 * The button used for viewing what's in the bag
+	 * The button used to view the inventory
 	 */
 	private JButton bag;
 
 	/**
-	 * The button used for viewing your other pokémon
+	 * The button used to view the other pokémons
 	 */
 	private JButton pokemon;
 
@@ -151,7 +151,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Update all the buttons
+	 * Visually update all the buttons
 	 */
 	public void updateButtons() {
 
@@ -165,7 +165,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Disable the moves buttons
+	 * Disable the move buttons
 	 */
 	public void disableMoves() {
 
@@ -177,7 +177,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Enable the moves buttons
+	 * Enable the move buttons
 	 */
 	public void enableMoves() {
 
@@ -207,16 +207,16 @@ public final class CommandPanel extends JPanel {
 	// Setter
 
 	/**
-	 * Set the back button action on click
+	 * Set the action to perform by the back button
 	 * 
-	 * @param a the action listener that contains the function to execute
+	 * @param a the action listener containing the function to execute
 	 */
 	public void setBackButtonAction(ActionListener a) {
 		backButton.addActionListener(a);
 	}
 
 	/**
-	 * Set the first button move
+	 * Associate a move to the first button
 	 * 
 	 * @param m the move to set
 	 */
@@ -225,7 +225,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Set the second button move
+	 * Associate a move to the second button
 	 * 
 	 * @param m the move to set
 	 */
@@ -234,7 +234,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Set the third button move
+	 * Associate a move to the third button
 	 * 
 	 * @param m the move to set
 	 */
@@ -243,7 +243,7 @@ public final class CommandPanel extends JPanel {
 	}
 
 	/**
-	 * Set the fourth button move
+	 * Associate a move to the fourth button
 	 * 
 	 * @param m the move to set
 	 */

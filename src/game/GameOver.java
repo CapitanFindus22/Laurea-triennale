@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import i_o.Entry;
 
 /**
- * A custom window for the game over
+ * A custom window representing the game over screen
  */
 public class GameOver extends JDialog {
 

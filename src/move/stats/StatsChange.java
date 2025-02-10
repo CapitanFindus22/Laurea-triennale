@@ -3,7 +3,7 @@ package move.stats;
 import move.MoveFunction;
 
 /**
- * For the moves that change stats
+ * Move that only change stats
  */
 public interface StatsChange extends MoveFunction {
 

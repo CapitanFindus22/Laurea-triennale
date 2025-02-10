@@ -32,7 +32,7 @@ public class PlayerPokemon extends Pokemon {
 	private HashSet<String> pastMoves;
 
 	/**
-	 * Create a level 1 pokémon with a sprite
+	 * Create a level 1 pokémon
 	 * 
 	 * @param name the name of the pokémon
 	 */
@@ -59,8 +59,7 @@ public class PlayerPokemon extends Pokemon {
 	}
 
 	/**
-	 * Check if the pokémon wants to learn a new move and act accordingly to how
-	 * many moves he knows
+	 * Check if the pokémon wants to learn a new move
 	 */
 	private void checkNewMove() {
 
@@ -159,7 +158,7 @@ public class PlayerPokemon extends Pokemon {
 	}
 
 	/**
-	 * {@return the number representing the last move that changed, 1,2,3,4 or 0 if
+	 * {@return a number representing the last move that changed, 1,2,3,4 or 0 if
 	 * none}
 	 */
 	public int getlastMoveChanged() {
@@ -169,7 +168,7 @@ public class PlayerPokemon extends Pokemon {
 	// Setter
 
 	/**
-	 * Set lastMoveChanged to 0
+	 * Set the value for the last move changed to 0
 	 */
 	public void resetlastMoveChanged() {
 		lastMoveChanged = 0;

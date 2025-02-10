@@ -72,42 +72,42 @@ public class Stats {
 	// Getter
 
 	/**
-	 * {@return the Health value}
+	 * {@return the health value}
 	 */
 	public int getHp() {
 		return hp;
 	}
 
 	/**
-	 * {@return the Attack value}
+	 * {@return the attack value}
 	 */
 	public int getAtt() {
 		return att;
 	}
 
 	/**
-	 * {@return the Special Attack value}
+	 * {@return the special attack value}
 	 */
 	public int getSpAtt() {
 		return spAtt;
 	}
 
 	/**
-	 * {@return the Defense value}
+	 * {@return the defense value}
 	 */
 	public int getDif() {
 		return dif;
 	}
 
 	/**
-	 * {@return the Special Defense value}
+	 * {@return the special defense value}
 	 */
 	public int getSpDif() {
 		return spDif;
 	}
 
 	/**
-	 * {@return the Velocity value}
+	 * {@return the velocity value}
 	 */
 	public int getSpeed() {
 		return speed;
@@ -134,7 +134,7 @@ public class Stats {
 	}
 
 	/**
-	 * Set the Special Attack value
+	 * Set the special attack value
 	 * 
 	 * @param spAtt the new value
 	 */
@@ -143,7 +143,7 @@ public class Stats {
 	}
 
 	/**
-	 * Set the Defense value
+	 * Set the defense value
 	 * 
 	 * @param dif the new value
 	 */
@@ -152,7 +152,7 @@ public class Stats {
 	}
 
 	/**
-	 * Set the Special Defense value
+	 * Set the special defense value
 	 * 
 	 * @param spDif the new value
 	 */
@@ -161,7 +161,7 @@ public class Stats {
 	}
 
 	/**
-	 * Set the Speed value
+	 * Set the speed value
 	 * 
 	 * @param speed the new value
 	 */

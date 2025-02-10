@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import move.Move;
 
 /**
- * A custom button that is associated with a pokémon move
+ * A custom button associated with a {@link move.Move}
  */
 public class MoveButton extends JButton {
 
@@ -63,7 +63,7 @@ public class MoveButton extends JButton {
 	}
 
 	/**
-	 * Create a button
+	 * Create a button with a move
 	 * 
 	 * @param move the move to associate
 	 */
@@ -91,7 +91,7 @@ public class MoveButton extends JButton {
 	}
 
 	/**
-	 * Update the text of the button labels
+	 * Update all the text present in the button
 	 */
 	public void updateText() {
 
@@ -105,7 +105,7 @@ public class MoveButton extends JButton {
 
 	/**
 	 * {@return the move of this button}
-	 */
+	 */	
 	public Move getMove() {
 		return move;
 	}
@@ -113,7 +113,7 @@ public class MoveButton extends JButton {
 	// Setter
 
 	/**
-	 * Set a new move for the button
+	 * Associate a move to this button
 	 * 
 	 * @param newMove the new move
 	 */

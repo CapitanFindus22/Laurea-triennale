@@ -10,7 +10,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
 
 /**
- * A row used in the leaderboard
+ * A row used in {@link menu.RecordTable}
  */
 public class Entry {
 
@@ -103,13 +103,13 @@ public class Entry {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	
 	}
 
 	/**
-	 * Check if there's a new record based on the number passed
+	 * Check if there's a new record 
 	 * 
-	 * @param roundWon the number to control
+	 * @param roundWon the number of rounds won
 	 * @return true if there's a new record
 	 */
 	public static boolean checkNewRecord(int roundWon) {
@@ -198,7 +198,7 @@ public class Entry {
 
 	/**
 	 * 
-	 * {@return the name of the entry}
+	 * {@return the name of the player}
 	 */
 	public String getName() {
 		return name;

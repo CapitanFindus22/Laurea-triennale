@@ -10,7 +10,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
- * Contain various functions to read info from text files
+ * Contain various functions to read info from the text files
  */
 public class FileRw {
 
@@ -101,7 +101,7 @@ public class FileRw {
 	}
 
 	/**
-	 * Find all the moves learned by level up of the pokémon
+	 * Find all the moves learned by level up by a pokémon
 	 * 
 	 * @param name the pokémon name
 	 * @return a map of the form (level_needed, move_name)
@@ -133,8 +133,8 @@ public class FileRw {
 	}
 
 	/**
-	 * Create a list of all the pokémon in the files
-	 * 
+	 * Create a list of all the pokémon present in the files
+	 * 	
 	 * @return a set containing all the available pokémon
 	 */
 	public static TreeSet<String> allPokemon() {
