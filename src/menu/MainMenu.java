@@ -62,7 +62,7 @@ public final class MainMenu extends JFrame {
 	 */
 	public MainMenu() {
 
-		super("Menù");
+		super("JPokéBattle");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(0, 0, WIDTH, HEIGHT);
 		this.setLocationRelativeTo(null);
