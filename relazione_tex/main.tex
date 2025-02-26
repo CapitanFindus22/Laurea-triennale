@@ -1,0 +1,511 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{placeins}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage[italian]{babel}
+
+\title{Anomaly detection}
+\author{Leonardo Ganzaroli 1961846}
+\date{Ottobre 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Descrizione generale}
+\fontsize{12pt}{14pt}\selectfont
+\raggedright
+
+\textbf{Obiettivo:} Il sistema da sviluppare ha lo scopo di rilevare anomalie in stream di dati. \vspace{3pt}
+\newline
+\textbf{Esecuzione:} Il rilevamento avviene basandosi su:
+\vspace{3pt}
+\begin{itemize}
+    \item Media di ogni stream
+    \item Covarianze tra i diversi stream
+\end{itemize}
+\vspace{3pt}
+Un'ulteriore richiesta è che i calcoli vengano effettuati su una finestra temporale.
+\vspace{3pt}
+\newline
+\textbf{Funzioni aggiuntive:} Deve generare degli avvisi in caso di valori ritenuti anomali, ovvero valori che differiscono in modo considerevole dai precedenti. 
+\newline
+
+\textbf{Schema generale:}
+
+\vspace{10pt}
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=\textwidth]{Ambiente.svg}
+	\caption{Schema generale del sistema}
+	\label{fig:schema.svg}
+\end{figure}
+
+\newpage
+
+\section{Requisiti Utente}
+
+Lista dei requisiti utente:
+\vspace{12pt}
+
+\subsection{Funzionali}
+
+\begin{enumerate}
+	\item \textbf{Scelta dei valori di soglia}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item L'utente deve poter configurare i valori di soglia per la rilevazione delle anomalie del valor medio.
+	      	              
+	      	\item L'utente deve poter configurare i valori di soglia per la rilevazione delle anomalie della covarianza.
+	      \end{enumerate}
+	          
+	\item \textbf{Finestra temporale}: 
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item L'utente deve avere la possibilità di scegliere l'ampiezza della finestra usata per i calcoli.
+	      \end{enumerate} 
+	      
+	\item \textbf{Avvisi anomalie}: 
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item L'utente deve poter leggere gli avvisi generati dal sistema riguardo le anomalie.    
+	      \end{enumerate}
+	          
+\end{enumerate}
+
+Si possono visualizzare questi requisiti sottoforma di Use Case nel diagramma di seguito.
+
+\newpage
+
+\textbf{Diagramma Use Case:}
+\vspace{10pt}
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=\textwidth]{Use_case.svg}
+	\caption{Use Case}
+	\label{fig:use_case.svg}
+\end{figure}
+
+\clearpage
+
+\section{Requisiti di Sistema}
+
+Lista dei requisiti di sistema:
+\vspace{4pt}
+
+\subsection{Funzionali}
+
+\begin{enumerate}
+	
+	\item \textbf{Lettura dati}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Il sistema deve essere in grado di gestire l'arrivo dei dati in tempo reale in base alla capacità della finestra.
+	      \end{enumerate}
+	      
+	\item \textbf{Calcoli statistici}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Il sistema deve calcolare il valor medio della finestra associata ad ogni singolo stream e salvarlo sul DB.
+	      	              
+	      	\item Il sistema deve calcolare le covarianze tra le finestre associate ai diversi stream e salvarle sul DB.
+	      \end{enumerate}
+
+	\item \textbf{Determinazione anomalie}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Il sistema deve rilevare anomalie nei dati basandosi sulle soglie impostate dall'utente.
+	      \end{enumerate}
+
+	\item \textbf{Generazione avvisi}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Quando il sistema rileva un'anomalia deve generare un log, stamparlo a schermo e salvarlo sul DB.
+	      \end{enumerate}
+
+	\item \textbf{Archiviazione dati}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Il sistema deve salvare i valori su un database \textit{PostgreSQL}.
+	      \end{enumerate}
+
+	\item \textbf{Input utente}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item Il sistema deve ricevere e gestire gli input definiti nei requisiti utente.
+	      \end{enumerate}    
+	          
+\end{enumerate}
+
+\subsection{Non Funzionali}
+
+\begin{enumerate}
+	\item \textbf{Tempo di invio degli avvisi}:
+	      \begin{enumerate}[label*=\arabic*.]
+	      	\item L'invio dell'avviso riguardo il valor medio deve avvenire entro mezzo secondo dalla rilevazione dell'anomalia.
+	      	      
+	      	\item L'invio dell'avviso riguardo la covarianza deve avvenire entro un secondo dalla rilevazione dell'anomalia.
+	      \end{enumerate}
+	          
+\end{enumerate}
+
+\newpage
+
+\section{Struttura}
+
+Si illustra adesso la struttura del sistema più nello specifico.
+
+\subsection{Componenti}
+
+I componenti del sistema sono 4:
+\begin{itemize}
+	\item Test Generator
+	\item Calcolatore media
+	\item Calcolatore covarianza
+	\item Monitor
+\end{itemize}
+
+Segue una breve descrizione.
+
+\subsubsection{Test Generator}
+\textbf{Cosa fa:} Invia i dati sugli stream.
+\vspace{3pt}
+\newline
+\textbf{Come lo fa:} Legge una riga per volta da un file CSV ed invia i dati ai rispettivi stream.
+
+\vspace{10pt}
+\textbf{Esempio:}
+\vspace{5pt} \newline
+Se il file ha questo formato:
+
+\vspace{10pt}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c|c}
+		Colonna 1 & Colonna 2 & Colonna 3 & Colonna 4 \\
+		\hline
+		12        & 2         & 0         & 1         \\
+		32        & 3         & 88        & 111       \\
+	\end{tabular}
+	\caption{Esempio file}
+	\label{tab:esempio}
+\end{table}
+
+\vspace{10pt}
+
+La prima riga letta sarà inviata sugli stream in questo modo: 
+\vspace{3pt}
+\begin{itemize}
+    \item STREAM1 $\gets$ 12
+    \item STREAM2 $\gets$ 2
+    \item STREAM3 $\gets$ 0
+    \item STREAM4 $\gets$ 1
+\end{itemize}
+
+\subsubsection{Calcolatore media}
+\textbf{Cosa fa:} Calcola la media di ogni stream.
+\vspace{3pt}
+\newline
+\textbf{Come lo fa:} Gestisce i valori in entrata tramite una coda (finestra = coda), ogni stream ha la sua coda.
+\vspace{3pt}
+\newline
+\textbf{Altre funzioni:} Salva tutte le medie calcolate nel DB, invia gli elementi di ogni coda e la relativa media al Calcolatore della covarianza.
+
+\subsubsection{Calcolatore covarianza}
+\textbf{Cosa fa:} Calcola la covarianza tra le coppie di stream.
+\vspace{3pt}
+\newline
+\textbf{Come lo fa:} Usa le finestre e le medie ricevute dal Calcolatore della media.
+\vspace{3pt}
+\newline
+\textbf{Altre funzioni:} Salva tutte le covarianze calcolate nel DB.
+
+\subsubsection{Monitor}
+\textbf{Cosa fanno:} Effettuano dei controlli sul sistema, controllano che i requisiti richiesti vengano rispettati.
+\vspace{5pt} 
+\newline
+In questo caso ne sono stati implementati 5:
+\begin{itemize}
+	\item Corretto inserimento della media
+	\item Corretto inserimento degli avvisi riguardanti la media
+	\item Corretto inserimento della covarianza
+	\item Tempo trascorso dal riscontro dell'anomalia all'invio dell'avviso (media)
+    \item Tempo trascorso dal riscontro dell'anomalia all'invio dell'avviso (covarianza)
+\end{itemize}
+
+\newpage
+
+\subsection{Schemi}
+
+I singoli componenti comunicano e collaborano per svolgere i compiti richiesti, a seguire degli schemi che illustrano l'architettura ed il comportamento del sistema.
+
+\vspace{10pt}
+
+\textbf{Singoli componenti e loro collegamenti:}
+
+\vspace{10pt}
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=\textwidth]{Architettura.svg}
+	\caption{Componenti del sistema}
+	\label{fig:componenti.svg}
+\end{figure}
+
+\vspace{12pt}
+
+L'utente fornisce (come visto negli Use Case) le soglie per gli avvisi e la grandezza della finestra, inoltre ha
+la possibilità di scegliere il file CSV utilizzato.
+
+\newpage
+
+Anche se i componenti sono indipendenti, è presente una certa linearità nelle operazioni, come si può notare dal seguente diagramma delle attività:
+
+\vspace{10pt}
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=\textwidth]{Activity.svg}
+	\caption{Activity diagram}
+	\label{fig:activity.svg}
+\end{figure}
+
+\newpage
+
+Il funzionamento dei monitor si può modellare come una macchina a stati,
+per esempio il monitor che controlla il corretto inserimento della media si 
+può rappresentare come segue:
+
+\vspace{12pt}
+
+\begin{figure}[ht]
+	\includesvg[width=\textwidth]{State_diagram.svg}
+	\caption{State Diagram Monitor}
+	\label{fig:state_diagram_monitor.svg}
+\end{figure}
+
+\vspace{12pt}
+
+I diagrammi degli altri monitor risultano pressoché identici.
+
+\newpage
+
+Ad operazioni già avviate (finestre riempite e tutti gli input dell'utente ricevuti ed elaborati) lo scambio di messaggi tra i vari componenti si può riassumere in questo 
+modo:
+
+\vspace{12pt}
+
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=\textwidth]{MSC.svg}
+	\caption{Message Sequence Chart}
+	\label{fig:msc.svg}
+\end{figure}
+
+\newpage
+
+\section{Implementazione}
+
+Questa sezione contiene le implementazioni dei componenti in pseudocodice e lo schema del database utilizzato.
+
+\subsection{Componenti}
+
+\subsubsection{Test generator}
+
+\begin{algorithmic}
+	\State $nome file \gets $INPUT UTENTE
+	\State $file \gets apri($nome file$)$
+	\State Genera stream pari a $file.colonne$
+	\State Invia messaggio con numero di stream
+	\While{file ha nuova riga da leggere}
+	\State Leggi nuova riga
+	\State Invia ogni valore della riga al proprio stream
+	\EndWhile
+\end{algorithmic}
+
+\subsubsection{Calcolatore media}
+\begin{algorithmic}
+	\State $dimfinestra \gets $ INPUT UTENTE
+	\State $soglia \gets$ INPUT UTENTE
+	\State Leggi messaggio
+	\State $finestre \gets $ Array di code[valore messaggio]
+	\While{Messaggi da leggere disponibili}
+	\State Riempi ogni coda fino a $dimfinestra$ da rispettivo stream
+	\State Calcola media di ogni stream
+    \For{media calcolata in questa iterazione}
+            \State Salva media su DB
+	      \State Chiama monitor
+	      \State Aspetta risposta
+       	\If{media diversa da precedente almeno di $soglia$}
+            	\State Invia avviso
+            	\State Chiama monitor normale e temporale
+            	\State Aspetta entrambe le risposte
+        	\EndIf
+    \EndFor
+	\State Invia ogni finestra + sua media a Calcolatore covarianza
+	\State Rimuovi da ogni coda elemento più vecchio
+	\EndWhile
+\end{algorithmic}
+\vspace{4pt}
+
+\subsubsection{Calcolatore covarianza}
+
+\begin{algorithmic}
+	\State $soglia \gets$ INPUT UTENTE
+	\State Leggi messaggio
+	\While{Messaggi da leggere disponibili}
+	\State Prendi primo messaggio non letto per ogni stream
+	\State Calcola covarianza tra tutti i valori dei messaggi (a coppie)
+    \For{covarianza calcolata in questa iterazione}
+	   \State Salva covarianza su DB
+	   \State Chiama monitor
+	   \State Aspetta risposta
+	   \If{covarianza diversa da precedente almeno di $soglia$}
+	       \State Invia avviso
+	       \State Chiama monitor normale e temporale
+	       \State Aspetta entrambe le risposte
+	   \EndIf
+    \EndFor
+	\EndWhile
+\end{algorithmic}
+
+\subsubsection{Monitor}
+
+\begin{algorithmic}
+	\While{1}
+	\State Aspetta messaggio
+    \State Leggi messaggio
+	\State Prendi da DB ultimo valore per quello stream
+	\State Confronta risultato e messaggio
+	\State Salva su DB l'esito del controllo
+    \State Invia messaggio
+	\EndWhile
+\end{algorithmic}
+
+\vspace{1pt}
+
+La struttura è identica per i monitor dello stesso tipo. 
+\newline
+La struttura dei monitor temporali è invece:
+
+\vspace{1pt}
+
+\begin{algorithmic}
+	\While{1}
+	\State Aspetta messaggio
+    \State Leggi messaggio
+	\State Prendi da DB tempo d'inserimento valore per quello stream
+    \State Prendi da DB tempo d'inserimento avviso per quello stream
+	\State Calcola tempo trascorso e controlla se è nei limiti
+	\State Salva su DB tempo + esito del controllo
+    \State Invia messaggio
+	\EndWhile
+\end{algorithmic}
+
+\newpage
+
+\subsection{Database}
+Il database contiene 5 tabelle:
+\begin{itemize}
+	\item \textbf{Session\_info:} mantiene informazioni sulle singole sessioni 
+	\item \textbf{Media e Covarianza:} contengono i rispettivi valori
+	\item \textbf{Alerts:} contiene le anomalie riscontrate
+	\item \textbf{Log\_monitor:} contiene gli esiti dei controlli effettuati dai monitor
+\end{itemize}
+
+\vspace{2pt}
+Le chiavi delle tabelle sono rappresentate in rosso.
+\vspace{2pt}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textcolor{red}{ID} & Data\_Inizio & Nome\_file & Numero\_colonne\\
+        \hline
+    \end{tabular}
+    \caption{Session\_info}
+    \label{tab:session_info}
+\end{table}
+
+\vspace{2pt}
+Tutti i campi S\_id delle prossime tabelle si riferiscono a ID di Session\_info.
+\vspace{2pt}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textcolor{red}{S\_id} & \textcolor{red}{Data\_ora} & \textcolor{red}{Nome\_stream} & Valore\\
+        \hline
+    \end{tabular}
+    \caption{Media}
+    \label{tab:media}
+\end{table}
+
+\vspace{2pt}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+         \textcolor{red}{S\_id} & \textcolor{red}{Data\_ora} & \textcolor{red}{Nome\_stream1} & \textcolor{red}{Nome\_stream2} & Valore\\
+        \hline
+    \end{tabular}
+    \caption{Covarianza}
+    \label{tab:covarianza}
+\end{table}
+
+\vspace{2pt}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \textcolor{red}{ID} & S\_id & Data\_evento & Nome\_stream & Tipo\_anomalia & Valore\\
+        \hline
+    \end{tabular}
+    \caption{Alerts}
+    \label{tab:alerts}
+\end{table}
+
+\vspace{2pt}
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        \textcolor{red}{ID} & S\_id & Data\_controllo & Nome\_stream & Tipo\_controllo & Esito & Tempo\_trascorso\\
+        \hline
+    \end{tabular}}
+    \caption{Log\_monitor}
+    \label{tab:log_monitor}
+\end{table}
+
+\newpage
+
+\subsection{Stream Utilizzati}
+Per la comunicazione sono stati usati diversi stream di \textit{Redis}.
+\vspace{4pt} \newline
+Una lista esaustiva:
+\begin{itemize}
+	\item "INFOSTREAM" usato per comunicare informazioni di servizio
+	\item "STREAM*" con $* = [0,1,...,numero\_colonne\_file - 1]$ per inviare i valori dal
+	      Test generator al Calcolatore della media
+	\item "STREAM\_*" con $* = [0,1,...,numero\_colonne\_file - 1]$ per inviare i valori dal
+	      Calcolatore della media al Calcolatore della covarianza
+	\item "TMonitor", "AMonitor", "CMonitor", "CTMonitor", "MMonitor" 
+	      usati per inviare messaggi ai rispettivi monitor
+	\item "M*" con $* = [1,2,3,4,5]$ usati dai monitor per inviare risposte 
+\end{itemize}
+
+\section{Risultati Sperimentali}
+Il sistema è stato testato con diversi file CSV, per ogni sessione i risultati ottenuti
+sono stati in linea con le aspettative meno qualche approssimazione. Inoltre il numero di elementi
+inseriti nel DB è stato esattamente quello atteso sia come numero di valori che come numero 
+di log generati.
+
+\end{document}
