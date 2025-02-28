@@ -40,12 +40,13 @@ end
 %Open the file
 tab = readtable(strcat(filePath,files(choice,:).('name')),VariableNamingRule="preserve");
 
-disp(tab);
-
+%Column names
 names = tab.Properties.VariableNames;
 
+%Table to matrix
 tab = tab{:,:};
 
+%Number of rows and columns
 rows = size(tab,1);
 cols = size(tab,2);
 
@@ -80,15 +81,6 @@ for tmp = 1:rows-window+1
 
 end
 
-%Display the values
-disp("Medie delle finestre:");
-disp(m);
-
-disp("Matrici delle covarianze per finestra:");
-disp(covar);
-
-disp("Andamento delle covarianze tra stream:");
-
 %Plot the covariances
 for x = 1:cols-1
     tmp = 1;
@@ -99,6 +91,7 @@ for x = 1:cols-1
             plot(covar(x:cols:end,y));
             grid;
             hold on
+            title(strcat("Covarianze stream ",int2str(x-1)));
             cov_names(tmp) = strcat(int2str(x-1),"-",int2str(y-1));
             tmp = tmp + 1;
         end
