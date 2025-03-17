@@ -1079,19 +1079,19 @@ $$DSPACE(s(n))=\{L\in DEC\ |\ L\text{ è decidibile da una TM in spazio }O(s(n))
 $$DTIME(f(n))\subseteq DSPACE(f(n))$$
 $$NTIME(f(n))\subseteq NSPACE(f(n))$$\newline
 
-\noindent Inoltre se $f(n)\geq log(n)$:
+\noindent Inoltre se $f(n)\geq \log n$:
 
 $$DSPACE(f(n))\subseteq DTIME(2^{O(f(n))})$$\newline 
 
 \subparagraph{Teorema di Savitch} $\ $\newline
 
-Data una funzione $f(n)\geq log(n)$ si ha:
+Data una funzione $f(n)\geq \log n$ si ha:
 
 $$NSPACE(f(n))\subseteq DSPACE(f^2(n))$$\newline
 
 \paragraph{L}
 
-$$L=DSPACE(log(n))$$\newline
+$$L=DSPACE(\log n)$$\newline
 
 \paragraph{PSPACE}
 
@@ -1103,7 +1103,7 @@ $$EXPSPACE=\bigcup_{k=1}^{+\infty}DSPACE(2^{n^k})$$\newline
 
 \paragraph{NL}
 
-$$NL=NSPACE(log(n))$$\newline
+$$NL=NSPACE(\log n)$$\newline
 
 \paragraph{NPSPACE}
 
@@ -1139,7 +1139,7 @@ $$NL=coNL$$\newline
 
 \subsection{Teoremi di gerarchia}
 
-\textbf{Definizione} Una funzione $f:\mathbf{N}\rightarrow\mathbf{N}$ con $f(n)\geq log(n)$ è spazio-costruibile se:
+\textbf{Definizione} Una funzione $f:\mathbf{N}\rightarrow\mathbf{N}$ con $f(n)\geq \log n$ è spazio-costruibile se:
 
 $$g:{\sum}^*\rightarrow{\sum}^*:1^n\rightarrow f(n)_2 \text{ con $f(n)_2$ codifica binaria di $f(n)$}$$\newline
 
@@ -1149,7 +1149,7 @@ $$g:{\sum}^*\rightarrow{\sum}^*:1^n\rightarrow f(n)_2 \text{ con $f(n)_2$ codifi
 
 \noindent Data una funzione spazio-costruibile esiste un linguaggio decidibile da una TM in spazio $O(f(n))$ ma non in spazio $o(f(n))$.\newline
 
-\noindent Data una funzione tempo-costruibile esiste un linguaggio decidibile da una TM in tempo $O(f(n))$ ma non in tempo $o(\frac{f(n)}{log(f(n))})$.\newline
+\noindent Data una funzione tempo-costruibile esiste un linguaggio decidibile da una TM in tempo $O(f(n))$ ma non in tempo $o(\frac{f(n)}{\log(f(n))})$.\newline
 
 \newpage
 
