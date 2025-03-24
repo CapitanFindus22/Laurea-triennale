@@ -871,8 +871,8 @@ Un altro problema molto diffuso è quello dell'ordinamento di un insieme di dati
     \If{index$<$index2}
 
         \State m=Partiziona(A,index,index2)
-        \State Mer\_sort(A,index,m-1)
-        \State Mer\_sort(A,m+1,index2)
+        \State Quick\_sort(A,index,m-1)
+        \State Quick\_sort(A,m+1,index2)
 
     \EndIf
 
