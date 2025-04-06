@@ -1,0 +1,746 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Teorema}
+
+\title{Algebra}
+\author{Leonardo Ganzaroli}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\addcontentsline{toc}{section}{\protect\numberline{}Introduzione}
+
+\tableofcontents
+
+\newpage
+
+\hypersetup{allcolors=black}
+
+\section*{Introduzione}
+
+Questi appunti del corso \textit{Algebra} sono stati creati durante la laurea Triennale di informatica all'università "La Sapienza".\newline
+
+\noindent\textbf{Prima di procedere rivedere la parte di insiemistica, relazioni e funzioni negli appunti di \textit{Metodi Matematici per l'informatica} e gli insiemi numerici in \textit{Calcolo differenziale}}.
+
+\newpage
+
+\section{Numeri}
+
+\subsection{Interi}
+
+Partendo da $\mathbb{N}\times\mathbb{N}$ costruisco la relazione di equivalenza:
+$$(n,m)\sim(n',m')\iff n+m'=m+n'$$\newline
+
+\noindent Scegliendo come rappresentanti per ogni classe di equivalenza gli elementi contenenti uno 0 definisco i sottoinsiemi:
+\begin{equation}
+    \nonumber
+    \begin{split}
+        \mathbb{Z}^+&=\{[(n,0)]\ |\ n\in\mathbb{N}\setminus\{0\} \}\text{ (positivi)}\\
+        \mathbb{Z}^-&=\{[(0,n)]\ |\ n\in\mathbb{N}\setminus\{0\} \}\text{ (negativi, rappresentati con }-n)\\
+    \end{split}
+\end{equation}\newline
+
+\noindent Si può quindi definire $\mathbb{Z}=\mathbb{Z}^+\cup[(0,0)]\cup\mathbb{Z}^-=\mathbb{N}\times\mathbb{N}_{/\sim}$\newline
+
+\noindent\textbf{Definizione} Due numeri $a,b\in\mathbb{Z}$ si dicono coprimi sse il loro unico divisore comune è $\pm1$.\newline
+
+\begin{theorem}[Fondamentale dell'aritmetica]
+Ogni numero naturale maggiore di 1 o è un numero primo o si può esprimere come prodotto di numeri primi.
+\end{theorem}
+
+\subsubsection{Operazioni}
+\begin{itemize}
+    \item \textbf{Somma}
+
+        $$[(n,m)]+[(n',m')]=[(n+n',m+m')]$$
+    
+    \item \textbf{Prodotto}
+
+        $$[(n,m)]*[(n',m')]=[(n*n'+m*m',n'*m+n*m')]$$\newline
+    
+\end{itemize}
+
+\subsection{Razionali}
+
+Partendo da $\mathbb{Z}\times\mathbb{Z}\setminus\{0\}$ costruisco la relazione di equivalenza:
+$$(a,b)\sim(c,d)\iff a*d=b*c$$\newline
+
+\noindent Come per gli interi definisco $\mathbb{Q}=\{\mathbb{Z}\times\mathbb{Z}\setminus\{0\}_{/\sim}\}$, un elemento $[(a,b)]$ sarà rappresentato come $\frac{a}{b}$.
+
+\subsubsection{Operazioni}
+\begin{itemize}
+    \item \textbf{Somma}
+
+        $$[(a,b)]+[(c,d)]=[(a*d+b*c,b*d)]$$
+    
+    \item \textbf{Prodotto}
+
+        $$[(a,b)]*[(c,d)]=[(a*c,b*d)]$$\newline
+    
+\end{itemize}
+
+\subsection{Teorema fondamentale dell'algebra}
+
+\begin{theorem}
+    Ogni equazione algebrica con coefficienti complessi di grado $n$ ammette $n$ soluzioni in $\mathbb{C}$, inoltre $\mathbb{C}$ si dice algebricamente chiuso.\newline
+\end{theorem}
+
+\section{Divisibilità in $\mathbb{Z}$}
+
+\textbf{Definizione} Dati $m,n\in\mathbb{Z}$. La relazione "$m$ divide $n$" ($m|n$) è definita come:
+$$m|n\iff\exists q\in\mathbb{Z}\ | \ n=mq$$\newline
+
+\noindent\textbf{Definizione} Dati $a,b\in\mathbb{Z},n\in\mathbb{N}$ con $n\geq2$. La relazione "$a$ è congruente a $b$ in modulo $n$" ($a\equiv b\mod{n}$) è definita come:
+$$a\equiv b\mod{n}\iff n|(b-a)$$\newline
+
+\begin{theorem}[Divisione euclidea con resto]$\ $\newline
+    Dati $m,n\in\mathbb{Z}$ con $n>0$. Si ha:
+    $$\exists!q,r\in\mathbb{Z}\ \ 0\leq r<n\ |\ m=nq+r$$\newline
+\end{theorem}
+
+\subsection{MCD}
+
+\noindent\textbf{Definizione} Dati $a,b\in\mathbb{Z}$. $d\geq1$ è detto massimo comun divisore di $a,b$ se:
+\begin{itemize}
+    \item $d|a\wedge d|b$
+    \item $d'|a\wedge d'|b\Rightarrow d'|d$\newline
+\end{itemize}
+
+\noindent Per trovare l'MCD si può usare l'algoritmo euclideo:
+\begin{enumerate}
+    \item $a|b\rightarrow a=bq_1+r_1$, se $r_1\neq0$ continuo
+    \item $b|r_1\rightarrow b=r_1q_2+r_2$, se $r_2\neq0$ continuo
+    \item $r_1|r_2\rightarrow r_1=r_2q_3+r_3$, se $r_3\neq0$ continuo
+    \item\ldots
+    \item $r_{n-2}|r_{n-1}\rightarrow r_{n-2}=r_{n-1}q_n+r_n$ con $r_n=0$
+\end{enumerate}
+
+\noindent A questo punto si ha che $MCD(a,b)=r_{n-1}$, ossia l'ultimo resto non nullo.\newline
+
+\noindent\textbf{Definizione} Un'equazione diofantea è un'equazione in una o più incognite con coefficienti interi di cui si ricercano le soluzioni intere, le equazioni con forma $ax+by=c$ hanno soluzione intera sse $MCD(a,b)|c$.\newline
+
+\noindent\textbf{Definizione} Il MCD di 2 numeri si può riscrivere come l'equazione diofantea $d=ax_0+by_0$, questa forma viene detta identità di Bézout.\newline
+
+\noindent Per risolvere $ax+by=c$ si seguono questi passi:
+\begin{enumerate}
+    \item Se $MCD(a,b)=d|c$ allora ammette soluzione
+    \item Trovare un'identità di Bézout per $d$
+    \item Moltiplicare $(x_0,y_0)$ per $\frac{c}{d}$
+    \item $\forall\ k\in\mathbb{Z}$ le soluzioni sono $(x_0+k*\frac{b}{d},y_0-k*\frac{a}{d})$
+\end{enumerate}
+
+\subsection{mcm}
+
+\textbf{Definizione} Dati $a,b\in\mathbb{Z}$. $d\in\mathbb{Z}$ è detto minimo comune multiplo di $a,b$ se:
+\begin{itemize}
+    \item $a|d\wedge b|d$
+    \item $a|d'\wedge b|d'\Rightarrow d|d'$\newline
+\end{itemize}
+
+\noindent In particolare risulta che $MCD(a,b)*mcm(a,b)=ab$\newline
+
+\section{Strutture algebriche principali}
+
+\textbf{Definizione} Una funzione è detta operazione binaria se ha la forma:
+$$f:S\times S\rightarrow S$$\newline
+
+\noindent Un'operazione binaria gode di:
+\begin{itemize}
+    \item \textbf{Prop. associativa} se l’ordine di applicazione non influenza il risultato
+    \item \textbf{Prop. commutativa} se l’ordine degli elementi non influenza il risultato
+    \item \textbf{Esistenza del neutro} se $\exists!e\in S\ |\ \forall\ x\in S\ \  f(x,e)=f(e,x)=x$
+    \item \textbf{Esistenza dell'inverso} se $\forall\ x\in S\ \  \exists!x^{-1}\in S \ |\  f(x,x^{-1})=f(x^{-1},x)=e$\newline
+\end{itemize}
+
+\noindent\textbf{N.B. Da qui in poi $f(x,y)$ sarà scritta come $xy$.}\newline
+
+\noindent\textbf{Definizione} Una struttura algebrica è un insieme $S$ con una o più operazioni binarie applicate su di esso, alcune sono (+ e * sono 2 operazioni generiche):
+\begin{itemize}
+    \item \textbf{Semigruppo} $(S,+)$
+
+        L'operazione deve essere associativa.
+
+    \item \textbf{Monoide} $(S,+)$
+
+        Un semigruppo + l'elemento neutro (indicato con 0).
+
+    \item \textbf{Gruppo} $(S,+)$
+
+        Un monoide + l'elemento inverso.
+
+    \item \textbf{Gruppo abeliano} $(S,+)$
+
+        Un gruppo + commutatività.
+
+    \item \textbf{Anello} $(A,+,*)$
+        \begin{itemize}
+            \item $(A,+)$ è un gruppo abeliano
+            \item $(A,*)$ è un semigruppo
+            \item $\forall\ a,b,c\in A\ \ a(b+c)=ab+ac,\ (b+c)a=ba+ca$
+        \end{itemize}
+
+    \item \textbf{Anello commutativo}
+
+        Un anello ma $*$ è commutativa.
+
+    \item \textbf{Anello unitario}
+
+        Un anello + il neutro per $*$ (indicato con 1).
+
+    \item \textbf{Dominio d'integrità}
+
+        Un anello commutativo e unitario senza divisori dello 0, ossia $a*b=0\Rightarrow(a=0\vee b=0)$
+
+    \item \textbf{Campo} $(K,+,*)$
+        \begin{itemize}
+            \item $(K,+,*)$ è dominio d'integrità
+            \item $\forall\ x\in K\setminus\{0\}\ \ \exists!x^{-1}\in K\setminus\{0\}\ |\ xx^{-1}=x^{-1}x=1$\newline
+        \end{itemize}
+\end{itemize}
+
+\noindent\rule{\textwidth}{0.5pt}
+Esempi:
+\begin{itemize}
+    \item $(\mathbb{N}\setminus\{0\},+)$ è un semigruppo
+    \item $(\mathbb{N},+)$ è un monoide commutativo
+    \item $(\mathbb{R,*)}$ è un gruppo abeliano
+    \item $(\mathbb{Z},+,*)$ è un anello
+    \item $(\mathbb{Q,+,*})$ è un campo
+\end{itemize}
+\noindent\rule{\textwidth}{0.5pt}
+
+\section{Teoria dei gruppi}
+
+\subsection{Sottogruppi}
+
+\noindent\textbf{Definizione} Dato $(G,*)$. $(H,*)$ è un sottogruppo di $G$ ($H\leqslant G$) se:
+\begin{itemize}
+    \item $H\subseteq G$
+    \item $H$ contiene il neutro di $G$
+    \item $x,y\in H\Rightarrow xy\in H$
+    \item $x\in H\Rightarrow x^{-1}\in H$\newline
+\end{itemize}
+
+\noindent In particolare i sottogruppi:
+\begin{itemize}
+    \item Di $(\mathbb{Z},+)$ hanno la forma $n\mathbb{Z}$
+
+        $$(2\mathbb{Z},+)\ \text{ è un sottogruppo formato dai numeri pari}$$
+
+    \vspace{5pt}
+    
+    \item Di $(\mathbb{Z}_n,+)$ hanno la forma $H_d$ con $d$ divisore di $n$
+
+        $$\mathbb{Z}_{12}\rightarrow\{[0]\},\mathbb{Z}_{12},H_2,H_3,H_4,H_6$$.
+    
+\end{itemize}
+
+\subsection{Gruppi ciclici}
+
+\textbf{Definizione} Dato un gruppo $(G,*)$. Prendendo $g\in G,t\in\mathbb{Z}$ definisco:
+\[g^t=
+\begin{cases}
+    1_G\ \text{ se }\ t=0\\
+    g*\ldots*g\ \text{ per t volte se }\ t>0\\
+    g^{-1}*\ldots*g^{-1}\ \text{ per t volte se }\ t<0
+\end{cases}
+\]
+
+\noindent L'insieme $\{g^t,t\in\mathbb{Z}\}$ risulta essere un sottogruppo di $G$, viene definito generato da $g$ e si indica con $\langle g\rangle$.\newline
+
+\noindent\textbf{Definizione} Un gruppo ciclico è un gruppo generato da un solo elemento.\newline
+
+\noindent\textbf{Definizione} L'ordine di un gruppo ciclico ($o(g)$) è un numero $n\in\mathbb{N}$ tale che $g^n=1$, esso combacia con la cardinalità dell'insieme.\newline
+
+\noindent\rule{\textwidth}{0.5pt}
+    Per esempio $(\mathbb{Z},+)=\langle 1\rangle$, infatti si può ottenere qualsiasi numero intero $k$ sommando $k$ volte 1.
+    
+\noindent\rule{\textwidth}{0.5pt}\newline
+
+\noindent\textbf{Definizione} Il gruppo di Klein è il più piccolo gruppo non ciclico:
+$$\kappa_4=\{1,a,b,c\}$$\newline
+
+\begin{theorem}[Struttura dei gruppi ciclici]$\ $\newline
+    \begin{itemize}
+        \item $H\leqslant G=\langle g\rangle\Rightarrow H$ è ciclico
+        \item $H\leqslant G=\langle g\rangle\wedge|G|=n\Rightarrow o(H)|n$
+        \item $\forall\ k\ \ n=k*c\ \ \exists!H\leqslant G\ |\ (|H|=k\Rightarrow H=\langle g^{\frac{n}{k}}\rangle)$\newline
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Cauchy]$\ $\newline
+    Dati $G$ gruppo finito e $p\in\mathbb{P}$:
+    $$p||G|\Rightarrow\exists g\in G\ |\ o(g)=p$$
+\end{theorem}
+
+\newpage
+
+\subsection{Classi laterali}
+
+\textbf{Definizione} Dati $H\leqslant G$ e le relazioni:
+$$x\sim_{sx}y\iff x^{-1}y\in H,\ x\sim_{dx}y\iff xy^{-1}\in H$$
+Si definiscono le classi laterali sx/dx di $x\in G$ come:
+$$xH=[x]_{sx}=\{y\in G\ |\ x\sim_{sx}y\},\ Hx=[x]_{dx}=\{y\in G\ |\ x\sim_{dx}y\}$$\newline
+
+\begin{theorem}[Lagrange]$\ $\newline
+    Dati $H\leqslant G$. Risulta che $|G|=|H|*\text{ numero di classi laterali sx (o dx) distinte}$\newline
+\end{theorem}
+
+\noindent\textbf{Definizione} Un sottogruppo è detto normale ($H\trianglelefteq G$) se $\forall\ x\in G\ \ xH=Hx$.
+
+\subsection{Gruppi simmetrici}
+
+\textbf{Definizione} Un gruppo simmetrico è formato dalle permutazioni degli elementi di un certo insieme $X$, nel caso $X$ sia finito il gruppo ha grado $|X|$.\newline
+
+\noindent In questo caso si denota $S_n$ come il gruppo formato dalle mappature biunivoche $\{1,2,\ldots,n\}\rightarrow\{1,2,\ldots,n\}$, esso ha ordine $n!$.\newline
+
+\noindent Una permutazione viene denotata come 
+$\sigma=
+\begin{pmatrix}
+    1 & 2 & \ldots & n\\
+    \sigma(1) & \sigma(2) & \ldots & \sigma(n)
+\end{pmatrix}$.\newline\newline
+
+\noindent\textbf{Definizione} Il supporto ($supp()$) di una permutazione è $\{j\in\sigma\ |\ \sigma(j)\neq j\}$.\newline\newline
+
+\noindent\textbf{Definizione} Una trasposizione è una permutazione 
+$(i,j)=
+\begin{pmatrix}
+    1 & 2 & \ldots & i & j & \ldots & n\\
+    1 & 2 & \ldots & j & i & \ldots & n
+\end{pmatrix}$.\newline\newline
+
+\noindent\textbf{Definizione} Un $k$-ciclo è una permutazione tale che: 
+$$\sigma(j_1)=j_2,\ \sigma(j_2)=j_3,\ \ldots,\ \sigma(j_k)=j_1$$\newline
+
+\noindent L'ordine di una permutazione è il mcm tra le lunghezze dei suoi cicli.\newline
+
+\noindent In presenza di cicli è possibile scomporre una permutazione in un unico prodotto:
+$$\sigma=\sigma_1\circ\sigma_2\circ\ldots\circ\sigma_k\ |\ \forall i,j\leq k\ \ supp(\sigma_i)\cap supp(\sigma_j)=\emptyset$$
+
+\noindent\rule{\textwidth}{0.5pt}
+
+$$\text{Per esempio }\ \begin{pmatrix}
+    1 & 2 & 3 & 4 & 5 & 6\\
+    3 & 6 & 5 & 4 & 1 & 2
+\end{pmatrix}\ \longrightarrow\ (1\ 3\ 5)(2\ 6)$$
+
+\noindent\rule{\textwidth}{0.5pt}\newline
+
+\noindent Un prodotto può a sua volta essere scomposto in una serie di trasposizioni:
+$$(1\ 2\ 3\ 4)=(1\ 4)(1\ 3)(1\ 2)$$
+\noindent Se il numero di elementi è pari allora la permutazione è pari, altrimenti dispari.\newline
+
+\section{Teoria degli anelli}
+
+\subsection{Invertibili}
+
+In caso di anello unitario si definisce l'insieme degli invertibili come:
+$$A^*=\{a\in A\ |\ \exists a'\ \ a'*a=a*a'=1\}$$
+
+\noindent Esso forma un gruppo con $*$.
+
+\vspace{5pt}
+
+\noindent Vale inoltre $\ a,b\in A^*\Rightarrow a*b\in A^*$.
+
+\subsection{Sottoanelli}
+
+\noindent\textbf{Definizione} Dato $(A,+,*)$. $(B,+,*)$ è un sottoanello di $A$ ($A\leqslant B$) se:
+\begin{itemize}
+    \item $(B,+)\leqslant(A,+)$
+    \item $x,y\in B\Rightarrow xy\in B$\newline
+\end{itemize}
+
+\subsection{Ideali}
+
+\noindent\textbf{Definizione} Dato $(A,+,*)$. $(I,+,*)$ è un ideale di $A$ ($I\triangleleft A$) se:
+\begin{itemize}
+    \item $I\subseteq A$
+    \item $(I,+)\leqslant(A,+)$
+    \item $\{ax\ |\ x\in I,a\in A\}\subseteq I$
+    \item $\{yb\ |\ y\in I,b\in A\}\subseteq I$\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Dato l'anello $A$ e $a_1,\ldots,a_n\in A$. Un ideale $I$ è detto generato da $a_1,\ldots,a_n$ se:
+$$I(a_1,\ldots,a_n)=\{a_1b_1+\ldots+a_nb_n\ |\ b_1,\ldots,b_n\in A\}$$
+
+\noindent Nel caso $I(a)\triangleleft A$ si dice ideale principale.\newline
+
+\section{$\mathbb{Z}_n$}
+
+$\mathbb{Z}_n$ è l'insieme quoziente della relazione:
+$$a\sim_nb\iff n|a-b$$\newline
+
+\noindent Insieme a $+,*$ forma un anello commutativo unitario infatti:
+\begin{itemize}
+    \item $[k]+[h]=[k+h]$, con neutro $[0]$
+    \item $[k]*[h]=[k*h]$, con neutro $[1]$
+    \item $+,*$ sono commutatice e associative
+    \item Vale la proprietà distributiva
+    \item Esistono divisori dello zero\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} La funzione di Eulero ($\varphi$) restituisce il numero di numeri coprimi inferiori a $n$.\newline
+
+\noindent Gli invertibili di $\mathbb{Z}_n$ sono gli elementi coprimi ad $n$, il loro numero è dato dalla funzione di Eulero.\newline 
+
+\noindent\rule{\textwidth}{0.5pt}
+
+Per esempio gli invertibili di $\mathbb{Z}_8$ sono le classi $1,3,5,7$.
+
+\noindent\rule{\textwidth}{0.5pt}\newline
+
+\newpage
+
+\subsection{Congruenze lineari}
+
+\textbf{Definizione} Una congruenza lineare $ax\equiv b\mod{n}$ equivale all'equazione diofantea:
+$$ax+ny=b$$
+\noindent Se $x_0$ è soluzione, tutte le soluzioni della congruenza sono della forma:
+$$x_0+h*\frac{n}{MCD(a,n)}\ \text{ con } h\in\mathbb{Z}$$
+\noindent Il numero di soluzioni diverse è dato da $MCD(a,n)$.\newline
+
+\begin{theorem}[Eulero]$\ $\newline
+    Dati $a,n$ interi positivi coprimi:
+        $$a^{\varphi(n)}\equiv1\mod{n}$$
+\end{theorem}
+
+\begin{theorem}[Fermat]$\ $\newline
+    Dato p numero primo:
+    $$\forall a\in\mathbb{Z}\ \ a^p\equiv a\mod{p}$$
+\end{theorem}
+
+\subsection{Sistemi e Tcs}
+
+\begin{theorem}[Cinese del resto]$\ $\newline
+    Dato il sistema (detto cinese):
+    \[
+    \begin{cases}
+        x\equiv b_1\mod{a_1}\\
+        x\equiv b_2\mod{a_2}\\
+        \ldots\\
+        x\equiv b_n\mod{a_n}\\
+    \end{cases}
+    \]
+
+\noindent In cui: 
+\begin{itemize}
+    \item $\forall\ \ i,j\in[1,n] \ \ i\neq j\Rightarrow MCD(a_i,a_j)=1$
+    \item $\forall\ i\in[1,n]\ \ 0\leq b_i<a_i$\newline
+\end{itemize}
+
+\noindent Se il sistema è compatibile allora esiste un'unica soluzione in $\mod{a_1*\ldots*a_n}$.\newline
+    
+\end{theorem}
+
+\noindent Si può trasformare un sistema di congruenze lineari in \textit{cinese} a patto che:
+\begin{itemize}
+    \item Ogni equazione ammetta soluzione
+    \item Gli argomenti dei moduli siano tutti coprimi
+\end{itemize}
+
+\noindent Procedimento:
+\begin{enumerate}
+    \item Dividere ogni elemento dell'equazione per il corrispettivo MCD tra $a_i$ e $n_i$
+    \item Moltiplicare ogni riga per l'inverso di $\frac{a_i}{d_i}$
+\end{enumerate}
+
+\section{Omomorfismi}
+
+\textbf{Definizione} Una funzione tra 2 strutture algebriche dello stesso tipo $f:G\rightarrow H$ viene detta omomorfismo se:
+$$\forall\ g,h\in G\ \ f(g*_Gh)=f(g)*_Hf(h)$$
+\noindent Nel caso le strutture abbiano più operazioni deve valere per ognuna.\newline
+
+\noindent\textbf{Definizione} Un isomorfismo è un omomorfismo biunivoco.\newline
+
+\noindent\textbf{Definizione} Un endomorfismo è un omomorfismo sulla stessa struttura.\newline
+
+\noindent\textbf{Definizione} Un automorfismo è l'unione dei 2 precedenti.\newline
+
+\noindent Si può definire la relazione "$G$ è isomorfo ad $H$" ($G\cong H$) come:
+$$G\cong H\iff \exists f:G\rightarrow H\ \text{ isomorfismo}$$\newline
+
+\noindent Il nucleo di un omomorfismo ($ker()$) è $\{g\in G\ |\ f(g)=0_H\}$\newline
+
+\noindent L'immagine di un omomorfismo ($im()$) è $\{y\in H\ |\ \exists x\in G\ \ f(x)=y\}$\newline
+
+\noindent Se tra gruppi risulta $ker(f)\leqslant G$ e $im(f)\leqslant H$.\newline
+
+\begin{theorem}[Isomorfismo tra gruppi ciclici]$\ $\newline
+    Se esiste un isomorfismo tra due gruppi ciclici $G,H$ e $o(g\in G)$ è finito allora $\langle g\rangle\cong \langle f(g)\rangle$.\newline
+\end{theorem}
+
+\begin{theorem}[Primo teor. d'isomorfismo]
+    $$f:A\rightarrow B\ \text{ è omomorfismo tra anelli } \Rightarrow A\setminus ker(f)\cong im(f)$$
+\end{theorem}
+
+\newpage
+
+\section{Spazi vettoriali}
+
+\textbf{Definizione} Uno spazio vettoriale su un campo $K$ è una struttura algebrica $(V,+,*)$ dove:
+\begin{itemize}
+    \item $+:V\times V\rightarrow V:(u,v)\rightarrow w$
+    \item $*:K\times V\rightarrow V:(\lambda,v)\rightarrow w$
+    \item Un elemento $v$ di $V$ è detto vettore
+    \item Un elemento $\lambda$ di $K$ è detto scalare
+    \item $(V,+)$ è un gruppo abeliano
+    \item $\exists x\in K\ |\ \forall v\in V\ \  x*v=v$
+    \item $\forall\ s,t\in K,v\in V\ \ (s*t)v=s(t*v)$
+    \item $\forall\ s,t\in K,v\in V\ \ (s+t)v=sv+tv$
+    \item $\forall\ s\in K,v,w\in V\ \ s(v+w)=sv+sw$\newline
+\end{itemize}
+
+\noindent Dato $V$ su $K$. $W$ su $K$ è un sottospazio di $V$ se:
+\begin{itemize}
+    \item $(W,+)\leqslant(V,+)$
+    \item $w\in W,\lambda\in K\Rightarrow\lambda w\in W$\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Una combinazione lineare dei vettori $v_1,\ldots,v_n$ è:
+$$\alpha_1v_1+\alpha_2v_2+\ldots+\alpha_kv_k\ \text{ con } \alpha_1,\ldots,\alpha_k\in K$$\newline
+
+\noindent\textbf{Definizione} Lo span dei vettori $v_1,\ldots,v_n$ è l'insieme di tutte le combinazioni lineari di quei vettori:
+$$span(v_1,\ldots,v_n)=\{\lambda_1 v_1+\ldots+\lambda_n v_n\ |\ \lambda_1,\ldots,\lambda_n\in K\}$$\newline
+
+\noindent\textbf{Definizione} I vettori $v_1,\ldots,v_n\neq 0_v$ sono un insieme di generatori per $V$ sse:
+$$\forall\ v\in V\ \ \exists\lambda_1,\ldots,\lambda_n\ |\ v=\lambda_1v_1+\ldots
+\lambda_nv_n$$\newline
+
+\noindent\textbf{Definizione} I vettori $v_1,\ldots,v_n\neq 0_v$ sono linearmente indipendenti sse:
+$$\lambda_1v_1+\ldots
+\lambda_nv_n=0_v\iff \lambda_1=\ldots=\lambda_n=0$$\newline
+
+\noindent\textbf{Definizione} Un insieme di generatori linearmente indipendenti sono detti base.\newline
+
+\noindent\textbf{Definizione} Una base è detta canonica se contiene solo 0 e 1.\newline
+
+\begin{theorem}[Cardinalità delle basi]
+    Tutte le basi di uno spazio vettoriale hanno la stessa cardinalità.\newline
+\end{theorem}
+
+\noindent\textbf{Definizione} La dimensione di uno spazio vettoriale è pari alla cardinalità di una sua base.\newline
+
+\begin{theorem}[Grassmann]$\ $\newline
+    Dati $U,V$ sottospazi dello stesso spazio:
+    $$U+V=\{u+v\ |\ u\in U,v\in V\}$$
+    $$U\cap V=\{u\ |\ u\in U\wedge u\in V\}$$
+
+    \noindent Entrambi gli insiemi sono sottospazi, la loro dimensione è legata dalla formula:
+    $$dim(U+V)=dim(U)+dim(V)-dim(U\cap V)$$\newline
+\end{theorem}
+
+\noindent\textbf{Definizione} Dati $V,W$ su $K$. Una funzione $f:V\rightarrow W$ è detta trasformazione lineare se:
+\begin{itemize}
+    \item $\forall\ v,v'\in V\ \ f(v+v')=f(v)+f(v')$
+    \item $\forall\lambda\in K,v\in V\ \ f(\lambda v)=\lambda f(v)$\newline
+\end{itemize}
+
+\begin{theorem}[Dimensione]$\ $\newline
+    Data $T:V\rightarrow W$:
+    $$dim(V)=dim(im(T))+dim(ker(T))$$\newline
+\end{theorem}
+
+\begin{theorem}[Rango]$\ $\newline
+    Data $f:V\rightarrow W$. Il rango di $f$ è:
+    $$dim(V)-dim(ker(f))$$\newline
+\end{theorem}
+
+\section{Matrici}
+
+\subsection{Definizioni}
+
+\textbf{Definizione} Dati $m,n\in\mathbb{N}$. Una matrice $m\times n$ a coefficienti in campo $K$ è una griglia di $m$ righe e $n$ colonne i cui elementi appartengono al campo:
+$$\begin{pmatrix}
+    a_{1,1} & \cdots & a_{1,n}\\
+    \vdots & \ddots & \vdots\\
+    a_{m,1} & \cdots & a_{m,n}
+\end{pmatrix}$$\newline
+
+\noindent\textbf{Definizione} Un vettore riga è una matrice $1\times n$, uno colonna invece $n\times1$.\newline
+
+\noindent\textbf{Definizione} Data una matrice $A$. La matrice trasposta di $A$ ($A^T$) ha l'$i$-esima riga pari all'$i$-esima colonna di $A$.\newline
+
+\noindent\textbf{Definizione} Una matrice è detta a scala se il pivot della riga $i$ (primo elemento non nullo da sx) è più a sinistra di quello della riga $i+1$.\newline
+
+\noindent\textbf{Definizione} Una matrice è detta triangolare (superiore) se tutti gli elementi sotto la diagonale principale sono pari a 0.\newline
+
+\noindent\textbf{Definizione} Una matrice quadrata è detta simmetrica se $\forall\ i,j\in[1,n]\ \ a_{i,j}=a_{j,i}$.\newline
+
+\noindent Le operazioni elementari eseguibili sono:
+\begin{itemize}
+    \item Scambio di 2 righe/colonne
+    \item Somma di una riga/colonna ad un'altra riga/colonna
+    \item Moltiplicazione di una riga/colonna per uno scalare\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Due matrici si dicono equivalenti se usando solo operazioni elementari si può ottenere una partendo dall'altra.\newline
+
+\noindent\textbf{Definizione} La moltiplicazione tra matrici $A,B$ è il prodotto riga per colonna, un elemento $c_{i,j}$ della nuova matrice sarà dato da:
+$$\sum_{r=1}^na_{i,r}b_{r,j}$$
+
+\noindent Risulta necessario $\text{num. righe }B=\text{num. colonne }A$.\newline
+
+\noindent\textbf{Definizione} Il rango di una matrice è il massimo numero di righe/colonne linearmente indipendenti.\newline
+
+\subsection{Sistemi lineari}
+
+\textbf{Definizione} Una sottomatrice di una matrice $A$ è ottenuta cancellando un certo numero di righe/colonne da $A$.\newline
+
+\noindent Un sistema di equazioni lineari può essere riscritto in forma di matrice:
+\[\begin{cases}
+    a_{1_1}x_1+a_{2_1}x_2+\cdots+a_{1_n}x_n=b_1\\
+    \cdots\\
+    a_{m_1}x_1+a_{m_2}x_2+\cdots+a_{m_n}x_n=b_m
+\end{cases}\]
+
+\vspace{5pt}
+
+\noindent Si riscrive come:
+
+\[\begin{pmatrix}
+     a_{1_1} & \cdots & a_{1_n} \\
+     \vdots & \ddots  & \vdots\\
+     a_{m_1} & \cdots & a_{m_n}
+\end{pmatrix}
+* 
+\begin{pmatrix}
+  x_1\\
+  \vdots\\
+  x_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+  b_1\\
+  \vdots\\
+  b_n 
+\end{pmatrix}
+\rightarrow
+A\bar{x}=\bar{b}
+\]
+
+\vspace{15pt}
+
+\noindent Si può anche rappresentare tramite la matrice completa dei coefficienti $A_b$:
+\[
+\left(\begin{array}{ccc|c}
+     a_{1_1} & \cdots & a_{1_n} & b_1 \\
+     \vdots & \ddots  & \vdots & \vdots\\
+     a_{m_1} & \cdots & a_{m_n} & b_n
+\end{array}\right)
+\]\newline
+
+\begin{theorem}[Rouché-Capelli]$\ $\newline
+    Il sistema $Ax=b$ ammette soluzioni sse $rg(A)=rg(A_b)$.\newline
+\end{theorem}
+
+\begin{theorem}[Fondamentale per i sistemi lineari]$\ $\newline
+    Dati $Ax=b$ e la sua riduzione a scala $Sx=c$:
+    \begin{itemize}
+        \item Hanno le stesse soluzioni
+        \item Hanno lo stesso rango
+        \item Le colonne di $S$ con i pivot sono quelle di $A$ linearmente indipendenti\newline
+    \end{itemize}
+    
+\end{theorem}
+
+\newpage
+
+\noindent Riducendo la matrice completa a scala è possibile semplificare il sistema associato, per farlo si può usare l'algoritmo di Gauss:
+\begin{enumerate}
+    \item Se la prima riga ha il primo elemento nullo, scambiala con una riga che ha il primo elemento non nullo
+    \item Per ogni riga $A_i$ con primo elemento non nullo (eccetto la prima) moltiplica la prima riga per un coefficiente scelto in maniera tale che la somma tra la prima riga e $A_i$ abbia il primo elemento nullo, sostituisci $A_i$ con la somma appena ricavata
+    \item Riapplica i punti precedenti sulla sottomatrice ottenuta cancellando la prima riga e colonna\newline
+\end{enumerate}
+
+\begin{theorem}[Sistemi triangolari]
+    Un sistema triangolare $Tx=c$ ammette un'unica soluzione sse la diagonale principale di $T$ non ha valori nulli.\newline
+\end{theorem}
+
+\subsection{Determinante}
+
+\textbf{Definizione} Il determinante di una radice quadrata è un numero che ne descrive alcune proprietà.\newline
+
+\noindent Ci sono diversi modi per calcolarlo:
+\begin{itemize}
+    \item $1\times 1$, equivale all'unico elemento
+    \item $2\times2$, $\begin{pmatrix}
+        a & b\\ c & d
+    \end{pmatrix}\rightarrow(a*d)-(b*c)$
+    \item $3\times3$, $\begin{pmatrix}
+        a & b & c\\ d & e & f\\ g & h & i
+    \end{pmatrix}\rightarrow aei+bfg+cdh-gec-hfa-idb$
+    \item Sviluppo di Laplace:
+    $$\ \sum^n_{k=1}(-1)^{i+k}*a_{i,k}*det(A_{i,k})\ \text{ con $i\in[1,n]$ e $M_{i,k}$ sottomatrice senza riga $i$ e colonna $k$}$$
+    \item Se la matrice è triangolare allora è il prodotto della diagonale\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Il polinomio caratteristico di una matrice è:
+$$det(xI_n-A)\ \text{ con $xI_n\ $la matrice identità con x invece di 1}$$\newline
+
+\begin{theorem}[Binet]
+    $$det(AB)=det(A)*det(B)$$
+\end{theorem}
+
+\subsection{Applicazioni lineari}
+
+\textbf{Definizione} L'insieme delle coordinate di un vettore rispetto alla base è l'insieme degli scalari per cui va moltiplicata la base per ottenere il vettore.\newline
+
+\noindent Data la trasformazione lineare $f:V\rightarrow W$ con $dim(V)=n,dim(W)=m$. Si può associare una matrice $m\times n$ alla funzione usando come colonne i coefficienti ottenuti applicando la funzione sui vettori della base canonica di $V$.
+
+\noindent \textbf{N.B. La matrice è unica per ogni coppia di basi scelte.}\newline
+
+\noindent\rule{\textwidth}{0.5pt}
+
+\noindent Se la funzione dà:
+\begin{itemize}
+    \item $f\begin{pmatrix}
+        1\\0\\0
+    \end{pmatrix}=\begin{pmatrix}
+        2\\0
+    \end{pmatrix}$
+    
+    \item $f\begin{pmatrix}
+        0\\1\\0
+    \end{pmatrix}=\begin{pmatrix}
+        1\\0
+    \end{pmatrix}$
+    
+    \item $f\begin{pmatrix}
+        0\\0\\1
+    \end{pmatrix}=\begin{pmatrix}
+        0\\1
+    \end{pmatrix}$
+\end{itemize}
+
+\noindent La matrice sarà $\begin{pmatrix}
+    2&1&0\\0&0&1
+\end{pmatrix}$, quindi $f:\begin{pmatrix}
+    x\\y\\z
+\end{pmatrix}=\begin{pmatrix}
+    2x+y\\z
+\end{pmatrix}$.
+
+\noindent\rule{\textwidth}{0.5pt}
+
+\subsubsection{Diagonalizzazione}
+
+\noindent\textbf{Definizione} Dato un endomorfismo sullo spazio $V$. Un vettore $v\neq0_V$ è detto autovettore associato all'autovalore $\lambda\in K$ se $f(v)=\lambda*v$, risulta che anche ogni vettore$\ \neq0_V$ multiplo di $v$ è un autovettore associato a $\lambda$.\newline
+
+\noindent\textbf{Definizione} L'autospazio relativo di un autovalore è l'insieme di autovettori con esso come autovalore, forma uno sottospazio.\newline
+
+\noindent\textbf{Definizione} La molteplicità algebrica di un autovalore è il numero di volte che esso è radice del polinomio caratteristico.\newline
+
+\noindent\textbf{Definizione} La molteplicità geometrica di un autovalore è la dimensione del suo autospazio relativo.\newline
+
+\noindent\textbf{Definizione} Dato un endomorfismo sullo spazio $V$. $f$ è diagonalizzabile se esiste una base di $V$ formata da autovettori.\newline
+
+\end{document}
