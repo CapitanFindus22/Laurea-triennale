@@ -1,0 +1,289 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Teorema}
+
+\title{Calcolo delle Probabilità}
+\author{Leonardo Ganzaroli}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\addcontentsline{toc}{section}{\protect\numberline{}Introduzione}
+
+\tableofcontents
+
+\newpage
+
+\hypersetup{allcolors=black}
+
+\section*{Introduzione}
+
+Questi appunti del corso \textit{Calcolo delle Probabilità} sono stati creati durante la laurea Triennale di informatica all'università "La Sapienza".\newline
+
+\noindent\textbf{Prima di procedere rivedere la parte di insiemistica e combinatoria negli appunti di \textit{Metodi Matematici per l'informatica}}.
+
+\newpage
+
+\section{Probabilità classica}
+
+\subsection{Definizioni}
+
+\textbf{Definizione} L'insieme ambiente è l'insieme contenente tutti i possibili esiti di un esperimento.\newline
+
+\noindent\textbf{Definizione} Un evento è un sottoinsieme dell'insieme ambiente, se contiene un solo elemento è detto elementare.\newline
+
+\noindent\textbf{Definizione} L'evento complementare di $x$ ($x^C$) è l'insieme dei possibili esiti non nell'evento $x$.\newline
+
+\noindent\rule{\textwidth}{0.5pt}
+Se lancio un dado a 6 facce ottengo l'insieme ambiente $\{1,2,3,4,5,6\}$.
+
+\noindent L'evento ottengo un numero pari è $\{2,4,6\}$, il complementare è $\{1,3,5\}$.
+
+\noindent\rule{\textwidth}{0.5pt}\newline
+
+\noindent\textbf{Definizione} Dato un evento $A$. La funzione indicatrice è definita come:
+\[I_A(x)=\begin{cases}
+    1\ \text{ se } x\in A\\
+    0\ \text{ altrimenti}
+\end{cases}\]\newline
+
+\noindent\textbf{Definizione} Dato l'insieme ambiente $S$ e $A$ suo evento. La probabilità che si verifichi $A$ è data da:
+$$P(A)=\frac{|A|}{|S|}$$\newline
+
+\begin{theorem}[Passaggio al complemento]
+    $$P(A)=1-P(A^C)$$\newline
+\end{theorem}
+
+\newpage
+
+\subsection{Def. assiomatiche}
+
+\textbf{Definizione} Dato $S$ insieme ambiente ed $E\subseteq S$. La probabilità di un evento è la funzione:
+$$P:P(E)\rightarrow[0,1]$$
+\noindent Risulta:
+\begin{itemize}
+    \item $P(S)=1=P(E_1)
+    +P(E_2)+\ldots\ $ con $E_i$ evento e tutti gli eventi disgiunti
+    \item $\forall\ E\subseteq S\ \ 0\leq P(E)\leq1$
+    \item $P(\bigcup_{i=1}^nE_i)=\sum_{i=1}^nP(E_i)\ $ se gli eventi sono tutti disgiunti
+    \item $P(\emptyset)=0$
+    \item $A\subseteq B\Rightarrow P(A)\leq P(B)$
+    \item $P(A\cup B)=P(A)+P(B)-P(A\cap B)$\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Due eventi si dicono indipendenti sse:
+$$P(A\cap B)=P(A)*P(B)$$\newline
+
+\noindent\textbf{Definizione} Dati $A,B\subseteq S$. La probabilità che avvenga $A$ sapendo che è avvenuto $B$ è:
+$$P(A\ |\ B)=\frac{P(A\cap B)}{P(B)}\ \ \text{ con } P(B)\neq0$$\newline
+
+\noindent\textbf{Definizione} In alternativa si può usare la formula di Bayes:
+$$P(A\ |\ B)=\frac{P(B\ |\ A)*P(A)}{P(B)}$$\newline
+
+\noindent\textbf{Definizione} Dati $A\subseteq S$. Se:
+$$S=\bigcup_{i=1}^nB_i\ |\ \forall\ i,j\in[1,n]\ (i\neq j\Rightarrow B_i\cap B_j=\emptyset)$$
+\noindent Si definisce la probabilità totale di $A$ come:
+$$P(A)=\sum_ {i=1}^n[P(A\ |\ B_i)*P(B_i)]$$\newline
+
+\section{Variabili aleatorie}
+
+\textbf{Definizione} Uno spazio di probabilità è la tripla $(S,P(S),P)$ con:
+\begin{itemize}
+    \item $S$ insieme ambiente
+    \item $P(S)$ insieme delle parti di $S$
+    \item $P$ funzione di probabilità\newline
+\end{itemize}
+
+\noindent\textbf{Definizione} Una variabile aleatoria è una funzione $X:S\rightarrow\mathbb{R}$ che dà la probabilità di un evento, se assume al più un'infinità numerabile di valori è detta discreta.\newline
+
+\noindent\textbf{Definizione} Data una v.a. $X$. La densità discreta di $X$ è:
+$$p(x)=P(X=x)$$\newline
+
+\noindent\textbf{Definizione} Data una v.a. $X$. La funzione di distribuzione di $X$ è:
+$$F(x)=P(X\leq x)$$\newline
+
+\noindent\textbf{Definizione} Data $X$ v.a. discreta e $x_1,\ldots,x_n$ i valori assumibili da essa. Il valore atteso di $X$ è:
+$$E[X]=\sum_{i=1}^nx_i*p_i$$\newline
+
+\noindent\textbf{Definizione} Un gioco è detto equo se il costo per giocare coincide con il valore atteso del premio.\newline
+
+\noindent\textbf{Definizione} Data una v.a. $X$. La varianza di $X$ è:
+$$Var(X)=E[(X-E[X])^2]$$\newline
+
+\noindent\textbf{Definizione} Date le v.a. $X,Y$. La covarianza tra $X$ e $Y$ è:
+$$Cov(X,Y)=E[(X-E[X])(Y-E[Y])]$$
+\noindent Se $=0$ si dicono decorrelate.\newline
+
+\begin{theorem} $\ $\newline
+    $$Var(X_1+\ldots+X_n)=\sum_{k=1}^nVar(X_k)\ \text{ se le v.a. sono indipendenti.}$$
+\end{theorem}
+
+\subsection{Tipi principali}
+\begin{itemize}
+    \item \textbf{Costante}
+
+        $$P(X=k)=1,\ 0\ \text{ altrimenti}$$\newline
+
+    \item \textbf{Bernoulli} $X\sim Ber(p)$
+
+        $$P(X=1)=p,\ P(X=0)=1-p$$\newline
+
+    \item \textbf{Binomiale} $X\sim B(n,p)$ 
+    
+    Con $p$ prob. successo, $k$ num. successi e $n$ num. estrazioni.
+
+        $$P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$$\newline
+
+    \item \textbf{Ipergeometrica} $X\sim H(n,m,r)$ 
+    
+    Con $n$ num. elementi totali, $m$ num. elementi di interesse, $r$ num. estrazioni, $k$ num. estrazioni elementi di interesse.
+
+        $$P(X=k)=\frac{\binom{m}{k}\binom{n-m}{r-k}}{\binom{n}{r}}$$\newline
+
+    \item \textbf{Geometrica} $X\sim G(p)$
+
+    Con $p$ prob. e $k-1$ fallimenti prima del successo.
+
+    $$P_X(k)=(1-p)^{k-1}*p$$\newline
+    
+\end{itemize}
+
+\subsection{Spazi infiniti}
+
+\textbf{Definizione} Una v.a. è detta continua se:
+$$\exists\ p:\mathbb{R}\rightarrow[0,+\infty)\ |\ P(X\in[a,b])=\int_a^bp(t)\ dt\ \ \text{ con $p$ detta densità di probabilità}$$\newline
+
+\noindent Ovviamente il valore atteso diventa un integrale $\int_{-\infty}^{+\infty}$.\newline
+
+\subsubsection{Tipi principali}
+\begin{itemize}
+    \item \textbf{Continua uniforme} $X\sim U(a,b)$
+    
+    \[p(t)=\begin{cases}
+    \frac{1}{b-a}\ \text{ se } t\in[a,b]\\
+    0\ \text{ altrimenti}
+    \end{cases}\]
+
+    \item \textbf{Poisson} $X\sim P(\lambda)$
+
+        Con $k$ num. di eventi per intervallo di tempo e $\lambda$ num. medio di eventi per intervallo di tempo.
+
+        $$P_X(k)=e^{-\lambda}\frac{\lambda^k}{k!}\ \ \ \forall k\in\mathbb{N}$$
+
+        In alternativa si può ottenere come il limite della binomiale.\newline
+    
+\end{itemize}
+
+\newpage
+
+\subsection{V.a. congiunte e condizionate}
+
+\textbf{Definizione} Date $X,Y$ v.a. sullo stesso esperimento. La loro distribuzione congiunta è:
+$$P_{XY}(x,y)=P(X=x,Y=y)=P(\{X=x\}\cap\{Y=y\})$$\newline
+
+\noindent\textbf{Definizione} Partendo da una distribuzione congiunta si ottengono le probabilità marginali di $X,Y$:
+\begin{align}
+\nonumber
+    P_X(x) &= P(X=x)=\sum_yP_{XY}(x,y)\\
+\nonumber
+    P_Y(y) &= P(Y=y)=\sum_xP_{XY}(x,y)
+\end{align}
+
+\noindent\rule{\textwidth}{0.5pt}
+
+Partendo da questa tabella:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c|cccccccc}
+        X & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0\\
+        \hline
+        Y & 1 & 0 & 0 & 2 & 3 & 1 & 1 & 0\\
+    \end{tabular}
+    \label{tab:cong}
+\end{table}
+
+Ricavo quella della distribuzione congiunta:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c|cc}
+        $Y\setminus X$ & 0 & 1\\
+        \hline
+        \rule{0pt}{3ex}0 & $\frac{3}{8}$ & 0\\[1ex]
+        \hline
+        \rule{0pt}{3ex}1 & $\frac{1}{8}$ & $\frac{1}{4}$\\[1ex]
+        \hline
+        \rule{0pt}{3ex}2 & 0 & $\frac{1}{8}$\\[1ex]
+        \hline
+        \rule{0pt}{3ex}3 & $\frac{1}{8}$ & 0\\
+    \end{tabular}
+    \label{tab:cong2}
+\end{table}
+
+Risulta:
+\begin{itemize}
+    \item $P_{XY}(1,2)=\frac{1}{8}$
+    \item $P_Y(1)=\frac{1}{4}+\frac{1}{8}$
+\end{itemize}
+
+\noindent\rule{\textwidth}{0.5pt}\newline
+
+\noindent\textbf{Definizione} 2 v.a. sono dette indipendenti se $P_{XY}(x,y)=P_X(x)*P_Y(y)$.\newline
+
+\noindent\textbf{Definizione} Data $X$ v.a. e $A$ evento. Il valore atteso di $X$ condizionato da $A$ è:
+$$E[X\ |\ A]=\frac{E[X\cap A]}{P(A)}$$
+
+\section{Teoremi limite}
+
+\textbf{Definizione} Data $X$ v.a. a valori solo positivi. La disuguaglianza di Markov è definita come:
+$$\forall\ l>0\ \ P(x\geq l)\leq\frac{E[X]}{l}$$\newline
+
+\noindent\textbf{Definizione} Data $X$ v.a. a valori solo positivi. La disuguaglianza di Čebyšëv è definita come:
+$$\forall\ l>0\ \ P(|X-E[X]|\geq l)\leq\frac{Var[X]}{l^2}$$\newline
+
+\noindent\textbf{Definizione} Date $X_1,\ldots,X_n$ v.a. indipendenti tutte con stessa distribuzione e stesso valore atteso ($\mu$). La legge debole dei grandi numeri è definita come:
+$$\forall\ \epsilon>0\ \lim_{n\rightarrow+\infty}P\left(\left|\frac{X_1+\ldots+X_n}{n}-\mu\right|\geq\epsilon\right)=0$$
+\noindent Quella forte invece:
+$$P\left(\lim_{n\rightarrow+\infty}\frac{X_1+\ldots+X_n}{n}=\mu\right)=1$$\newline
+
+\newpage
+
+\section{Catene di Markov (Introduzione)}
+
+\textbf{Definizione} Un processo stocastico è un insieme di v.a.\newline
+
+\noindent\textbf{Definizione} Gli stati sono il codominio delle v.a.\newline
+
+\noindent\textbf{Definizione} Una catena di Markov è un processo stocastico $\{X_t\}$ che rispetta le seguenti proprietà:
+\begin{enumerate}
+    \item Per ogni istante di tempo $t$, coppia di stati $i,j$ e sequenza di stati $k_0,\ldots,k_{t-1}$ risulta:
+
+        $$P\{X_{t+1}=j\ |\ X_0=k_0,\ldots,X_{t-1}=k_{t-1},X_t=i\}=P\{X_{t+1}=j\ |\ X_t=i\}$$
+
+    \item Per ogni coppia di stati $i,j$ risulta:
+
+        $$\forall\ t\geq0\ \ P\{X_{t+1}=j\ |\ X_t=i\}=P\{X_1=j\ |\ X_0=i\}$$\newline
+    
+\end{enumerate}
+
+\noindent Estendendo il secondo punto si ottiene la probabilità di transizione in $n$ passi:
+$$p_{i,j}^{(n)}=P\{X_n=j\ |\ X_0=i\}\ \text{ con } n\in\mathbb{N}$$\newline
+
+\noindent\textbf{Definizione} Una catena è detta omogenea se la transizione avvenuta in un certo tempo dipende soltanto dallo stato precedente.\newline
+
+\noindent Nel caso gli stati siano finiti si usa una matrice apposita per indicare le transizioni, la probabilità che ci si trovi in un certo stato dopo $n$ passi è dato dalla moltiplicazione della matrice con se stessa per $n$ volte.\newline
+
+\noindent\textbf{Definizione} Una catena ha distribuzione stazionaria se la sua distribuzione si mantiene costante nell'evolversi del tempo.\newline
+
+\noindent\textbf{Definizione} La matrice è detta ergodica se:
+$$\exists n\in\mathbb{N}\ |\ \forall\ i,j\ \ p_{i,j}^{(n)}>0$$
+
+\end{document}
